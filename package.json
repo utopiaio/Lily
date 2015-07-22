@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "flux": "^2.0.3",
+    "localforage": "^1.2.4",
     "material-ui": "^0.10.1",
     "react": "^0.13.3",
     "react-router": "^0.13.3",

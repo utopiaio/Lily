@@ -19,7 +19,7 @@ const NotFound = React.createClass({
     let pathName = this.getPathname();
     console.log(this.boundToThis());
 
-    return (
+    return(
       <div>URL `<code>{pathName}</code>` not found</div>
     );
   }
