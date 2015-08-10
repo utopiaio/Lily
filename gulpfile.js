@@ -1,36 +1,43 @@
 var path = require('path'),
     gulp = require('gulp'),
-    babel = require('gulp-babel'),
-    rename = require('gulp-rename'),
-    livereload = require('gulp-livereload'),
-    browserify = require('gulp-browserify'),
-    babelify = require('babelify');
+    less = require('gulp-less'),
+    concat = require('gulp-concat'),
+    livereload = require('gulp-livereload');
 
-gulp.task('babel-browser', function() {
-  return gulp.src(['!es5/**/*', '**/*.6b.js'])
-    .pipe(browserify({transform: 'babelify', debug: false}))
-    .pipe(rename({suffix: '.babel'}))
-    .pipe(gulp.dest(''))
+gulp.task('reload', function() {
+  return gulp
+    .src(['./index.html',
+          './app/**/*.html',
+          './app/**/*.css',
+          './app/**/*.js'])
     .pipe(livereload());
 });
 
-gulp.task('watch-browser', function() {
-  livereload.listen();
-  gulp.watch(['!es5/**/*.js', '**/*.6b.js'], ['babel-browser']);
+gulp.task('compile-less', function() {
+  return gulp
+    .src(['./app/**/*.less'])
+    .pipe(less({
+      paths: [path.join(__dirname, 'less', 'includes')]
+    }))
+    .pipe(concat('style.css'))
+    .pipe(gulp.dest('./app/dist/style'));
 });
 
-gulp.task('babel-node', function() {
-  return gulp.src(['!es5/**/*', '**/*.6.js'])
-    .pipe(babel())
-    .pipe(rename({suffix: '.babel'}))
-    .pipe(gulp.dest(''));
+gulp.task('watch-less', function() {
+  return gulp
+    .watch(['./app/**/*.less'], ['compile-less']);
 });
 
-gulp.task('watch-node', function() {
-  gulp.watch(['!es5/**/*', '**/*.6.js'], ['babel-node']);
+gulp.task('watch-app', function() {
+  return gulp
+    .watch(['./index.html',
+            './app/**/*.html',
+            './app/**/*.js',
+            './app/**/*.css'], ['reload']);
 });
 
 gulp.task('default', function() {
-  gulp.start('watch-browser');
-  gulp.start('watch-node');
+  livereload.listen();
+  gulp.start('watch-app');
+  gulp.start('watch-less');
 });

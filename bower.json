@@ -18,7 +18,15 @@
     "tests"
   ],
   "dependencies": {
-    "flexboxgrid": "~6.2.0",
-    "bootstrap": "~3.3.5"
+    "jquery": "~2.1.4",
+    "bootstrap": "~3.3.5",
+    "eonasdan-bootstrap-datetimepicker": "~4.15.35",
+    "angular": "~1.4.3",
+    "angular-route": "~1.4.3",
+    "angular-sanitize": "~1.4.3",
+    "angular-summernote": "~0.4.0",
+    "localforage": "~1.2.4",
+    "ionicons": "~2.0.1",
+    "summernote": "~0.6.16"
   }
 }
