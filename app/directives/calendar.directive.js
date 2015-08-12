@@ -60,7 +60,7 @@
                 });
               });
 
-              function _updateModel(momentObject) {
+              var _updateModel = function(momentObject) {
                 if(moment.isMoment(momentObject) === true) {
                   switch(mode) {
                     case 'time':
