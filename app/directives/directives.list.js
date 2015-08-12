@@ -5,4 +5,7 @@
  *
  * calendar
  * <calendar ng-model="model" />
+ *
+ * image
+ * <image-file ng-model="image" multiple />
  */
