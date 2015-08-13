@@ -65,7 +65,8 @@
                   // setting value to empty makes sure `change` event is triggered
                   $(element, 'input[type="file"]').val('');
                 }).error(function(data, status, headers) {
-                  console.error(data);
+                  alert('unable to upload files\nError: '+ status);
+                  $(element, 'input[type="file"]').val('');
                 });
               });
 
