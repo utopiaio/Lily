@@ -8,4 +8,15 @@
  *
  * image
  * <image-file ng-model="image" multiple />
+ *
+ * document
+ * <document ng-model="document" name="document" upload-url="@" multiple required />
+ *
+ * image-display
+ * <image-list src="images" />
+ *
+ * document-list
+ * NOTE:
+ * `cleared` to [] and '' so be sure to act accordingly on form validation
+ * <document-list src="files" />
  */
