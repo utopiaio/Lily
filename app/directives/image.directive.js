@@ -61,6 +61,7 @@
 
               scope.$on('$destroy', function() {
                 $('#'+ id +'-button').unbind();
+                $(element, 'input[type="file"]').unbind();
               });
 
               unregisterListener();
