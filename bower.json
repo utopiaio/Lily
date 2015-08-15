@@ -27,7 +27,6 @@
     "angular-messages": "~1.4.4",
     "angular-summernote": "~0.4.0",
     "localforage": "~1.2.4",
-    "ionicons": "~2.0.1",
     "summernote": "~0.6.16",
     "noty": "~2.3.6",
     "spin.js": "2.3.2"
