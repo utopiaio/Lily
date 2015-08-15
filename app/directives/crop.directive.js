@@ -30,8 +30,8 @@
         link: function(scope, element, attribute) {
           var selfMutated = false;
           scope.uncropped = true;
-          scope.x = isNaN(Number(scope.x)) ? 16 : Number(scope.x);
-          scope.y = isNaN(Number(scope.y)) ? 9 : Number(scope.y);
+          scope.x = isNaN(Number(scope.x)) || scope.x === '' ? 16 : Number(scope.x);
+          scope.y = isNaN(Number(scope.y)) || scope.y === '' ? 9 : Number(scope.y);
 
           var unregisterListener = scope.$watch('src', function(newVal, oldVal) {
             if(selfMutated === true) {
