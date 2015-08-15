@@ -46,7 +46,13 @@
                 guides: false,
                 rotatable: false,
                 wheelZoomRatio: 0.01,
-                autoCropArea: 1
+                autoCropArea: 1,
+                built: function() {
+                  scope.$apply(function() {
+                    selfMutated = true;
+                    scope.src = $($('img', element)[0]).cropper('getCroppedCanvas').toDataURL();
+                  });
+                }
               });
             }
           });
