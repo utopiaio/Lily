@@ -1,7 +1,7 @@
 ;(function(angular) {
   'use strict';
 
-  angular.module('condor.image', [])
+  angular.module('condor.image', []);
 
   angular
     .module('condor.image')
