@@ -16,7 +16,7 @@
  * <image-list src="images" />
  *
  * crop
- * <crop src="image" />
+ * <crop src="image" x="16" y="9" />
  *
  * document-list
  * NOTE:

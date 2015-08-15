@@ -1,7 +1,7 @@
 ;(function(angular) {
   'use strict';
 
-  angular.module('condor.imageList', []);
+  angular.module('condor.imageList', ['condor.crop']);
 
   angular
     .module('condor.imageList')
@@ -10,13 +10,15 @@
         restrict: 'EA',
         replace: true,
         scope: {
-          src: '='
+          src: '=',
+          x: '@',
+          y: '@'
         },
         template: '<div class="row">'+
           '<span ng-if="multiple === true">'+
             '<div class="col-lg-3 col-md-4 col-sm-12 col-xs-12" ng-repeat="image in src track by $index">'+
               '<div class="thumbnail" style="border: none;">'+
-                '<img class="img-responsive" ng-src="{{ image }}" />'+
+                '<crop src="image" x="{{ x }}" y="{{ y }}" />'+
                 '<div class="caption text-center">'+
                   '<button type="button" ng-dblclick="removeImageAt($index)" class="btn btn-danger"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;double click to delete</button>'+
                 '</div>'+
@@ -26,7 +28,7 @@
           '<span ng-if="multiple === false && src.length > 0">'+
             '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">'+
               '<div class="thumbnail" style="border: none;">'+
-                '<img class="img-responsive" ng-src="{{ src }}" />'+
+                '<crop src="src" x="{{ x }}" y="{{ y }}" />'+
                 '<div class="caption text-center">'+
                   '<button type="button" ng-dblclick="clearImage()" class="btn btn-danger"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;double click to delete</button>'+
                 '</div>'+
