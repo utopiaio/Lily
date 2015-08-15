@@ -12,5 +12,6 @@
                             'condor.documentList',
                             'condor.auth',
                             'condor.noty',
-                            'condor.backdrop']);
+                            'condor.backdrop',
+                            'condor.crop']);
 })(window.angular);

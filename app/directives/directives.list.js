@@ -15,6 +15,9 @@
  * image-display
  * <image-list src="images" />
  *
+ * crop
+ * <crop src="image" />
+ *
  * document-list
  * NOTE:
  * `cleared` to [] and '' so be sure to act accordingly on form validation

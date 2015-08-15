@@ -29,6 +29,7 @@
     "localforage": "~1.2.4",
     "summernote": "~0.6.16",
     "noty": "~2.3.6",
-    "spin.js": "2.3.2"
+    "spin.js": "2.3.2",
+    "cropper": "~0.11.0"
   }
 }
