@@ -2,9 +2,47 @@
 
 <html>
   <head>
+    <meta charset="utf-8" />
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" />
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, minimal-ui" />
+
     <title>The Condor</title>
+
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="bower_components/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" type="text/css" href="bower_components/summernote/dist/summernote.css" />
+    <link rel="stylesheet" type="text/css" href="app/dist/style/style.css" />
   </head>
 
-  <body>
+  <body ng-app="condor">
+    <div class="container-fluid" ng-view></div>
+
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-route/angular-route.min.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.min.js"></script>
+    <script src="bower_components/moment/min/moment.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="bower_components/localforage/dist/localforage.min.js"></script>
+    <script src="bower_components/summernote/dist/summernote.min.js"></script>
+    <script src="bower_components/angular-summernote/dist/angular-summernote.min.js"></script>
+    <script src="bower_components/noty/js/noty/packaged/jquery.noty.packaged.min.js"></script>
+    <script src="bower_components/spin.js/spin.min.js"></script>
+
+    <script src="app/services/auth.service.js"></script>
+    <script src="app/services/noty.service.js"></script>
+    <script src="app/services/backdrop.service.js"></script>
+    <script src="app/directives/calendar.directive.js"></script>
+    <script src="app/directives/image.directive.js"></script>
+    <script src="app/directives/file.directive.js"></script>
+    <script src="app/directives/imagelist.directive.js"></script>
+    <script src="app/directives/documentlist.directive.js"></script>
+    <script src="app/app.js"></script>
+    <script src="app/app.config.js"></script>
+    <script src="app/app.run.js"></script>
+    <script src="app/controllers/login.controller.js"></script>
   </body>
 </html>
