@@ -15,18 +15,20 @@
           y: '@'
         },
         template:
-          '<div class="col-lg-12">'+
-            '<div class="row">'+
-              '<div class="col-lg-12 text-center">'+
+          '<div class="row">'+
+            '<div class="col-lg-12">'+
+              '<div class="row">'+
+                '<div class="col-lg-12 text-center">'+
                   '<img class="img-responsive" ng-src="{{ src }}" />'+
+                '</div>'+
+              '</div>'+
+              '<div class="row" ng-if="uncropped && src.length > 0">'+
+                '<div class="col-lg-12 text-center" style="margin-top: 8px; margin-bottom: 8px;">'+
+                  '<button ng-click="crop()" class="btn btn-primary"><i class="fa fa-crop"></i>&nbsp;&nbsp;crop image</button>'+
+                '</div>'+
               '</div>'+
             '</div>'+
-            '<div class="row" ng-if="uncropped && src.length > 0">'+
-              '<div class="col-lg-12 text-center" style="margin-top: 8px; margin-bottom: 8px;">'+
-                '<button ng-click="crop()" class="btn btn-primary"><i class="fa fa-crop"></i>&nbsp;&nbsp;crop image</button>'+
-              '</div>'+
-            '</div>'+
-          '</div>',
+          '<div>',
         link: function(scope, element, attribute) {
           /**
            * since we're mutating the data we're watching, after we self-mutate
