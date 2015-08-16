@@ -23,7 +23,7 @@
                 '</div>'+
               '</div>'+
               '<div class="row" ng-if="uncropped && src.length > 0">'+
-                '<div class="col-lg-12 text-center" style="margin-top: 8px; margin-bottom: 8px;">'+
+                '<div class="col-lg-12 text-center" style="margin-top: 8px;">'+
                   '<button ng-click="crop()" class="btn btn-primary"><i class="fa fa-crop"></i>&nbsp;&nbsp;crop image</button>'+
                 '</div>'+
               '</div>'+
