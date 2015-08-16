@@ -12,7 +12,8 @@
         scope: {
           src: '='
         },
-        template: '<div class="row">'+
+        template:
+        '<div class="row">'+
           '<span ng-if="multiple === true">'+
             '<div class="col-lg-3 col-md-4 col-sm-12 col-xs-12" ng-repeat="document in src track by $index">'+
               '<div class="thumbnail text-center" style="border: none;">'+
@@ -24,7 +25,7 @@
               '</div>'+
             '</div>'+
           '</span>'+
-          '<span ng-if="multiple === false && src.length > 0">'+
+          '<span ng-if="multiple === false && src.hasOwnProperty(\'name\')">'+
             '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">'+
               '<div class="thumbnail text-center" style="border: none;">'+
                 '<i class="fa fa-file-text-o" style="font-size: 72px;"></i>'+
