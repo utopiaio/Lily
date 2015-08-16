@@ -8,9 +8,7 @@
                             'condor.calendar',
                             'condor.document',
                             'condor.image',
-                            'condor.imageList',
                             'condor.auth',
                             'condor.noty',
-                            'condor.backdrop',
-                            'condor.crop']);
+                            'condor.backdrop']);
 })(window.angular);

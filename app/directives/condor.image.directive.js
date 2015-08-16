@@ -1,11 +1,9 @@
 ;(function(angular) {
   'use strict';
 
-  angular.module('condor.crop', []);
-
   angular
-    .module('condor.crop')
-    .directive('crop', function() {
+    .module('condor.image')
+    .directive('condorImage', function() {
       return {
         restrict: 'EA',
         replace: true,

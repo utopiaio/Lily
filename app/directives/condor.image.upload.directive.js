@@ -5,7 +5,7 @@
 
   angular
     .module('condor.image')
-    .directive('imageFile', function() {
+    .directive('condorImageUpload', function() {
       return {
         restrict: 'EA',
         replace: true,
