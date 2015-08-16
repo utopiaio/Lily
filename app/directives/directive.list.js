@@ -4,23 +4,18 @@
  * search for `.css({display:"",width:Math.min(a.width(),b.width())` inside the summernote.min.js and add `margin: "16px"` property
  *
  * calendar
+ * module: `condor.calendar`
  * <calendar ng-model="model" data-mode="time|date" data-* />
  *
- * image
- * <image-file ng-model="image" multiple required />
- *
  * document
- * <document ng-model="document" name="document" upload-url="@" multiple required />
+ * module: `condor.document`
+ * <condor-document-upload ng-model="document" upload-url="@" multiple required />
+ * <condor-document src="file" />
+ * <condor-document-list src="files" />
  *
- * image-list
- * as the name suggests, works for only multiple `image-file`
- * <image-list src="images" x="x" y="y" />
- *
- * crop
- * <crop src="image" x="16" y="9" />
- *
- * document-list
- * NOTE:
- * `cleared` to [] and '' so be sure to act accordingly on form validation
- * <document-list src="files" />
+ * image
+ * module: `condor.image`
+ * <condor-image-upload ng-model="image" required multiple />
+ * <condor-image-list src="images" x="16" y="9" />
+ * <condor-image src="image" x="16" y="9" />
  */
