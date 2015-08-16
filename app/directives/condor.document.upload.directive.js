@@ -5,7 +5,7 @@
 
   angular
     .module('condor.document')
-    .directive('document', ['$http', function($http) {
+    .directive('condorDocumentUpload', ['$http', function($http) {
       return {
         restrict: 'EA',
         replace: true,
