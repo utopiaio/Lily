@@ -14,27 +14,28 @@
           x: '@',
           y: '@'
         },
-        template: '<div class="row">'+
-          '<span ng-if="multiple === true">'+
-            '<div class="col-lg-3 col-md-4 col-sm-12 col-xs-12" ng-repeat="image in src track by $index">'+
-              '<div class="thumbnail" style="border: none;">'+
-                '<crop src="image" x="{{ x }}" y="{{ y }}" />'+
-                '<div class="caption text-center">'+
+        template:
+        '<div class="col-lg-12">'+
+          '<div class="row" ng-if="multiple === true">'+
+            '<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12" ng-repeat="image in src track by $index">'+
+              '<div class="thumbnail text-center" style="border: none;">'+
+                '<crop src="src[$index]" x="{{ x }}" y="{{ y }}" />'+
+                '<div class="caption">'+
                   '<button type="button" ng-dblclick="removeImageAt($index)" class="btn btn-danger"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;double click to delete</button>'+
                 '</div>'+
               '</div>'+
             '</div>'+
-          '</span>'+
-          '<span ng-if="multiple === false && src.length > 0">'+
+          '</div>'+
+          '<div class="row" ng-if="multiple === false && src.length > 0">'+
             '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">'+
-              '<div class="thumbnail" style="border: none;">'+
+              '<div class="thumbnail text-center" style="border: none;">'+
                 '<crop src="src" x="{{ x }}" y="{{ y }}" />'+
-                '<div class="caption text-center">'+
+                '<div class="caption">'+
                   '<button type="button" ng-dblclick="clearImage()" class="btn btn-danger"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;double click to delete</button>'+
                 '</div>'+
               '</div>'+
             '</div>'+
-          '</span>'+
+          '</div>'+
         '</div>',
         controller: function($scope, $element, $attrs) {
           var unregisterListener = $scope.$watch('src', function(newVal, oldVal) {
