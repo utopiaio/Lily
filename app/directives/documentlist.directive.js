@@ -13,9 +13,8 @@
           src: '='
         },
         template:
-        '<div class="row">'+
-          '<span ng-if="multiple === true">'+
-            '<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 text-center" ng-repeat="document in src track by $index">'+
+          '<div class="row">'+
+            '<div ng-if="multiple === true" class="col-lg-4 col-md-6 col-sm-12 col-xs-12 text-center" ng-repeat="document in src track by $index">'+
               '<div class="thumbnail" style="border: none;">'+
                 '<i class="fa fa-file-text-o" style="font-size: 72px;"></i>'+
                 '<p ng-bind="document.name" style="margin-top: 8px;"></p>'+
@@ -24,9 +23,7 @@
                 '</div>'+
               '</div>'+
             '</div>'+
-          '</span>'+
-          '<span ng-if="multiple === false && src.hasOwnProperty(\'name\')">'+
-            '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">'+
+            '<div ng-if="multiple === false && src.hasOwnProperty(\'name\')" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">'+
               '<div class="thumbnail" style="border: none;">'+
                 '<i class="fa fa-file-text-o" style="font-size: 72px;"></i>'+
                 '<p ng-bind="src.name" style="margin-top: 8px;"></p>'+
@@ -35,8 +32,7 @@
                 '</div>'+
               '</div>'+
             '</div>'+
-          '</span>'+
-        '</div>',
+          '</div>',
         controller: function($scope, $element, $attrs) {
           var unregisterListener = $scope.$watch('src', function(newVal, oldVal) {
             $scope.multiple = angular.isArray(newVal) ? true : false;
