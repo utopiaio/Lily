@@ -13,14 +13,14 @@
         },
         template:
           '<div class="row" ng-if="isArray">'+
-            '<div class="col-lg-4 col-md-6 text-center" ng-repeat="image in src track by $index">'+
+            '<div class="col-lg-4 col-md-6" ng-repeat="image in src track by $index">'+
               '<div>'+
                 '<div class="col-lg-12">'+
                   '<condor-image src="src[$index]" x="{{ x }}" y="{{ y }}" />'+
                 '</div>'+
               '</div>'+
               '<div>'+
-                '<div class="col-lg-12">'+
+                '<div class="col-lg-12 text-center">'+
                   '<button type="button" ng-dblclick="removeImageAt($index)" class="btn btn-danger" style="margin-top: 8px;"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;double click to delete</button>'+
                 '</div>'+
               '</div>'+
