@@ -21,15 +21,15 @@
               var multiple = attribute.hasOwnProperty('multiple');
               var DOMButtonText = 'Click here to upload ';
                   DOMButtonText += multiple ?  'files' : 'a file';
-              var DOM = '<button type="button" id="'+ id +'-button" class="btn btn-lg btn-primary btn-block"><i class="fa fa-file-o"></i>&nbsp;'+ DOMButtonText +'</button>';
+              var DOM = '<button type="button" id="'+ id +'-button" class="btn btn-lg btn-primary btn-block"><i class="fa fa-file-o"></i>&nbsp;&nbsp;'+ DOMButtonText +'</button>';
 
               $(element).after(DOM);
 
               $('#'+ id +'-button').click(function(e) {
-                $(element, 'input[type="file"]').trigger('click');
+                $(element).trigger('click');
               });
 
-              $(element, 'input[type="file"]').change(function(e) {
+              $(element).change(function(e) {
                 var formData = new FormData();
 
                 $.each(e.target.files, function(index, file) {
@@ -63,16 +63,16 @@
                   multiple ? ngModel.$setViewValue(fileList) : ngModel.$setViewValue(data.files[0]);
 
                   // setting value to empty makes sure `change` event is triggered
-                  $(element, 'input[type="file"]').val('');
+                  $(element).val('');
                 }).error(function(data, status, headers) {
                   alert('unable to upload files\nError: '+ status);
-                  $(element, 'input[type="file"]').val('');
+                  $(element).val('');
                 });
               });
 
               scope.$on('$destroy', function() {
                 $('#'+ id +'-button').unbind();
-                $(element, 'input[type="file"]').unbind();
+                $(element).unbind();
               });
 
               unregisterListener();

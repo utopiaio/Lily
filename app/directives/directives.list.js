@@ -7,7 +7,7 @@
  * <calendar ng-model="model" data-mode="time|date" data-* />
  *
  * image
- * <image-file ng-model="image" multiple />
+ * <image-file ng-model="image" multiple required />
  *
  * document
  * <document ng-model="document" name="document" upload-url="@" multiple required />

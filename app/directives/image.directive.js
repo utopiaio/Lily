@@ -18,15 +18,15 @@
               var multiple = attribute.hasOwnProperty('multiple');
               var DOMButtonText = 'Click here to upload ';
                   DOMButtonText += multiple ?  'images' : 'an image';
-              var DOM = '<button type="button" id="'+ id +'-button" class="btn btn-lg btn-primary btn-block"><i class="fa fa-picture-o"></i>&nbsp;'+ DOMButtonText +'</button>';
+              var DOM = '<button type="button" id="'+ id +'-button" class="btn btn-lg btn-primary btn-block"><i class="fa fa-picture-o"></i>&nbsp;&nbsp;'+ DOMButtonText +'</button>';
 
               $(element).after(DOM);
 
               $('#'+ id +'-button').click(function(e) {
-                $(element, 'input[type="file"]').trigger('click');
+                $(element).trigger('click');
               });
 
-              $(element, 'input[type="file"]').change(function(e) {
+              $(element).change(function(e) {
                 var fileList = ngModel.$viewValue;
 
                 if(multiple && angular.isArray(ngModel.$viewValue)) {
@@ -51,7 +51,7 @@
 
                     scope.$apply(function() {
                       ngModel.$setViewValue(fileList);
-                      $(element, 'input[type="file"]').val('');
+                      $(element).val('');
                     });
                   };
 
@@ -61,7 +61,7 @@
 
               scope.$on('$destroy', function() {
                 $('#'+ id +'-button').unbind();
-                $(element, 'input[type="file"]').unbind();
+                $(element).unbind();
               });
 
               unregisterListener();
