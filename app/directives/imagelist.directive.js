@@ -16,8 +16,8 @@
         },
         template:
           '<div class="row" ng-show="isArray">'+
-            '<div class="col-lg-4 col-md-6" ng-repeat="image in src track by $index">'+
-              '<crop src="src[$index]" />'+
+            '<div class="col-lg-4 col-md-6 text-center" ng-repeat="image in src track by $index">'+
+              '<crop src="src[$index]" x="{{ x }}" y="{{ y }}" />'+
               '<button type="button" ng-dblclick="removeImageAt($index)" class="btn btn-danger" style="margin-top: 8px;"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;double click to delete</button>'+
             '</div>'+
           '</div>',

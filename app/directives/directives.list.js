@@ -12,8 +12,9 @@
  * document
  * <document ng-model="document" name="document" upload-url="@" multiple required />
  *
- * image-display
- * <image-list src="images" />
+ * image-list
+ * as the name suggests, works for only multiple `image-file`
+ * <image-list src="images" x="x" y="y" />
  *
  * crop
  * <crop src="image" x="16" y="9" />
