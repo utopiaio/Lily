@@ -24,14 +24,42 @@
         require: 'ngModel',
         template: '<input type="text" class="form-control" />',
         link: function(scope, element, attribute, ngModel) {
+          /**
+           * given a moment object it'll update model according to the format
+           * this MUST always receive valid moment object
+           *
+           * @param {Object} momentObject
+           * @param {String} mode
+           */
+          var _updateModel = function(momentObject, mode) {
+            switch(mode) {
+              case 'time':
+                ngModel.$setViewValue(momentObject.utc().format('HH:mm:ssZ'));
+              break;
+
+              case 'date':
+                ngModel.$setViewValue(momentObject.format('YYYY-MM-DD'));
+              break;
+
+              default:
+                ngModel.$setViewValue(momentObject.utc().format());
+              break;
+            }
+          }
+
           var unregisterListener = scope.$watch(function() {
             if (ngModel.$viewValue !== undefined) {
               var data = $(element).data();
               var mode = data.mode || 'date-time';
               var defaultOption = {sideBySide: true};
-              var momentClone = moment(ngModel.$modelValue);
+              var momentClone = null;
               delete data.$ngModelController;
               delete data.mode;
+
+              momentClone = mode === 'time' ? moment('1991-09-08T'+ ngModel.$modelValue) : moment(ngModel.$modelValue);
+              if(!momentClone.isValid()) {
+                momentClone = moment();
+              }
 
               // this ONLY affects what gets to be displayed inside the input field
               switch(mode) {
@@ -49,34 +77,15 @@
               }
 
               var option = angular.extend(defaultOption, data);
+              $(element).val(momentClone.format(defaultOption.format));
               $(element).datetimepicker(option);
-
-              $(element).data('DateTimePicker').defaultDate(momentClone.isValid() === true ? momentClone.utc().format(option.format) : moment().format(option.format));
-              _updateModel($(element).data('DateTimePicker').date());
+              _updateModel(momentClone, mode);
 
               $(element).on('dp.change', function(e) {
                 scope.$apply(function() {
-                  _updateModel(e.date);
+                  _updateModel(e.date, mode);
                 });
               });
-
-              var _updateModel = function(momentObject) {
-                if(moment.isMoment(momentObject) === true) {
-                  switch(mode) {
-                    case 'time':
-                      ngModel.$setViewValue(momentObject.utc().format('HH:mm:ssZ'));
-                    break;
-
-                    case 'date':
-                      ngModel.$setViewValue(momentObject.format('YYYY-MM-DD'));
-                    break;
-
-                    default:
-                      ngModel.$setViewValue(momentObject.utc().format());
-                    break;
-                  }
-                }
-              }
 
               scope.$on('$destroy', function(e) {
                 $(element).data('DateTimePicker').destroy();

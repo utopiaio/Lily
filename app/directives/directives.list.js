@@ -4,7 +4,7 @@
  * search for `.css({display:"",width:Math.min(a.width(),b.width())` inside the summernote.min.js and add `margin: "16px"` property
  *
  * calendar
- * <calendar ng-model="model" />
+ * <calendar ng-model="model" data-mode="time|date" data-* />
  *
  * image
  * <image-file ng-model="image" multiple />
