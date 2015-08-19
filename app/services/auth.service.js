@@ -76,8 +76,6 @@
                     else {
                       deferred.reject(error);
                     }
-
-                    $rootScope.$apply();
                   });
                 })
                 .error(function(data, status) {
