@@ -4,12 +4,39 @@ label {
 .modal-backdrop {
   background-color: rgba(0, 0, 0, 0.6);
 }
+.carousel-inner > .item > a > img,
+.carousel-inner > .item > img,
+.img-responsive,
+.thumbnail a > img,
+.thumbnail > img {
+  display: inline-block;
+}
+
+@font-face {
+  font-family: 'Roboto-Light';
+  src: url(../../../static/fonts/Roboto/Roboto-Light-webfont.woff) format('woff');
+}
+@font-face {
+  font-family: 'Roboto-Regular';
+  src: url(../../static/fonts/Roboto/Roboto-Regular-webfont.woff) format('woff');
+}
+body {
+  font-family: 'Roboto-Light';
+  font-weight: 300;
+}
 
 label {
   font-weight: normal;
 }
 .modal-backdrop {
   background-color: rgba(0, 0, 0, 0.6);
+}
+.carousel-inner > .item > a > img,
+.carousel-inner > .item > img,
+.img-responsive,
+.thumbnail a > img,
+.thumbnail > img {
+  display: inline-block;
 }
 .login-form {
   border-radius: 4px;

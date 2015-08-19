@@ -5,6 +5,7 @@
                             'ngSanitize',
                             'ngMessages',
                             'summernote',
+                            'condor.prevent.default',
                             'condor.calendar',
                             'condor.document',
                             'condor.image',
