@@ -14,16 +14,21 @@
       };
 
       return {
-        authorized: ['$q', '$location', function($q, $location) {
+        authorized: ['$rootScope', '$q', '$location', function($rootScope, $q, $location) {
           var deferred = $q.defer();
 
           localforage
             .getItem(_options.key)
             .then(function(value) {
-              value === null ? deferred.reject({error: 'storage key `'+ _options.key +'` not found', code: -1}) : deferred.resolve(value);
-
               if(value === null) {
+                deferred.reject({error: 'storage key `'+ _options.key +'` not found', code: -1});
                 $location.path(_options.unauthorizedUrl).replace();
+              }
+
+              else {
+                _info = angular.copy(value);
+                deferred.resolve(_info);
+                $rootScope.$emit('CHANGE', _info);
               }
             });
 
@@ -34,10 +39,26 @@
           _options = angular.extend(_options, options);
         },
 
-        $get: ['$q', '$http', function($q, $http) {
+        $get: ['$rootScope', '$q', '$http', function($rootScope, $q, $http) {
           return {
+            /**
+             * subscribe to changes
+             *
+             * @param {object} $scope
+             * @param {function} callback
+             * @return {function} unregister function
+             */
+            subscribe: function(scope, callback) {
+              var handler = $rootScope.$on('CHANGE', callback);
+              scope.$on('$destroy', handler);
+
+              return handler;
+            },
+
             /*
              * authenticates a user
+             *
+             * @param {object} credentials
              */
             login: function(credentials) {
               var deferred = $q.defer();
@@ -45,10 +66,19 @@
               $http
                 .post(_options.url, credentials)
                 .success(function(data, status) {
-                  localforage
-                    .setItem(_options.key, data, function(error, value) {
-                      error === null ? deferred.resolve(value) : deferred.reject(error);
-                    });
+                  localforage.setItem(_options.key, data, function(error, value) {
+                    if(error === null) {
+                      _info = angular.copy(data);
+                      deferred.resolve(_info);
+                      $rootScope.$emit('CHANGE', _info);
+                    }
+
+                    else {
+                      deferred.reject(error);
+                    }
+
+                    $rootScope.$apply();
+                  });
                 })
                 .error(function(data, status) {
                   deferred.reject(data);
@@ -63,10 +93,32 @@
             logout: function() {
               var deferred = $q.defer();
 
-              localforage
-                .clear(function(error) {
-                  deferred.resolve();
-                });
+              localforage.clear(function(error) {
+                _info = null;
+                deferred.resolve();
+                $rootScope.$emit('CHANGE', _info);
+              });
+
+              return deferred.promise;
+            },
+
+            /**
+             * updates user info
+             */
+            updateInfo: function(newInfo) {
+              var deferred = $q.defer();
+
+              localforage.setItem(_options.key, newInfo, function(error, value) {
+                if(error === null) {
+                  _info = angular.copy(value);
+                  deferred.resolve(_info);
+                  $rootScope.$emit('CHANGE', _info);
+                }
+
+                else {
+                  deferred.reject(error);
+                }
+              });
 
               return deferred.promise;
             },
@@ -80,7 +132,8 @@
               localforage
                 .getItem(_options.key)
                 .then(function(value) {
-                  value === null ? deferred.reject({error: 'storage key `'+ _options.key +'` not found', code: -1}) : deferred.resolve(value);
+                  _info = angular.copy(value);
+                  value === null ? deferred.reject({error: 'storage key `'+ _options.key +'` not found', code: -1}) : deferred.resolve(_info);
                 });
 
               return deferred.promise;
