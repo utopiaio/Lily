@@ -22,6 +22,11 @@
         controller: 'LoginController',
         controllerAs: 'login'
       })
+      .when('/logout', {
+        template: '',
+        controller: 'LogoutController',
+        controllerAs: 'logout'
+      })
       .when('/test', {
         templateUrl: 'app/views/test.html',
         controller: 'TestController',
