@@ -26,7 +26,7 @@
               }
 
               else {
-                _info = angular.copy(value);
+                _info = value;
                 deferred.resolve(_info);
                 $rootScope.$emit('CHANGE', _info);
               }
@@ -68,7 +68,7 @@
                 .success(function(data, status) {
                   localforage.setItem(_options.key, data, function(error, value) {
                     if(error === null) {
-                      _info = angular.copy(data);
+                      _info = data;
                       deferred.resolve(_info);
                       $rootScope.$emit('CHANGE', _info);
                     }
@@ -108,7 +108,7 @@
 
               localforage.setItem(_options.key, newInfo, function(error, value) {
                 if(error === null) {
-                  _info = angular.copy(value);
+                  _info = value;
                   deferred.resolve(_info);
                   $rootScope.$emit('CHANGE', _info);
                 }
@@ -130,7 +130,7 @@
               localforage
                 .getItem(_options.key)
                 .then(function(value) {
-                  _info = angular.copy(value);
+                  _info = value;
                   value === null ? deferred.reject({error: 'storage key `'+ _options.key +'` not found', code: -1}) : deferred.resolve(_info);
                 });
 
