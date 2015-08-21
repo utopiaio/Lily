@@ -39,7 +39,13 @@
           _options = angular.extend(_options, options);
         },
 
-        $get: ['$rootScope', '$q', '$http', function($rootScope, $q, $http) {
+        $get: ['$rootScope', '$q', '$http', '$timeout', function($rootScope, $q, $http, $timeout) {
+          var _emitChange = function(p) {
+            $timeout(function() {
+              p === undefined ? $rootScope.$emit('CHANGE') : $rootScope.$emit('CHANGE', p);
+            });
+          };
+
           return {
             /**
              * subscribe to changes
@@ -70,7 +76,7 @@
                     if(error === null) {
                       _info = data;
                       deferred.resolve(_info);
-                      $rootScope.$emit('CHANGE', _info);
+                      _emitChange(_info);
                     }
 
                     else {
@@ -94,7 +100,7 @@
               localforage.clear(function(error) {
                 _info = null;
                 deferred.resolve();
-                $rootScope.$emit('CHANGE', _info);
+                _emitChange(_info);
               });
 
               return deferred.promise;
@@ -110,7 +116,7 @@
                 if(error === null) {
                   _info = value;
                   deferred.resolve(_info);
-                  $rootScope.$emit('CHANGE', _info);
+                  _emitChange(_info);
                 }
 
                 else {
