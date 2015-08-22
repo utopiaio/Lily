@@ -10,7 +10,9 @@
         scope: {
           src: '=',
           x: '@',
-          y: '@'
+          y: '@',
+          format: '@',
+          quality: '='
         },
         template:
           '<div class="row">'+
@@ -45,6 +47,8 @@
 
           var unregisterListener = scope.$watch('src', function(newVal, oldVal) {
             if(selfMutated === false) {
+              scope.format = scope.format || 'image/jpeg';
+              scope.quality = scope.quality || 0.6;
               scope.uncropped = true;
               $($('img', element)[0]).cropper('destroy');
               $($('img', element)[0]).attr({src: scope.src});
@@ -59,7 +63,7 @@
                     selfMutated = true;
                     // assigning here doesn't affect the crop view's source
                     // since it's *outside* the digest cycle
-                    scope.src = $($('img', element)[0]).cropper('getCroppedCanvas').toDataURL();
+                    scope.src = $($('img', element)[0]).cropper('getCroppedCanvas').toDataURL(scope.format, scope.quality);
                     _restSelfMutatedFlag();
                   });
                 }
@@ -69,7 +73,7 @@
 
           scope.crop = function() {
             try {
-              var newSrc = $($('img', element)[0]).cropper('getCroppedCanvas').toDataURL();
+              var newSrc = $($('img', element)[0]).cropper('getCroppedCanvas').toDataURL(scope.format, scope.quality);
               selfMutated = true;
               scope.src = newSrc;
               $($('img', element)[0]).cropper('destroy');
