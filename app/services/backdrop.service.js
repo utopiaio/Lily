@@ -24,7 +24,7 @@
     left: '50%',
     shadow: false,
     hwaccel: true,
-    position: 'absolute'
+    position: 'fixed'
   };
 
   angular.module('condor.backdrop', []);
