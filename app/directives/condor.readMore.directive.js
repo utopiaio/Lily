@@ -1,14 +1,23 @@
 ;(function(angular) {
   'use strict';
 
+  /**
+   * <div ng-bind-html="input | readMore:20 | sanitize"></div>
+   */
   angular.module('condor.readMore', []);
 
   angular
     .module('condor.readMore')
-    .filter('limitHtml', ['$sce', function($sce) {
+    .filter('readMore', [function() {
       return function(input, limit) {
         input = String(input);
-        return $sce.trustAsHtml(input.length <= limit ? input : input.substr(0, limit).trim() + '...');
+        return input.length <= limit ? input : input.substr(0, limit).trim() + '...';
+      };
+    }])
+    .filter('sanitize', ['$sce', function($sce) {
+      return function(input) {
+        input = String(input);
+        return $sce.trustAsHtml(input);
       };
     }]);
 })(window.angular);
