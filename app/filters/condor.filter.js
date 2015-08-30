@@ -4,10 +4,10 @@
   /**
    * <div ng-bind-html="input | readMore:20 | sanitize"></div>
    */
-  angular.module('condor.readMore', []);
+  angular.module('condor.filter', []);
 
   angular
-    .module('condor.readMore')
+    .module('condor.filter')
     .filter('readMore', [function() {
       return function(input, limit) {
         input = String(input);

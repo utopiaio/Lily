@@ -8,6 +8,7 @@
                             'condor.prevent.default',
                             'condor.calendar',
                             'condor.document',
+                            'condor.filter',
                             'condor.image',
                             'condor.auth',
                             'condor.noty',
