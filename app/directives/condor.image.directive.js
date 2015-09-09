@@ -40,6 +40,7 @@
               clearTimeout(_selfie);
             }, 500);
           };
+
           var selfMutated = false;
           scope.uncropped = true;
           scope.x = isNaN(Number(scope.x)) || scope.x === '' ? 16 : Number(scope.x);

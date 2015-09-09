@@ -31,9 +31,7 @@
 
                 if(multiple && angular.isArray(ngModel.$viewValue)) {
                   fileList = ngModel.$viewValue;
-                }
-
-                else if(multiple && !angular.isArray(ngModel.$viewValue)) {
+                } else if(multiple && !angular.isArray(ngModel.$viewValue)) {
                   fileList = [];
                 }
 
