@@ -16,8 +16,12 @@
     }])
     .filter('sanitize', ['$sce', function($sce) {
       return function(input) {
-        input = String(input);
-        return $sce.trustAsHtml(input);
+        if(input === undefined) {
+          return $sce.trustAsHtml('');
+        } else {
+          input = String(input);
+          return $sce.trustAsHtml(input);
+        }
       };
     }]);
 })(window.angular);
