@@ -16,6 +16,6 @@
  * image
  * module: `condor.image`
  * <condor-image-upload ng-model="image" required multiple />
- * <condor-image-list src="images" x="16" y="9" />
- * <condor-image src="image" x="16" y="9" />
+ * <condor-image-list src="images" x="16" y="9" upload-url="url" type="type" />
+ * <condor-image src="image" x="16" y="9" upload-url="url" type="type" quality="0.6" />
  */

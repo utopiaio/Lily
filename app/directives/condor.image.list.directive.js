@@ -3,20 +3,22 @@
 
   angular
     .module('condor.image')
-    .directive('condorImageList', function() {
+    .directive('condorImageList', ['$http', '$timeout', function($http, $timeout) {
       return {
         restrict: 'EA',
         scope: {
           src: '=',
           x: '@',
-          y: '@'
+          y: '@',
+          type: '@',
+          uploadUrl: '@'
         },
         template:
           '<div class="row" ng-if="isArray">'+
             '<div class="col-lg-4 col-md-6" ng-repeat="image in src track by $index">'+
               '<div>'+
                 '<div class="col-lg-12">'+
-                  '<condor-image src="src[$index]" x="{{ x }}" y="{{ y }}" />'+
+                  '<condor-image src="src[$index]" x="{{ x }}" y="{{ y }}" type="{{ type }}" upload-url="{{ uploadUrl }}" />'+
                 '</div>'+
               '</div>'+
               '<div>'+
@@ -27,12 +29,17 @@
             '</div>'+
           '</div>',
         controller: function($scope, $element, $attrs) {
+          $scope.type = $scope.type || 'image/jpeg';
+          $scope.uploadUrl = $scope.uploadUrl || 'http://rock.io/S3';
           var unregisterListener = $scope.$watch('src', function(newVal, oldVal) {
             $scope.isArray = angular.isArray(newVal) ? true : false;
           });
 
           $scope.removeImageAt = function(index) {
-            $scope.src.splice(index, 1);
+            $http.delete($scope.src[index].deleteUrl);
+            $timeout(function() {
+              $scope.src.splice(index, 1);
+            });
           };
 
           $scope.$on('$destroy', function() {
@@ -40,5 +47,5 @@
           });
         }
       };
-    });
+    }]);
 })(window.angular);
