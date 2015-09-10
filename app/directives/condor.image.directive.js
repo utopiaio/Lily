@@ -66,8 +66,15 @@
           scope.quality = scope.quality || 0.6;
           scope.uploadUrl = scope.uploadUrl || 'http://rock.io/S3';
 
+          $timeout(function() {
+            if(angular.isObject(scope.src) === true) {
+              scope.uncropped = false;
+              $($('img', element)[0]).attr({src: scope.src.url});
+            }
+          });
+
           var unregisterListener = scope.$watch('src', function(newVal, oldVal) {
-            if(selfMutated === false) {
+            if(selfMutated === false && angular.isObject(scope.src) === false) {
               scope.uncropped = true;
               $($('img', element)[0]).cropper('destroy');
               $($('img', element)[0]).attr({src: scope.src});
