@@ -66,6 +66,7 @@
 
       return {
        'request': function(config) {
+          _removeBackdrop();
           $('<div class="modal-backdrop"></div>').appendTo(document.body);
           _spinner = new Spinner(_options).spin(document.querySelector('body'));
 
