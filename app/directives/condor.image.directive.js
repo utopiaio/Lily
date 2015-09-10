@@ -39,7 +39,7 @@
                   '<img class="img-responsive" ng-src="{{ src.url }}" />'+
                 '</div>'+
               '</div>'+
-              '<div class="row" ng-if="uncropped && src.size > 0">'+
+              '<div class="row" ng-if="uncropped">'+
                 '<div class="col-lg-12 text-center" style="margin-top: 8px;">'+
                   '<button ng-click="crop()" class="btn btn-primary"><i class="fa fa-crop"></i>&nbsp;&nbsp;crop image</button>'+
                 '</div>'+
@@ -51,14 +51,15 @@
            * since we're mutating the data we're watching, after we self-mutate
            * we'll not be listing for any changes for the next 500ms
            */
+          var _selfMutated = false;
+          var _init = true;
           var _restSelfMutatedFlag = function() {
             var _selfie = setTimeout(function() {
-              selfMutated = false;
+              _selfMutated = false;
               clearTimeout(_selfie);
             }, 500);
           };
 
-          var selfMutated = false;
           scope.uncropped = true;
           scope.x = isNaN(Number(scope.x)) || scope.x === '' ? 16 : Number(scope.x);
           scope.y = isNaN(Number(scope.y)) || scope.y === '' ? 9 : Number(scope.y);
@@ -66,15 +67,12 @@
           scope.quality = scope.quality || 0.6;
           scope.uploadUrl = scope.uploadUrl || 'http://rock.io/S3';
 
-          $timeout(function() {
-            if(angular.isObject(scope.src) === true) {
+          var unregisterListener = scope.$watch('src', function(newVal, oldVal) {
+            if((newVal !== oldVal) && _init === true && angular.isObject(scope.src) === true) {
+              _init =false;
               scope.uncropped = false;
               $($('img', element)[0]).attr({src: scope.src.url});
-            }
-          });
-
-          var unregisterListener = scope.$watch('src', function(newVal, oldVal) {
-            if(selfMutated === false && angular.isObject(scope.src) === false) {
+            } else if(_selfMutated === false && angular.isObject(scope.src) === false) {
               scope.uncropped = true;
               $($('img', element)[0]).cropper('destroy');
               $($('img', element)[0]).attr({src: scope.src});
@@ -86,7 +84,7 @@
                 autoCropArea: 1,
                 built: function() {
                   $timeout(function() {
-                    selfMutated = true;
+                    _selfMutated = true;
                     _toBlob($($('img', element)[0]).cropper('getCroppedCanvas'), function(blob) {
                       var formData = new FormData();
                       formData.append('files[]', blob);
@@ -128,7 +126,7 @@
                 },
                 data: formData
               }).success(function(data, status, headers) {
-                selfMutated = true;
+                _selfMutated = true;
                 scope.src = data.files[0];
                 $($('img', element)[0]).cropper('destroy');
                 $($('img', element)[0]).attr({src: scope.src.url});
