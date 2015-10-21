@@ -39,7 +39,7 @@
                   '<img class="img-responsive" ng-src="{{ src.url }}" />'+
                 '</div>'+
               '</div>'+
-              '<div class="row" ng-if="uncropped">'+
+              '<div class="row" ng-if="uncropped === false">'+
                 '<div class="col-lg-12 text-center" style="margin-top: 8px;">'+
                   '<button ng-click="crop()" class="btn btn-primary"><i class="fa fa-crop"></i>&nbsp;&nbsp;crop image</button>'+
                 '</div>'+
