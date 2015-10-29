@@ -69,7 +69,7 @@
 
           var unregisterListener = scope.$watch('src', function(newVal, oldVal) {
             if((newVal !== oldVal) && _init === true && angular.isObject(scope.src) === true) {
-              _init =false;
+              _init = false;
               scope.uncropped = false;
               $($('img', element)[0]).attr({src: scope.src.url});
             } else if(_selfMutated === false && angular.isObject(scope.src) === false) {
