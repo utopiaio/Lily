@@ -39,7 +39,7 @@
                   '<img class="img-responsive" ng-src="{{ src.url }}" />'+
                 '</div>'+
               '</div>'+
-              '<div class="row" ng-if="showCropButton === false">'+
+              '<div class="row" ng-if="showCropButton === true">'+
                 '<div class="col-lg-12 text-center" style="margin-top: 8px;">'+
                   '<button ng-click="crop()" class="btn btn-primary"><i class="fa fa-crop"></i>&nbsp;&nbsp;crop image</button>'+
                 '</div>'+
@@ -60,7 +60,7 @@
             }, 500);
           };
 
-          scope.showCropButton = true;
+          scope.showCropButton = false;
           scope.x = isNaN(Number(scope.x)) || scope.x === '' ? 16 : Number(scope.x);
           scope.y = isNaN(Number(scope.y)) || scope.y === '' ? 9 : Number(scope.y);
           scope.type = scope.type || 'image/jpeg';
@@ -70,9 +70,9 @@
           var unregisterListener = scope.$watch('src', function(newVal, oldVal) {
             if((newVal !== oldVal) && _init === true && angular.isObject(scope.src) === true) {
               _init = false;
-              scope.showCropButton = false;
+              scope.showCropButton = true;
               $($('img', element)[0]).attr({src: scope.src.url});
-            } else if(_selfMutated === false && angular.isObject(scope.src) === false) {
+            } else if(_selfMutated === false && angular.isObject(scope.src) === false && scope.src !== null && scope.src !== '') {
               scope.showCropButton = true;
               $($('img', element)[0]).cropper('destroy');
               $($('img', element)[0]).attr({src: scope.src});
