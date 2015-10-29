@@ -68,7 +68,9 @@
           scope.uploadUrl = scope.uploadUrl || 'http://rock.io/S3';
 
           var unregisterListener = scope.$watch('src', function(newVal, oldVal) {
-            if((newVal !== oldVal) && _init === true && angular.isObject(scope.src) === true) {
+            if((newVal !== oldVal) && (angular.isObject(scope.src) === true || angular.isNumber(scope.src) === true) && _selfMutated === false) {
+              scope.showCropButton = false;
+            } else if((newVal !== oldVal) && _init === true && angular.isObject(scope.src) === true) {
               _init = false;
               scope.showCropButton = true;
               $($('img', element)[0]).attr({src: scope.src.url});
