@@ -155,17 +155,15 @@
                   _headers.headers[_options.headerName] = _JWT;
                   _headers.params = {q: query, limit: limit};
 
-                    $http
-                      .get(_options.baseUrl + model, _headers)
-                      .success(function(data) {
-                        delete _headers.params;
-                        _store[model] = data;
-                        deferred.resolve(data);
-                        _emitChange(_store);
-                      })
-                      .error(function(data) {
-                        deferred.reject(data);
-                      });
+                  $http
+                    .get(_options.baseUrl + model, _headers)
+                    .success(function(data) {
+                      delete _headers.params;
+                      deferred.resolve(data);
+                    })
+                    .error(function(data) {
+                      deferred.reject(data);
+                    });
                 })
                 .catch(function(error) {
                   deferred.reject(error);
