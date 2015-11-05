@@ -153,7 +153,7 @@
                 .then(function(info) {
                   _JWT = info.jwt;
                   _headers.headers[_options.headerName] = _JWT;
-                  _headers.params = {query: query, limit: limit};
+                  _headers.params = {q: query, limit: limit};
 
                     $http
                       .get(_options.baseUrl + model, _headers)
