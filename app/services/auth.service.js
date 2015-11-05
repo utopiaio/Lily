@@ -108,9 +108,14 @@
 
             /**
              * updates user info
+             *
+             * @param {Object} newInfo
              */
             updateInfo: function(newInfo) {
               var deferred = $q.defer();
+
+              // extending whatever changes were passed down
+              newInfo = angular.extend(_info, newInfo);
 
               localforage.setItem(_options.key, newInfo, function(error, value) {
                 if(error === null) {
