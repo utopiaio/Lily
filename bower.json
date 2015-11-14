@@ -18,18 +18,5 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "~2.1.4",
-    "bootstrap": "~3.3.5",
-    "eonasdan-bootstrap-datetimepicker": "~4.15.35",
-    "angular": "~1.4.3",
-    "angular-route": "~1.4.3",
-    "angular-sanitize": "~1.4.3",
-    "angular-messages": "~1.4.4",
-    "angular-summernote": "~0.4.0",
-    "localforage": "~1.2.4",
-    "summernote": "~0.6.16",
-    "noty": "~2.3.6",
-    "spin.js": "2.3.2",
-    "cropper": "~0.11.0"
   }
 }
