@@ -7,7 +7,7 @@ var concat = require('gulp-concat');
 var path = require('path');
 
 var watchList = {
-  browserify: ['./app/**/*.vue'],
+  browserify: ['./app.js', './app/**/*.vue'],
   less: ['./app/**/*.less']
 };
 
