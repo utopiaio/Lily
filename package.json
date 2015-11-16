@@ -21,9 +21,9 @@
     "redux": "^3.0.4",
     "spin.js": "^2.3.2",
     "summernote": "^0.6.16",
+    "superagent": "^1.4.0",
     "vue": "^1.0.8",
     "vue-hot-reload-api": "^1.2.1",
-    "vue-resource": "^0.1.17",
     "vue-router": "^0.7.5",
     "vueify": "^6.0.0",
     "vueify-insert-css": "^1.0.0"
