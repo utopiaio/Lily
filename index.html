@@ -10,13 +10,26 @@
     <title>The Condor: Powered by Vue.js</title>
 
     <link rel="shortcut icon" type="image/png" href="static/images/favicon.png" />
+    <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+      .__backdrop__ {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 9999;
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+    </style>
   </head>
 
   <body>
-    <div id="app">
-      <router-view></router-view>
+    <div id="app" class="container">
+      <router-view class="row"></router-view>
     </div>
 
+    <!--<script type="text/javascript" src="node_modules/notie-js/notie.js"></script>-->
     <script type="text/javascript" src="app.browserifyed.js"></script>
     <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
   </body>
