@@ -2,7 +2,7 @@
   'use strict';
 
   var Spinner = require('spin.js');
-  var _timeout = 5000;
+  var _timeout = 10000;
   var _spinner = null;
   var _timeoutHandler = null;
   var _options = {
@@ -12,7 +12,7 @@
     radius: 32,
     scale: 1,
     corners: 1,
-    color: '#6f6f6f',
+    color: '#2c3e50',
     opacity: 0.25,
     rotate: 0,
     direction: 1,

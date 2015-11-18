@@ -11,6 +11,7 @@
 
     <link rel="shortcut icon" type="image/png" href="static/images/favicon.png" />
     <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="app/dist/style.css" />
     <style>
       .__backdrop__ {
         position: fixed;
@@ -25,12 +26,11 @@
   </head>
 
   <body>
-    <div id="app" class="container">
-      <router-view class="row"></router-view>
+    <div id="app" class="container-fluid">
+      <router-view></router-view>
     </div>
 
-    <!--<script type="text/javascript" src="node_modules/notie-js/notie.js"></script>-->
-    <script type="text/javascript" src="app.browserifyed.js"></script>
+    <script type="text/javascript" src="app/dist/app.js"></script>
     <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
   </body>
 </html>
