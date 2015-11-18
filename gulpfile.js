@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var rename = require('gulp-rename');
 var livereload = require('gulp-livereload');
+var less = require('gulp-less');
 var vueify = require('vueify');
 var browserify = require('gulp-browserify');
 var concat = require('gulp-concat');
@@ -24,9 +25,8 @@ gulp.task('less', function() {
 
 gulp.task('browserify', function() {
   return gulp.src(['app.js'])
-    .pipe(rename({suffix: '.browserifyed'}))
     .pipe(browserify({transform: ['vueify']}))
-    .pipe(gulp.dest(''))
+    .pipe(gulp.dest('./app/dist'))
     .pipe(livereload());
 });
 
