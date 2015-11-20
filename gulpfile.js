@@ -5,6 +5,7 @@ var less = require('gulp-less');
 var vueify = require('vueify');
 var browserify = require('gulp-browserify');
 var concat = require('gulp-concat');
+var uglify = require('gulp-uglify');
 var path = require('path');
 
 var watchList = {
@@ -36,6 +37,13 @@ gulp.task('watch-browserify', function() {
 
 gulp.task('watch-less', function() {
   gulp.watch(watchList.less, ['less']);
+});
+
+gulp.task('ugg', function() {
+  return gulp.src('./app/dist/app.js')
+    .pipe(rename({suffix: '.min'}))
+    .pipe(uglify())
+    .pipe(gulp.dest(''));
 });
 
 gulp.task('default', function() {
