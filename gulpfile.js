@@ -43,7 +43,7 @@ gulp.task('ugg', function() {
   return gulp.src('./app/dist/app.js')
     .pipe(rename({suffix: '.min'}))
     .pipe(uglify())
-    .pipe(gulp.dest(''));
+    .pipe(gulp.dest('./app/dist'));
 });
 
 gulp.task('default', function() {
