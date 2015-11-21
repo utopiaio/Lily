@@ -57,7 +57,7 @@
             this.model = this.$el.value;
           });
         },
-        destroyed() {
+        beforeDestroy() {
           this.dateTimeInstance.data('DateTimePicker').destroy();
         },
         watch: {
