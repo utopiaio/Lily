@@ -47,18 +47,18 @@
             this.model = now;
           }
 
-          this.dateTimeInstance = $(this.$el).datetimepicker({
+          this.__dateTimeInstance = $(this.$el).datetimepicker({
             format: this.format,
             sideBySide: true
           });
 
-          this.dateTimeInstance.on('dp.change', (value) => {
+          this.__dateTimeInstance.on('dp.change', (value) => {
             // we'll be passing the RAW value from the input
             this.model = this.$el.value;
           });
         },
         beforeDestroy() {
-          this.dateTimeInstance.data('DateTimePicker').destroy();
+          this.__dateTimeInstance.data('DateTimePicker').destroy();
         },
         watch: {
           /**
