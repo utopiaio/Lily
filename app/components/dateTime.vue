@@ -23,13 +23,11 @@
           class: {
             type: String,
             required: false,
-            twoWay: false,
             default: ''
           },
           format: {
             type: String,
             required: false,
-            twoWay: false,
             default: 'DD-MM-YYYY hh:mm A'
           }
         },
