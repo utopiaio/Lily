@@ -79,11 +79,11 @@
                 this.$el.removeAttribute('disabled');
                 this.__fileInput.removeAttribute('disabled');
 
-                if(response.ok === true) {
-                  this.__span.innerHTML = `<span class="badge">${response.body.files.length}</span>&nbsp;&nbsp;File${this.multiple === true ? 's': ''} uploaded successfully`;
+                if(response && response.ok === true) {
+                  this.__span.innerHTML = `<span class="badge">${response.body.files.length}</span>&nbsp;&nbsp;<span class="text-success">File${this.multiple === true ? 's': ''} uploaded successfully</span>`;
                   this.model = this.multiple === true ? [...this.model, ...response.body.files] : response.body.files[0];
                 } else {
-                  this.__span.innerHTML = `Error uploading files`;
+                  this.__span.innerHTML = `<span class="text-danger">Error uploading file${this.multiple === true ? 's' : ''}</span>`;
                 }
               });
           }.bind(this);
