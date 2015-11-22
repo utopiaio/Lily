@@ -1,9 +1,16 @@
 <script>
   /**
    * @module summoernote
-   *
    * summernote component - basic initiation, destroy and update on change
+   *
+   * usage:
+   * <summernote :model.sync="model"></summernote>
+   * <summernote :model.sync="model" :options="{height: 300, toolbar: [['style', ['style']],['font', ['bold', 'italic', 'underline']],['fontsize', ['fontsize']],['color', ['color']],['para', ['ul', 'ol', 'paragraph']],['height', ['height']],['table', ['table']],['insert', ['link', 'picture', 'hr']]]}"></summernote>
    */
+  import $ from 'jquery';
+  import bootstrap from 'bootstrap';
+  import summernote from 'summernote';
+
   export default {
     install(Vue, options) {
       Vue.component('summernote', {
