@@ -53,7 +53,7 @@
           }
           this.$el.appendChild(this.__fileInput);
 
-          this.changeListener = function(e) {
+          this.__changeListener = function(e) {
             let formData = new FormData();
 
             for(let i = 0; i < e.target.files.length; i++) {
@@ -82,10 +82,10 @@
               });
           }.bind(this);
 
-          this.__fileInput.addEventListener('change', this.changeListener);
+          this.__fileInput.addEventListener('change', this.__changeListener);
         },
         beforeDestroy() {
-          this.__fileInput.removeEventListener('change', this.changeListener);
+          this.__fileInput.removeEventListener('change', this.__changeListener);
         }
       });
     }
