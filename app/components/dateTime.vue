@@ -4,8 +4,9 @@
   import datetimepicker from 'eonasdan-bootstrap-datetimepicker';
 
   /**
-   * usage:
+   * @module: dateTime
    *
+   * usage:
    * <date-time format="HH:mm" class="form-control" :model.sync="time"></date-time>
    * <date-time format="YYYY-MM-DD" class="form-control" :model.sync="date"></date-time>
    * <date-time format="YYYY-MM-DD hh:mm A" class="form-control" :model.sync="dateTime"></date-time>
