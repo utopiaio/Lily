@@ -1,0 +1,20 @@
+@import "variables.less";
+
+body {
+  position: relative;
+  color: @color;
+  padding-top: 70px;
+  font-family: -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", sans-serif;
+}
+
+@media(max-width: @screen-sm) {
+  input[type="text"],
+  input[type="email"],
+  input[type="search"],
+  input[type="password"],
+  textarea {
+    -webkit-appearance: caret;
+    -moz-appearance: caret;
+  }
+}
+
