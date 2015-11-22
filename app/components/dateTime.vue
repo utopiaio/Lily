@@ -1,7 +1,7 @@
 <script>
   import $ from 'jquery';
   import moment from 'moment';
-  import datetime from 'eonasdan-bootstrap-datetimepicker';
+  import datetimepicker from 'eonasdan-bootstrap-datetimepicker';
 
   /**
    * usage:
