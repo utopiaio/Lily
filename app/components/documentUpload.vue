@@ -34,7 +34,7 @@
             twoWay: true,
             required: true,
             default() {
-              return this.multiple === true ? [] : {};
+              return [];
             }
           }
         },
