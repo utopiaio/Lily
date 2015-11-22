@@ -101,6 +101,9 @@
 </template>
 
 <script>
+  import $ from 'jquery';
+  import bootsrap from 'bootstrap';
+
   export default {
     name: 'navbar',
     props: {
