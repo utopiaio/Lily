@@ -1,9 +1,12 @@
 <script>
   /**
    * @module disabled
-   *
    * adds / removes `disabled` attribute on an element
+   *
+   * usage:
+   * <button v-disabled="true">disabled</button>
    */
+
   export default {
     install(Vue, options) {
       Vue.directive('disabled', {
