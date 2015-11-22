@@ -20,12 +20,6 @@
             required: true,
             twoWay: true
           },
-          class: {
-            type: String,
-            required: false,
-            twoWay: false,
-            default: ''
-          },
           format: {
             type: String,
             required: false,
@@ -33,7 +27,7 @@
             default: 'DD-MM-YYYY hh:mm A'
           }
         },
-        template: `<input class="{{ class }}">`,
+        template: `<input type="text">`,
         ready() {
           /**
            * on initial binding

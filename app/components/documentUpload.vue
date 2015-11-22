@@ -6,12 +6,6 @@
       Vue.component('documentUpload', {
         name: 'documentUpload',
         props: {
-          class: {
-            type: String,
-            twoWay: false,
-            required: false,
-            default: ''
-          },
           multiple: {
             type: Boolean,
             twoWay: false,
@@ -38,7 +32,7 @@
             }
           }
         },
-        template: `<span class="{{ class }}" style="position: relative;overflow: hidden;display: inline-block;"></span>`,
+        template: `<span style="position: relative;overflow: hidden;display: inline-block;"></span>`,
         ready() {
           // making sure the initial valid is an Array for for multiple uploads
           // if a non Array method is passed, it'll be initiated by an empty array
