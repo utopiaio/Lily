@@ -1,3 +1,6 @@
+// this makes sure "non-npm" jquery packages play well with jquery
+global.jQuery = require('jquery');
+
 var Vue = require('vue');
 var VueRouter = require('vue-router');
 var notie = require('notie');

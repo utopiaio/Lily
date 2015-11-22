@@ -1,7 +1,10 @@
 <script>
   /**
    * @module documentList
-   * given a file or list of files it'll manage the src in coordination with `document-info`
+   * this is a soft wrapper for document info component with delete method
+   *
+   * usage:
+   * <document-list :src.sync="documentList"></document-info>
    */
 
   export default {

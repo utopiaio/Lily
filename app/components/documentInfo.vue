@@ -2,8 +2,10 @@
   /**
    * @module documentInfo
    * display document info and emit `deleted` event if deletion went successfully
+   *
+   * usage:
+   * <document-info :src="src" @deleted="deleted"></document-info>
    */
-
   import request from 'superagent';
 
   export default {

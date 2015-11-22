@@ -1,4 +1,11 @@
 <script>
+  /**
+   * @module documentUpload
+   * Vue component for document upload
+   *
+   * usage:
+   * <document-upload class="btn btn-default btn-block" :model.sync="model" url="http://rock.io/S3" accept="image/*" :multiple="true"><document-upload>
+   */
   import request from 'superagent';
 
   export default {
