@@ -71,7 +71,7 @@
             this.__span.innerHTML = 'Uploading, please wait...';
 
             request
-              .post('http://rock.io/S3')
+              .post(this.url)
               .send(formData)
               .end((error, response) => {
                 // setting to an empty string so that uploading the same file again triggers change
