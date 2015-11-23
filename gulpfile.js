@@ -3,13 +3,15 @@ var rename = require('gulp-rename');
 var livereload = require('gulp-livereload');
 var less = require('gulp-less');
 var vueify = require('vueify');
+var babel = require('gulp-babel');
 var browserify = require('gulp-browserify');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var path = require('path');
 
-var watchList = {
+var filePath = {
   browserify: ['./app/**/*.vue'],
+  babel: ['./app/**/*.es2015.js'],
   less: ['./app/**/*.less']
 };
 
@@ -31,12 +33,19 @@ gulp.task('browserify', function() {
     .pipe(livereload());
 });
 
+gulp.task('babel', function() {
+  return gulp.src(filePath.babel)
+    .pipe(rename({suffix: '.babeled'}))
+    .pipe(babel())
+    .pipe(gulp.dest('./app/babeled'))
+});
+
 gulp.task('watch-browserify', function() {
-  gulp.watch(watchList.browserify, ['browserify']);
+  gulp.watch(filePath.browserify, ['browserify']);
 });
 
 gulp.task('watch-less', function() {
-  gulp.watch(watchList.less, ['less']);
+  gulp.watch(filePath.less, ['less']);
 });
 
 gulp.task('ugg', function() {
