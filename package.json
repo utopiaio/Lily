@@ -9,6 +9,7 @@
     "cropper": "^2.0.0",
     "eonasdan-bootstrap-datetimepicker": "^4.15.35",
     "gulp": "^3.9.0",
+    "gulp-babel": "^6.1.0",
     "gulp-browserify": "^0.5.1",
     "gulp-concat": "^2.6.0",
     "gulp-less": "^3.0.3",
@@ -29,5 +30,8 @@
     "vue-router": "^0.7.6",
     "vueify": "^6.0.0",
     "vueify-insert-css": "^1.0.0"
+  },
+  "babel": {
+    "presets": ["es2015"]
   }
 }
