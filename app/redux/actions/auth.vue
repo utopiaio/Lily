@@ -3,7 +3,7 @@
   import request from 'superagent';
   import store from './../store.vue';
   import {AUTH_LOGIN, AUTH_LOGOUT, AUTH_UPDATE} from './../constants/constants.vue';
-  import {show, hide} from './../../modules/backdrop.js';
+  import {show, hide} from './../../babeled/components/backdrop.es2015.babeled.js';
 
   /**
    * authenticates with given credentials

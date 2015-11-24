@@ -4,18 +4,22 @@ global.jQuery = require('jquery');
 var Vue = require('vue');
 var VueRouter = require('vue-router');
 var notie = require('notie');
-var disabled = require('./app/directives/disabled.vue');
+
+var disabled = require('./app/babeled/directives/disabled.es2015.babeled.js');
+var dateTime = require('./app/babeled/components/dateTime.es2015.babeled.js');
+var documentUpload = require('./app/babeled/components/documentUpload.es2015.babeled.js');
+var documentInfo = require('./app/babeled/components/documentInfo.es2015.babeled.js');
+var documentList = require('./app/babeled/components/documentList.es2015.babeled.js');
+var summernote = require('./app/babeled/components/summernote.es2015.babeled.js');
+var imageCrop = require('./app/babeled/components/imageCrop.es2015.babeled.js');
+
 var app = require('./app/components/app.vue');
 var one = require('./app/components/one.vue');
 var two = require('./app/components/two.vue');
 var landing = require('./app/components/landing.vue');
 var login = require('./app/components/login.vue');
 var components = require('./app/components/components.vue');
-var dateTime = require('./app/components/dateTime.vue');
-var documentUpload = require('./app/components/documentUpload.vue');
-var documentInfo = require('./app/components/documentInfo.vue');
-var documentList = require('./app/components/documentList.vue');
-var summernote = require('./app/components/summernote.vue');
+
 var auth = require('./app/redux/actions/auth.vue');
 var store = require('./app/redux/store.vue');
 
@@ -27,6 +31,7 @@ Vue.use(documentUpload);
 Vue.use(documentInfo);
 Vue.use(documentList);
 Vue.use(summernote);
+Vue.use(imageCrop);
 
 var router = new VueRouter({
   hashbang: false,
