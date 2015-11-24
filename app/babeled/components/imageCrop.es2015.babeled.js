@@ -18,18 +18,22 @@ module.exports = {
   install: function install(Vue, options) {
     // as the canvas `toBlob` API is only available on Mozila we're using a polyfill (from MDN)
     function _toBlob(canvas, callback, type, quality) {
-      type = type || 'image/jpeg';
-      quality = quality || 0.6;
+      try {
+        type = type || 'image/jpeg';
+        quality = quality || 0.6;
 
-      var _binaryString = atob(canvas.toDataURL(type, quality).split(',')[1]);
-      var _length = _binaryString.length;
-      var _array = new Uint8Array(_length);
+        var _binaryString = atob(canvas.toDataURL(type, quality).split(',')[1]);
+        var _length = _binaryString.length;
+        var _array = new Uint8Array(_length);
 
-      for (var i = 0; i < _length; i++) {
-        _array[i] = _binaryString.charCodeAt(i);
+        for (var i = 0; i < _length; i++) {
+          _array[i] = _binaryString.charCodeAt(i);
+        }
+
+        callback(null, new Blob([_array], { type: type }));
+      } catch (err) {
+        callback(err, null);
       }
-
-      callback(new Blob([_array], { type: type }));
     }
 
     Vue.component('imageCrop', {
@@ -77,7 +81,7 @@ module.exports = {
         return {
           cropped: false,
           cropperInitiated: false,
-          selfMutated: true
+          selfMutated: false
         };
       },
 
@@ -85,7 +89,6 @@ module.exports = {
       ready: function ready() {
         if (this.src.hasOwnProperty('type') === true && this.src.type.search(/image/) > -1) {
           this.initiateCropper();
-          this.setMutationFlag();
         }
       },
 
@@ -101,34 +104,41 @@ module.exports = {
 
           (0, _jquery2.default)('button', this.$el)[0].innerHTML = '<i class="fa fa-crop"></i>&nbsp;&nbsp;Cropping...';
           (0, _jquery2.default)('button', this.$el)[0].setAttribute('disabled', 'disabled');
-
-          // deleting previous image...
-          _superagent2.default.del(this.src.deleteUrl).end(function (error, response) {
-            if (response && response.ok === true) {
-              console.info('Previous file deleted succsufully.');
-            } else {
-              console.warn('Unable to delete previous file.');
-            }
-          });
+          this.__previousSrc = this.src;
 
           // uploading the new cropped image & destroying the cropper (if successful)
-          _toBlob((0, _jquery2.default)(this.__image).cropper('getCroppedCanvas'), function (blob) {
-            var formData = new FormData();
-            formData.append('files[]', blob);
+          _toBlob((0, _jquery2.default)(this.__image).cropper('getCroppedCanvas'), function (err, blob) {
+            if (err === null) {
+              var formData = new FormData();
+              formData.append('files[]', blob);
 
-            _superagent2.default.post(_this.url).send(formData).end(function (error, response) {
-              (0, _jquery2.default)('button', _this.$el)[0].removeAttribute('disabled');
+              _superagent2.default.post(_this.url).send(formData).end(function (error, response) {
+                (0, _jquery2.default)('button', _this.$el)[0].removeAttribute('disabled');
 
-              if (response && response.ok === true) {
-                (0, _jquery2.default)('button', _this.$el)[0].innerHTML = '<i class="fa fa-crop"></i>&nbsp;&nbsp;Cropped';
-                _this.cropped = true;
-                _this.src = response.body.files[0];
-                _this.setMutationFlag();
-                _this.__cropper.cropper('destroy');
-              } else {
-                (0, _jquery2.default)('button', _this.$el)[0].innerHTML = '<i class="fa fa-crop"></i>&nbsp;&nbsp;<span class="text-danger">Error Cropping</span>';
-              }
-            });
+                if (response && response.ok === true) {
+                  (0, _jquery2.default)('button', _this.$el)[0].innerHTML = '<i class="fa fa-crop"></i>&nbsp;&nbsp;Cropped';
+                  _this.setMutationFlag();
+                  _this.src = response.body.files[0];
+                  _this.cropped = true;
+                  _this.__cropper.cropper('destroy');
+                  _this.cropperInitiated = false;
+
+                  // deleting previous image...
+                  _superagent2.default.del(_this.__previousSrc.deleteUrl).end(function (error, response) {
+                    if (response && response.ok === true) {
+                      console.info('Previous file deleted succsufully.');
+                    } else {
+                      console.warn('Unable to delete previous file.');
+                    }
+                  });
+                } else {
+                  (0, _jquery2.default)('button', _this.$el)[0].innerHTML = '<i class="fa fa-crop"></i>&nbsp;&nbsp;<span class="text-danger">Error Cropping</span>';
+                }
+              });
+            } else {
+              // there was no image to crop in the fist place - image deleted maybe
+              _this.cropped = true; // hide the crop button
+            }
           }, this.type, this.quality);
         },
 
@@ -167,25 +177,27 @@ module.exports = {
           var _this3 = this;
 
           if (newVal.hasOwnProperty('type') === true && newVal.type.search(/image/) > -1) {
-            if (this.cropperInitiated === false) {
+            if (this.cropperInitiated === false && this.selfMutated === false) {
               // the timeout is required so that the DOM will be ready
               // otherwise cropper will not be properly initiated
               setTimeout(function () {
+                _this3.cropped = false;
+                _this3.setMutationFlag();
                 _this3.initiateCropper();
               }, 125);
-            } else if (this.selfMutated === false) {
+            } else if (this.cropperInitiated === true && this.selfMutated === false) {
               // reinitializing the cropper...
-              this.setMutationFlag();
               this.cropped = false;
+              this.setMutationFlag();
               this.__cropper.cropper('replace', newVal.url);
             }
           }
-
-          this.setMutationFlag();
         }
       },
       beforeDestroy: function beforeDestroy() {
-        this.__cropper.cropper('destroy');
+        if (this.cropperInitiated === true) {
+          this.__cropper.cropper('destroy');
+        }
       }
     });
   }
