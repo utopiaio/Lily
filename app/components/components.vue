@@ -56,6 +56,21 @@
       </div>
     </div>
 
+    <h3>Image Crop</h3>
+    <div class="row">
+      <div class="col-lg-3">
+        <document-upload class="btn btn-default btn-block" :model.sync="image" accept="image/*" url="http://rock.io/S3"></document-upload>
+      </div>
+
+      <div class="col-lg-3">
+        <img class="img-responsive" :src="image.url">
+      </div>
+
+      <div class="col-lg-6">
+        <image-crop :src.sync="image" :x="16" :y="9" type="image/jpeg" :quality="0.6" url="http://rock.io/S3"></image-crop>
+      </div>
+    </div>
+
     <pre>{{ $data | json }}</pre>
   </div>
 </template>
@@ -71,7 +86,8 @@
         documentMultiple: [],
         documentSingle: {},
         summernoteOne: '<b>hello</b>',
-        summernoteTwo: ''
+        summernoteTwo: '',
+        image: {}
       };
     }
   };
