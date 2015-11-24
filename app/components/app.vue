@@ -12,8 +12,8 @@
 
 <script>
   import notie from 'notie';
-  import reduxMixin from './../mixins/redux.vue';
-  import {logout} from './../redux/actions/auth.vue';
+  import reduxMixin from './../mixins/redux.es2015.babeled.js';
+  import {logout} from './../redux/actions/auth.es2015.babeled.js';
   import navbar from './navbar.vue';
 
   export default {

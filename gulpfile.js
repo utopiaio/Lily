@@ -34,10 +34,10 @@ gulp.task('browserify', function() {
 });
 
 gulp.task('babel', function() {
-  return gulp.src(filePath.babel)
+  return gulp.src(filePath.babel, {base: process.cwd()})
     .pipe(rename({suffix: '.babeled'}))
     .pipe(babel())
-    .pipe(gulp.dest('./app/babeled'))
+    .pipe(gulp.dest('./'));
 });
 
 gulp.task('watch-browserify', function() {
@@ -46,6 +46,10 @@ gulp.task('watch-browserify', function() {
 
 gulp.task('watch-less', function() {
   gulp.watch(filePath.less, ['less']);
+});
+
+gulp.task('watch-babel', function() {
+  gulp.watch(filePath.babel, ['babel']);
 });
 
 gulp.task('ugg', function() {
@@ -60,4 +64,5 @@ gulp.task('default', function() {
   livereload();
   gulp.start('watch-browserify');
   gulp.start('watch-less');
+  gulp.start('watch-babel');
 });

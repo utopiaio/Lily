@@ -62,8 +62,8 @@
 
 <script>
   import notie from 'notie';
-  import reduxMixin from './../mixins/redux.vue';
-  import {login} from './../redux/actions/auth.vue';
+  import reduxMixin from './../mixins/redux.es2015.babeled.js';
+  import {login} from './../redux/actions/auth.es2015.babeled.js';
 
   export default {
     name: 'login',

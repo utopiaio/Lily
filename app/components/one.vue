@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import reduxMixin from './../mixins/redux.vue';
+  import reduxMixin from './../mixins/redux.es2015.babeled.js';
 
   export default {
     name: 'one',
