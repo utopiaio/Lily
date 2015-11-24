@@ -65,4 +65,5 @@ let show = function() {
   }, _timeout);
 };
 
-export {show, hide};
+exports.show = show;
+exports.hide = hide;
