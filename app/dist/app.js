@@ -1,101 +1,80 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _spin = require('spin.js');
 
-var _notie = require('notie');
-
-var _notie2 = _interopRequireDefault(_notie);
-
-var _redux = require('./../mixins/redux.vue');
-
-var _redux2 = _interopRequireDefault(_redux);
-
-var _auth = require('./../redux/actions/auth.vue');
-
-var _navbar = require('./navbar.vue');
-
-var _navbar2 = _interopRequireDefault(_navbar);
+var _spin2 = _interopRequireDefault(_spin);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = {
-  mixins: [_redux2.default],
-  name: 'app',
-  computed: {
-    show: function show() {
-      return (this.store && this.store.auth && this.store.auth.jwt) === undefined ? false : true;
-    }
-  },
-  methods: {
-    logout: function logout() {
-      var _this = this;
+var _timeout = 10000; /**
+                       * @module {show, hide}
+                       * simply shows n' hides backdrop with a spinner in the middle
+                       *
+                       * usage:
+                       * show() - to show the backdrop
+                       * hide() - to hide the backdrop
+                       */
 
-      _notie2.default.confirm('Are you sure you want to logout?', 'Yes', 'Cancel', function () {
-        (0, _auth.logout)().then(function () {
-          return _this.$route.router.go({ name: 'landing' });
-        });
-      });
-    }
-  },
-  components: {
-    navbar: _navbar2.default
+var _spinner = null;
+var _timeoutHandler = null;
+var _options = {
+  lines: 48,
+  length: 8,
+  width: 2,
+  radius: 32,
+  scale: 1,
+  corners: 1,
+  color: '#2c3e50',
+  opacity: 0.25,
+  rotate: 0,
+  direction: 1,
+  speed: 1,
+  trail: 75,
+  fps: 24,
+  zIndex: 2e9,
+  className: 'spinner',
+  top: '50%',
+  left: '50%',
+  shadow: false,
+  hwaccel: true,
+  position: 'fixed'
+};
+
+// backdrop element
+var _backdrop = document.createElement('div');
+_backdrop.setAttribute('style', 'position: fixed;top: 0;right: 0;bottom: 0;left: 0;z-index: 9999;background-color: rgba(255, 255, 255, 0.5);');
+
+var hide = function hide() {
+  if (_timeoutHandler !== null && _spinner !== null) {
+    _spinner.stop();
+    _spinner = null;
+    clearTimeout(_timeoutHandler);
+    _timeoutHandler = null;
+    document.body.removeChild(_backdrop);
+    document.body.style.overflowY = 'scroll';
   }
 };
-if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n  <div class=\"row\">\n    <div class=\"col-lg-12\">\n      <navbar :show=\"show\" :auth=\"store.auth\" @logout=\"logout\"></navbar>\n\n      <div class=\"row\">\n        <router-view></router-view>\n      </div>\n    </div>\n  </div>\n"
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  var id = "/Users/moe/Sites/condor.io/app/components/app.vue"
-  if (!module.hot.data) {
-    hotAPI.createRecord(id, module.exports)
-  } else {
-    hotAPI.update(id, module.exports, module.exports.template)
-  }
-})()}
-},{"./../mixins/redux.vue":14,"./../redux/actions/auth.vue":16,"./navbar.vue":9,"notie":105,"vue":187,"vue-hot-reload-api":120}],2:[function(require,module,exports){
-'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = {
-  name: 'components',
-  data: function data() {
-    return {
-      date: '1991-08-09',
-      time: '18:00',
-      dateTime: '',
-      documentMultiple: [],
-      documentSingle: {},
-      summernoteOne: '<b>hello</b>',
-      summernoteTwo: ''
+var show = function show() {
+  hide();
+  document.body.appendChild(_backdrop);
+  document.body.style.overflowY = 'hidden';
+  _spinner = new _spin2.default(_options).spin(document.querySelector('body'));
+  _timeoutHandler = setTimeout(function () {
+    if (_spinner !== null) {
+      _spinner.stop();
+      _spinner = null;
+      document.body.removeChild(_backdrop);
+      document.body.style.overflowY = 'scroll';
     };
-  }
+  }, _timeout);
 };
-if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n  <div class=\"col-lg-12\">\n    <h2>components</h2>\n\n    <hr>\n\n    <h3>date-time</h3>\n    <div class=\"row\">\n      <div class=\"col-lg-3\">\n        <date-time format=\"HH:mm\" class=\"form-control\" :model.sync=\"time\"></date-time>\n      </div>\n\n      <div class=\"col-lg-3\">\n        <date-time format=\"HH:mm\" class=\"form-control\" :model.sync=\"time\"></date-time>\n      </div>\n\n      <div class=\"col-lg-3\">\n        <date-time format=\"YYYY-MM-DD\" class=\"form-control\" :model.sync=\"date\"></date-time>\n      </div>\n\n      <div class=\"col-lg-3\">\n        <date-time format=\"YYYY-MM-DD hh:mm A\" class=\"form-control\" :model.sync=\"dateTime\"></date-time>\n      </div>\n    </div>\n\n    <h3>document upload</h3>\n    <div class=\"row\">\n      <div class=\"col-lg-3\">\n        <document-upload class=\"btn btn-default btn-block\" :model.sync=\"documentMultiple\" :multiple=\"true\" accept=\"image/*\" url=\"http://rock.io/S3\"></document-upload>\n      </div>\n\n      <div class=\"col-lg-3\">\n        <document-upload class=\"btn btn-default btn-block\" :model.sync=\"documentSingle\" accept=\"image/*\" url=\"http://rock.io/S3\"></document-upload>\n      </div>\n    </div>\n\n    <h3>document list</h3>\n    <div class=\"row\">\n      <div class=\"col-lg-6\">\n        <document-list :src.sync=\"documentMultiple\">\n      </document-list></div>\n\n      <div class=\"col-lg-6\">\n        <document-list :src.sync=\"documentSingle\">\n      </document-list></div>\n    </div>\n\n    <h3>summernote</h3>\n    <div class=\"row\">\n      <div class=\"col-lg-6\">\n        <summernote :model.sync=\"summernoteOne\"></summernote>\n      </div>\n\n      <div class=\"col-lg-6\">\n        <summernote :model.sync=\"summernoteTwo\" :options=\"{height: 300, toolbar: [['style', ['style']],['font', ['bold', 'italic', 'underline']],['fontsize', ['fontsize']],['color', ['color']],['para', ['ul', 'ol', 'paragraph']],['height', ['height']],['table', ['table']],['insert', ['link', 'picture', 'hr']]]}\"></summernote>\n      </div>\n    </div>\n\n    <pre>{{ $data | json }}</pre>\n  </div>\n"
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  var id = "/Users/moe/Sites/condor.io/app/components/components.vue"
-  if (!module.hot.data) {
-    hotAPI.createRecord(id, module.exports)
-  } else {
-    hotAPI.update(id, module.exports, module.exports.template)
-  }
-})()}
-},{"vue":187,"vue-hot-reload-api":120}],3:[function(require,module,exports){
-'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.show = show;
+exports.hide = hide;
+},{"spin.js":114}],2:[function(require,module,exports){
+'use strict';
 
 var _jquery = require('jquery');
 
@@ -111,7 +90,7 @@ var _eonasdanBootstrapDatetimepicker2 = _interopRequireDefault(_eonasdanBootstra
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = {
+module.exports = {
   install: function install(Vue, options) {
     Vue.component('dateTime', {
       name: 'date',
@@ -176,32 +155,16 @@ exports.default = {
     });
   }
 }; /**
-      * @module: dateTime
-      * a vue component for date-time picker
-      *
-      * usage:
-      * <date-time format="HH:mm" class="form-control" :model.sync="time"></date-time>
-      * <date-time format="YYYY-MM-DD" class="form-control" :model.sync="date"></date-time>
-      * <date-time format="YYYY-MM-DD hh:mm A" class="form-control" :model.sync="dateTime"></date-time>
-      */
-if (module.exports.__esModule) module.exports = module.exports.default
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  var id = "/Users/moe/Sites/condor.io/app/components/dateTime.vue"
-  if (!module.hot.data) {
-    hotAPI.createRecord(id, module.exports)
-  } else {
-    hotAPI.update(id, module.exports, module.exports.template)
-  }
-})()}
-},{"eonasdan-bootstrap-datetimepicker":100,"jquery":102,"moment":104,"vue":187,"vue-hot-reload-api":120}],4:[function(require,module,exports){
+    * @module: dateTime
+    * a vue component for date-time picker
+    *
+    * usage:
+    * <date-time format="HH:mm" class="form-control" :model.sync="time"></date-time>
+    * <date-time format="YYYY-MM-DD" class="form-control" :model.sync="date"></date-time>
+    * <date-time format="YYYY-MM-DD hh:mm A" class="form-control" :model.sync="dateTime"></date-time>
+    */
+},{"eonasdan-bootstrap-datetimepicker":99,"jquery":101,"moment":103}],3:[function(require,module,exports){
 'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
 
 var _superagent = require('superagent');
 
@@ -209,7 +172,7 @@ var _superagent2 = _interopRequireDefault(_superagent);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = {
+module.exports = {
   install: function install(Vue, options) {
     Vue.component('documentInfo', {
       name: 'documentInfo',
@@ -223,7 +186,7 @@ exports.default = {
           }
         }
       },
-      template: '\n          <div v-show="validDocument" class="text-center">\n            <i class="ion-document-text" style="font-size: 48px;"></i>\n            <div style="padding-top: 0; margin-top: 0;">\n              <h5 v-text="src.name"></h5>\n              <button class="btn btn-sm btn-block btn-danger"><i class="ion-ios-trash-outline"></i>&nbsp;&nbsp;delete</button>\n            </div>\n          </div>',
+      template: '\n        <div v-show="validDocument" class="text-center">\n          <i class="ion-document-text" style="font-size: 48px;"></i>\n          <div style="padding-top: 0; margin-top: 0;">\n            <h5 v-text="src.name"></h5>\n            <button class="btn btn-sm btn-block btn-danger"><i class="ion-ios-trash-outline"></i>&nbsp;&nbsp;delete</button>\n          </div>\n        </div>',
       computed: {
         validDocument: function validDocument() {
           return this.src.hasOwnProperty('name');
@@ -239,14 +202,15 @@ exports.default = {
 
           this.__deleteButton.setAttribute('disabled', 'disabled');
           this.__deleteButton.innerHTML = 'Deleting...';
+
           _superagent2.default.del(this.src.deleteUrl).end(function (error, response) {
             _this.__deleteButton.removeAttribute('disabled');
 
             if (response && response.ok === true) {
-              _this.__deleteButton.innerHTML = 'Deleted';
+              _this.__deleteButton.innerHTML = '<span class="text-success">Deleted</span>';
               _this.$emit('deleted', response.body);
             } else {
-              _this.__deleteButton.innerHTML = 'Error';
+              _this.__deleteButton.innerHTML = '<span class="text-danger">Error</span>';
             }
           });
         }).bind(this);
@@ -258,46 +222,26 @@ exports.default = {
     });
   }
 }; /**
-      * @module documentInfo
-      * display document info and emit `deleted` event if deletion went successfully
-      *
-      * usage:
-      * <document-info :src="src" @deleted="deleted"></document-info>
-      */
-if (module.exports.__esModule) module.exports = module.exports.default
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  var id = "/Users/moe/Sites/condor.io/app/components/documentInfo.vue"
-  if (!module.hot.data) {
-    hotAPI.createRecord(id, module.exports)
-  } else {
-    hotAPI.update(id, module.exports, module.exports.template)
-  }
-})()}
-},{"superagent":117,"vue":187,"vue-hot-reload-api":120}],5:[function(require,module,exports){
+    * @module documentInfo
+    * display document info and emit `deleted` event if deletion went successfully
+    *
+    * usage:
+    * <document-info :src="src" @deleted="deleted"></document-info>
+    */
+},{"superagent":116}],4:[function(require,module,exports){
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 /**
-   * @module documentList
-   * this is a soft wrapper for document info component with delete method
-   *
-   * usage:
-   * <document-list :src.sync="documentList"></document-info>
-   */
+ * @module documentList
+ * this is a soft wrapper for document info component with delete method
+ *
+ * usage:
+ * <document-list :src.sync="documentList"></document-info>
+ */
 
-exports.default = {
+module.exports = {
   install: function install(Vue, options) {
     Vue.component('documentList', {
       name: 'documentList',
@@ -307,7 +251,7 @@ exports.default = {
           twoWay: true
         }
       },
-      template: '\n          <div>\n            <div class="row" v-if="multiple === true">\n              <document-info v-for="document in src" track-by="$index" :src="document" @deleted="deleted" class="col-lg-4 col-md-6"></document-info>\n            </div>\n            <document-info v-if="multiple === false" :src="src" @deleted="deleted"></document-info>\n          </div>\n        ',
+      template: '\n        <div>\n          <div class="row" v-if="multiple === true">\n            <document-info v-for="document in src" track-by="$index" :src="document" @deleted="deleted" class="col-lg-4 col-md-6"></document-info>\n          </div>\n          <document-info v-if="multiple === false" :src="src" @deleted="deleted"></document-info>\n        </div>\n      ',
       computed: {
         /**
          * we're computing `multiple` because we can't access `this`
@@ -325,7 +269,7 @@ exports.default = {
           } else {
             for (var i = this.src.length - 1; i >= 0; i--) {
               if (this.src[i].id === doc.id) {
-                this.src = [].concat((0, _toConsumableArray3.default)(this.src.slice(0, i)), (0, _toConsumableArray3.default)(this.src.slice(i + 1)));
+                this.src = [].concat(_toConsumableArray(this.src.slice(0, i)), _toConsumableArray(this.src.slice(i + 1)));
                 break;
               }
             };
@@ -335,28 +279,8 @@ exports.default = {
     });
   }
 };
-if (module.exports.__esModule) module.exports = module.exports.default
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  var id = "/Users/moe/Sites/condor.io/app/components/documentList.vue"
-  if (!module.hot.data) {
-    hotAPI.createRecord(id, module.exports)
-  } else {
-    hotAPI.update(id, module.exports, module.exports.template)
-  }
-})()}
-},{"babel-runtime/helpers/toConsumableArray":24,"vue":187,"vue-hot-reload-api":120}],6:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
 var _superagent = require('superagent');
 
@@ -364,7 +288,15 @@ var _superagent2 = _interopRequireDefault(_superagent);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = {
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } } /**
+                                                                                                                                                                                                     * @module documentUpload
+                                                                                                                                                                                                     * Vue component for document upload
+                                                                                                                                                                                                     *
+                                                                                                                                                                                                     * usage:
+                                                                                                                                                                                                     * <document-upload class="btn btn-default btn-block" :model.sync="model" url="http://rock.io/S3" accept="image/*" :multiple="true"><document-upload>
+                                                                                                                                                                                                     */
+
+module.exports = {
   install: function install(Vue, options) {
     Vue.component('documentUpload', {
       name: 'documentUpload',
@@ -437,7 +369,7 @@ exports.default = {
 
             if (response && response.ok === true) {
               _this.__span.innerHTML = '<span class="badge">' + response.body.files.length + '</span>&nbsp;&nbsp;<span class="text-success">File' + (_this.multiple === true ? 's' : '') + ' uploaded successfully</span>';
-              _this.model = _this.multiple === true ? [].concat((0, _toConsumableArray3.default)(_this.model), (0, _toConsumableArray3.default)(response.body.files)) : response.body.files[0];
+              _this.model = _this.multiple === true ? [].concat(_toConsumableArray(_this.model), _toConsumableArray(response.body.files)) : response.body.files[0];
             } else {
               _this.__span.innerHTML = '<span class="text-danger">Error uploading file' + (_this.multiple === true ? 's' : '') + '</span>';
             }
@@ -451,26 +383,380 @@ exports.default = {
       }
     });
   }
+};
+},{"superagent":116}],6:[function(require,module,exports){
+'use strict';
+
+var _jquery = require('jquery');
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _cropper = require('cropper');
+
+var _cropper2 = _interopRequireDefault(_cropper);
+
+var _superagent = require('superagent');
+
+var _superagent2 = _interopRequireDefault(_superagent);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+module.exports = {
+  install: function install(Vue, options) {
+    // as the canvas `toBlob` API is only available on Mozila we're using a polyfill (from MDN)
+    function _toBlob(canvas, callback, type, quality) {
+      type = type || 'image/jpeg';
+      quality = quality || 0.6;
+
+      var _binaryString = atob(canvas.toDataURL(type, quality).split(',')[1]);
+      var _length = _binaryString.length;
+      var _array = new Uint8Array(_length);
+
+      for (var i = 0; i < _length; i++) {
+        _array[i] = _binaryString.charCodeAt(i);
+      }
+
+      callback(new Blob([_array], { type: type }));
+    }
+
+    Vue.component('imageCrop', {
+      props: {
+        src: {
+          type: Object,
+          required: true,
+          twoWay: true,
+          default: function _default() {
+            return {};
+          }
+        },
+        x: {
+          type: Number,
+          required: false,
+          twoWay: false,
+          default: 16
+        },
+        y: {
+          type: Number,
+          required: false,
+          twoWay: false,
+          default: 9
+        },
+        type: {
+          type: String,
+          required: false,
+          twoWay: false,
+          default: 'image/jpeg'
+        },
+        quality: {
+          type: Number,
+          required: false,
+          twoWay: false,
+          default: 0.6
+        },
+        url: {
+          type: String,
+          required: true,
+          twoWay: false,
+          default: 'http://rock.io/S3'
+        }
+      },
+      data: function data() {
+        return {
+          cropped: false,
+          cropperInitiated: false,
+          selfMutated: true
+        };
+      },
+
+      template: '\n        <div>\n          <img v-if="src.url" class="img-responsive" :src="src.url">\n          <p style="margin-top: 8px;" v-if="!cropped">\n            <button v-if="src.url" @click="crop" class="btn btn-default btn-block"><i class="fa fa-crop"></i>&nbsp;&nbsp;Crop</button>\n          </p>\n        </div>',
+      ready: function ready() {
+        if (this.src.hasOwnProperty('type') === true && this.src.type.search(/image/) > -1) {
+          this.initiateCropper();
+          this.setMutationFlag();
+        }
+      },
+
+      methods: {
+        /**
+         * crop
+         * deletes previous image
+         * uploads the new cropped image and updates the src
+         */
+
+        crop: function crop() {
+          var _this = this;
+
+          (0, _jquery2.default)('button', this.$el)[0].innerHTML = '<i class="fa fa-crop"></i>&nbsp;&nbsp;Cropping...';
+          (0, _jquery2.default)('button', this.$el)[0].setAttribute('disabled', 'disabled');
+
+          // deleting previous image...
+          _superagent2.default.del(this.src.deleteUrl).end(function (error, response) {
+            if (response && response.ok === true) {
+              console.info('Previous file deleted succsufully.');
+            } else {
+              console.warn('Unable to delete previous file.');
+            }
+          });
+
+          // uploading the new cropped image & destroying the cropper (if successful)
+          _toBlob((0, _jquery2.default)(this.__image).cropper('getCroppedCanvas'), function (blob) {
+            var formData = new FormData();
+            formData.append('files[]', blob);
+
+            _superagent2.default.post(_this.url).send(formData).end(function (error, response) {
+              (0, _jquery2.default)('button', _this.$el)[0].removeAttribute('disabled');
+
+              if (response && response.ok === true) {
+                (0, _jquery2.default)('button', _this.$el)[0].innerHTML = '<i class="fa fa-crop"></i>&nbsp;&nbsp;Cropped';
+                _this.cropped = true;
+                _this.src = response.body.files[0];
+                _this.setMutationFlag();
+                _this.__cropper.cropper('destroy');
+              } else {
+                (0, _jquery2.default)('button', _this.$el)[0].innerHTML = '<i class="fa fa-crop"></i>&nbsp;&nbsp;<span class="text-danger">Error Cropping</span>';
+              }
+            });
+          }, this.type, this.quality);
+        },
+
+        /**
+         * initiates cropper (and sets to __cropper)
+         * also sets `__image`
+         */
+        initiateCropper: function initiateCropper() {
+          this.cropperInitiated = true;
+          this.__image = (0, _jquery2.default)('img', this.$el)[0];
+          this.__cropper = (0, _jquery2.default)(this.__image).cropper({
+            aspectRatio: this.x / this.y,
+            guides: false,
+            rotatable: false,
+            wheelZoomRatio: 0.01,
+            autoCropArea: 1
+          });
+        },
+
+        /**
+         * sets selfMutated flag so that we don't reinitialize
+         * the cropper if the "change" is initiated *here*
+         */
+        setMutationFlag: function setMutationFlag() {
+          var _this2 = this;
+
+          this.selfMutated = true;
+          var _selfie = setTimeout(function () {
+            _this2.selfMutated = false;
+            clearTimeout(_selfie);
+          }, 125);
+        }
+      },
+      watch: {
+        src: function src(newVal, oldVal) {
+          var _this3 = this;
+
+          if (newVal.hasOwnProperty('type') === true && newVal.type.search(/image/) > -1) {
+            if (this.cropperInitiated === false) {
+              // the timeout is required so that the DOM will be ready
+              // otherwise cropper will not be properly initiated
+              setTimeout(function () {
+                _this3.initiateCropper();
+              }, 125);
+            } else if (this.selfMutated === false) {
+              // reinitializing the cropper...
+              this.setMutationFlag();
+              this.cropped = false;
+              this.__cropper.cropper('replace', newVal.url);
+            }
+          }
+
+          this.setMutationFlag();
+        }
+      },
+      beforeDestroy: function beforeDestroy() {
+        this.__cropper.cropper('destroy');
+      }
+    });
+  }
 }; /**
-      * @module documentUpload
-      * Vue component for document upload
-      *
-      * usage:
-      * <document-upload class="btn btn-default btn-block" :model.sync="model" url="http://rock.io/S3" accept="image/*" :multiple="true"><document-upload>
-      */
+    * @module: imageCrop
+    * a Vue component that initiates cropper on an image file upload
+    *
+    * usage:
+    * <image-crop :src.sync="image" :x="16" :y="9" type="image/jpeg" :quality="0.6" url="http://rock.io/S3"></image-crop>
+    */
+},{"cropper":95,"jquery":101,"superagent":116}],7:[function(require,module,exports){
+'use strict';
+
+var _jquery = require('jquery');
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _bootstrap = require('bootstrap');
+
+var _bootstrap2 = _interopRequireDefault(_bootstrap);
+
+var _summernote = require('summernote');
+
+var _summernote2 = _interopRequireDefault(_summernote);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+module.exports = {
+  install: function install(Vue, options) {
+    Vue.component('summernote', {
+      props: {
+        model: {
+          type: String,
+          required: true,
+          twoWay: true,
+          default: ''
+        },
+        options: {
+          type: Object,
+          required: false,
+          twoWay: false,
+          default: function _default() {
+            return { height: 300, toolbar: [['style', ['style']], ['font', ['bold', 'italic', 'underline']], ['fontsize', ['fontsize']], ['color', ['color']], ['para', ['ul', 'ol', 'paragraph']], ['height', ['height']], ['table', ['table']], ['insert', ['link', 'picture', 'hr']], ['view', ['fullscreen']]] };
+          }
+        }
+      },
+      template: '<div></div>',
+      ready: function ready() {
+        var _this = this;
+
+        this.__summernote = (0, _jquery2.default)(this.$el).summernote(this.options);
+        this.__summernote.code(this.model);
+        this.__summernote.on('summernote.change', function (customEvent, contents, $editable) {
+          _this.model = contents;
+        });
+      },
+      beforeDestroy: function beforeDestroy() {
+        this.__summernote.destroy();
+      }
+    });
+  }
+}; /**
+    * @module summoernote
+    * summernote component - basic initiation, destroy and update on change
+    *
+    * usage:
+    * <summernote :model.sync="model"></summernote>
+    * <summernote :model.sync="model" :options="{height: 300, toolbar: [['style', ['style']],['font', ['bold', 'italic', 'underline']],['fontsize', ['fontsize']],['color', ['color']],['para', ['ul', 'ol', 'paragraph']],['height', ['height']],['table', ['table']],['insert', ['link', 'picture', 'hr']]]}"></summernote>
+    */
+},{"bootstrap":82,"jquery":101,"summernote":115}],8:[function(require,module,exports){
+'use strict';
+
+/**
+ * @module disabled
+ * adds / removes `disabled` attribute on an element
+ *
+ * usage:
+ * <button v-disabled="true">disabled</button>
+ */
+
+module.exports = {
+  install: function install(Vue, options) {
+    Vue.directive('disabled', {
+      twoWay: false,
+      update: function update(newVal, oldVal) {
+        newVal === true ? this.el.setAttribute('disabled', true) : this.el.removeAttribute('disabled');
+      }
+    });
+  }
+};
+},{}],9:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _notie = require('notie');
+
+var _notie2 = _interopRequireDefault(_notie);
+
+var _redux = require('./../mixins/redux.vue');
+
+var _redux2 = _interopRequireDefault(_redux);
+
+var _auth = require('./../redux/actions/auth.vue');
+
+var _navbar = require('./navbar.vue');
+
+var _navbar2 = _interopRequireDefault(_navbar);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+  mixins: [_redux2.default],
+  name: 'app',
+  computed: {
+    show: function show() {
+      return (this.store && this.store.auth && this.store.auth.jwt) === undefined ? false : true;
+    }
+  },
+  methods: {
+    logout: function logout() {
+      var _this = this;
+
+      _notie2.default.confirm('Are you sure you want to logout?', 'Yes', 'Cancel', function () {
+        (0, _auth.logout)().then(function () {
+          return _this.$route.router.go({ name: 'landing' });
+        });
+      });
+    }
+  },
+  components: {
+    navbar: _navbar2.default
+  }
+};
 if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n  <div class=\"row\">\n    <div class=\"col-lg-12\">\n      <navbar :show=\"show\" :auth=\"store.auth\" @logout=\"logout\"></navbar>\n\n      <div class=\"row\">\n        <router-view></router-view>\n      </div>\n    </div>\n  </div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/Users/moe/Sites/condor.io/app/components/documentUpload.vue"
+  var id = "/Users/moe/Sites/condor.io/app/components/app.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, module.exports.template)
   }
 })()}
-},{"babel-runtime/helpers/toConsumableArray":24,"superagent":117,"vue":187,"vue-hot-reload-api":120}],7:[function(require,module,exports){
+},{"./../mixins/redux.vue":16,"./../redux/actions/auth.vue":17,"./navbar.vue":13,"notie":104,"vue":186,"vue-hot-reload-api":119}],10:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {
+  name: 'components',
+  data: function data() {
+    return {
+      date: '1991-08-09',
+      time: '18:00',
+      dateTime: '',
+      documentMultiple: [],
+      documentSingle: {},
+      summernoteOne: '<b>hello</b>',
+      summernoteTwo: '',
+      image: {}
+    };
+  }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n  <div class=\"col-lg-12\">\n    <h2>components</h2>\n\n    <hr>\n\n    <h3>date-time</h3>\n    <div class=\"row\">\n      <div class=\"col-lg-3\">\n        <date-time format=\"HH:mm\" class=\"form-control\" :model.sync=\"time\"></date-time>\n      </div>\n\n      <div class=\"col-lg-3\">\n        <date-time format=\"HH:mm\" class=\"form-control\" :model.sync=\"time\"></date-time>\n      </div>\n\n      <div class=\"col-lg-3\">\n        <date-time format=\"YYYY-MM-DD\" class=\"form-control\" :model.sync=\"date\"></date-time>\n      </div>\n\n      <div class=\"col-lg-3\">\n        <date-time format=\"YYYY-MM-DD hh:mm A\" class=\"form-control\" :model.sync=\"dateTime\"></date-time>\n      </div>\n    </div>\n\n    <h3>document upload</h3>\n    <div class=\"row\">\n      <div class=\"col-lg-3\">\n        <document-upload class=\"btn btn-default btn-block\" :model.sync=\"documentMultiple\" :multiple=\"true\" accept=\"image/*\" url=\"http://rock.io/S3\"></document-upload>\n      </div>\n\n      <div class=\"col-lg-3\">\n        <document-upload class=\"btn btn-default btn-block\" :model.sync=\"documentSingle\" accept=\"image/*\" url=\"http://rock.io/S3\"></document-upload>\n      </div>\n    </div>\n\n    <h3>document list</h3>\n    <div class=\"row\">\n      <div class=\"col-lg-6\">\n        <document-list :src.sync=\"documentMultiple\">\n      </document-list></div>\n\n      <div class=\"col-lg-6\">\n        <document-list :src.sync=\"documentSingle\">\n      </document-list></div>\n    </div>\n\n    <h3>summernote</h3>\n    <div class=\"row\">\n      <div class=\"col-lg-6\">\n        <summernote :model.sync=\"summernoteOne\"></summernote>\n      </div>\n\n      <div class=\"col-lg-6\">\n        <summernote :model.sync=\"summernoteTwo\" :options=\"{height: 300, toolbar: [['style', ['style']],['font', ['bold', 'italic', 'underline']],['fontsize', ['fontsize']],['color', ['color']],['para', ['ul', 'ol', 'paragraph']],['height', ['height']],['table', ['table']],['insert', ['link', 'picture', 'hr']]]}\"></summernote>\n      </div>\n    </div>\n\n    <h3>Image Crop</h3>\n    <div class=\"row\">\n      <div class=\"col-lg-3\">\n        <document-upload class=\"btn btn-default btn-block\" :model.sync=\"image\" accept=\"image/*\" url=\"http://rock.io/S3\"></document-upload>\n      </div>\n\n      <div class=\"col-lg-3\">\n        <img class=\"img-responsive\" :src=\"image.url\">\n      </div>\n\n      <div class=\"col-lg-6\">\n        <image-crop :src.sync=\"image\" :x=\"16\" :y=\"9\" type=\"image/jpeg\" :quality=\"0.6\" url=\"http://rock.io/S3\"></image-crop>\n      </div>\n    </div>\n\n    <pre>{{ $data | json }}</pre>\n  </div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/moe/Sites/condor.io/app/components/components.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, module.exports.template)
+  }
+})()}
+},{"vue":186,"vue-hot-reload-api":119}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -492,7 +778,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, module.exports.template)
   }
 })()}
-},{"vue":187,"vue-hot-reload-api":120}],8:[function(require,module,exports){
+},{"vue":186,"vue-hot-reload-api":119}],12:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert(".login-form[_v-4d3a47e5] {\n  margin-top: 72px;\n  margin-bottom: 64px;\n  padding: 24px 24px 32px 24px;\n  border-radius: 4px;\n  background-color: #ecf0f1;\n  border: 1px solid #95a5a6;\n  -webkit-box-shadow: 0 2px 4px rgba(51, 51, 51, 0.5);\n  -moz-box-shadow: 0 2px 4px rgba(51, 51, 51, 0.5);\n  box-shadow: 0 2px 4px rgba(51, 51, 51, 0.5);\n}\n.login-form img[_v-4d3a47e5] {\n  display: inline-block;\n  width: 64px;\n}\n.login-form button[type=\"submit\"][_v-4d3a47e5] {\n  margin-top: 24px;\n}\n@media (max-width: 768px) {\n  .login-form[_v-4d3a47e5] {\n    margin-top: 32px;\n    margin-bottom: 32px;\n  }\n}\n")
 'use strict';
 
@@ -563,7 +849,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, module.exports.template)
   }
 })()}
-},{"./../mixins/redux.vue":14,"./../redux/actions/auth.vue":16,"notie":105,"vue":187,"vue-hot-reload-api":120,"vueify-insert-css":189}],9:[function(require,module,exports){
+},{"./../mixins/redux.vue":16,"./../redux/actions/auth.vue":17,"notie":104,"vue":186,"vue-hot-reload-api":119,"vueify-insert-css":188}],13:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("nav.navbar.navbar-default[_v-8f8fde78] {\n  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);\n  border-bottom: none;\n}\nnav.navbar.navbar-default .navbar-brand[_v-8f8fde78] {\n  padding: 4px;\n  margin: 0;\n  margin-right: 16px;\n}\nnav.navbar.navbar-default .navbar-brand img[_v-8f8fde78] {\n  height: 40px;\n  width: auto;\n}\nnav.navbar.navbar-default .nav.navbar-nav li a[_v-8f8fde78] {\n  cursor: pointer;\n  text-transform: uppercase;\n}\nnav.navbar.navbar-default .nav.navbar-nav li.v-link-active a[_v-8f8fde78],\nnav.navbar.navbar-default .nav.navbar-nav li.v-link-active a[_v-8f8fde78]:hover,\nnav.navbar.navbar-default .nav.navbar-nav li.v-link-active a[_v-8f8fde78]:focus {\n  color: #34495e;\n  background: -webkit-linear-gradient(top, #ecf0f1 85%, #34495e 15%);\n  background: linear-gradient(to bottom, #ecf0f1 85%, #34495e 15%);\n}\nnav.navbar.navbar-default .nav.navbar-nav a[href=\"logout\"][_v-8f8fde78] {\n  font-weight: bold;\n  color: #ff3366;\n}\nnav.navbar.navbar-default .nav.navbar-nav a[href=\"info\"][_v-8f8fde78] {\n  text-transform: capitalize;\n}\nnav.navbar.navbar-default .info[_v-8f8fde78] {\n  padding-left: 16px;\n  padding-right: 16px;\n}\nnav.navbar.navbar-default .info p[_v-8f8fde78] {\n  color: #37375A;\n  line-height: 100%;\n  margin: 16px 0;\n}\n")
 'use strict';
 
@@ -626,7 +912,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, module.exports.template)
   }
 })()}
-},{"bootstrap":85,"jquery":102,"vue":187,"vue-hot-reload-api":120,"vueify-insert-css":189}],10:[function(require,module,exports){
+},{"bootstrap":82,"jquery":101,"vue":186,"vue-hot-reload-api":119,"vueify-insert-css":188}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -656,82 +942,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, module.exports.template)
   }
 })()}
-},{"./../mixins/redux.vue":14,"vue":187,"vue-hot-reload-api":120}],11:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _jquery = require('jquery');
-
-var _jquery2 = _interopRequireDefault(_jquery);
-
-var _bootstrap = require('bootstrap');
-
-var _bootstrap2 = _interopRequireDefault(_bootstrap);
-
-var _summernote = require('summernote');
-
-var _summernote2 = _interopRequireDefault(_summernote);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = {
-  install: function install(Vue, options) {
-    Vue.component('summernote', {
-      props: {
-        model: {
-          type: String,
-          required: true,
-          twoWay: true,
-          default: ''
-        },
-        options: {
-          type: Object,
-          required: false,
-          twoWay: false,
-          default: function _default() {
-            return { height: 300, toolbar: [['style', ['style']], ['font', ['bold', 'italic', 'underline']], ['fontsize', ['fontsize']], ['color', ['color']], ['para', ['ul', 'ol', 'paragraph']], ['height', ['height']], ['table', ['table']], ['insert', ['link', 'picture', 'hr']], ['view', ['fullscreen']]] };
-          }
-        }
-      },
-      template: '<div></div>',
-      ready: function ready() {
-        var _this = this;
-
-        this.__summernote = (0, _jquery2.default)(this.$el).summernote(this.options);
-        this.__summernote.code(this.model);
-        this.__summernote.on('summernote.change', function (customEvent, contents, $editable) {
-          _this.model = contents;
-        });
-      },
-      beforeDestroy: function beforeDestroy() {
-        this.__summernote.destroy();
-      }
-    });
-  }
-}; /**
-      * @module summoernote
-      * summernote component - basic initiation, destroy and update on change
-      *
-      * usage:
-      * <summernote :model.sync="model"></summernote>
-      * <summernote :model.sync="model" :options="{height: 300, toolbar: [['style', ['style']],['font', ['bold', 'italic', 'underline']],['fontsize', ['fontsize']],['color', ['color']],['para', ['ul', 'ol', 'paragraph']],['height', ['height']],['table', ['table']],['insert', ['link', 'picture', 'hr']]]}"></summernote>
-      */
-if (module.exports.__esModule) module.exports = module.exports.default
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  var id = "/Users/moe/Sites/condor.io/app/components/summernote.vue"
-  if (!module.hot.data) {
-    hotAPI.createRecord(id, module.exports)
-  } else {
-    hotAPI.update(id, module.exports, module.exports.template)
-  }
-})()}
-},{"bootstrap":85,"jquery":102,"summernote":116,"vue":187,"vue-hot-reload-api":120}],12:[function(require,module,exports){
+},{"./../mixins/redux.vue":16,"vue":186,"vue-hot-reload-api":119}],15:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -761,43 +972,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, module.exports.template)
   }
 })()}
-},{"./../mixins/redux.vue":14,"vue":187,"vue-hot-reload-api":120}],13:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-/**
-   * @module disabled
-   * adds / removes `disabled` attribute on an element
-   *
-   * usage:
-   * <button v-disabled="true">disabled</button>
-   */
-
-exports.default = {
-  install: function install(Vue, options) {
-    Vue.directive('disabled', {
-      twoWay: false,
-      update: function update(newVal, oldVal) {
-        newVal === true ? this.el.setAttribute('disabled', true) : this.el.removeAttribute('disabled');
-      }
-    });
-  }
-};
-if (module.exports.__esModule) module.exports = module.exports.default
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  var id = "/Users/moe/Sites/condor.io/app/directives/disabled.vue"
-  if (!module.hot.data) {
-    hotAPI.createRecord(id, module.exports)
-  } else {
-    hotAPI.update(id, module.exports, module.exports.template)
-  }
-})()}
-},{"vue":187,"vue-hot-reload-api":120}],14:[function(require,module,exports){
+},{"./../mixins/redux.vue":16,"vue":186,"vue-hot-reload-api":119}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -840,75 +1015,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, module.exports.template)
   }
 })()}
-},{"./../redux/store.vue":19,"vue":187,"vue-hot-reload-api":120}],15:[function(require,module,exports){
-;(function() {
-  'use strict';
-
-  var Spinner = require('spin.js');
-  var _timeout = 10000;
-  var _spinner = null;
-  var _timeoutHandler = null;
-  var _options = {
-    lines: 48,
-    length: 8,
-    width: 2,
-    radius: 32,
-    scale: 1,
-    corners: 1,
-    color: '#2c3e50',
-    opacity: 0.25,
-    rotate: 0,
-    direction: 1,
-    speed: 1,
-    trail: 75,
-    fps: 24,
-    zIndex: 2e9,
-    className: 'spinner',
-    top: '50%',
-    left: '50%',
-    shadow: false,
-    hwaccel: true,
-    position: 'fixed'
-  };
-
-  // backdrop element
-  var _backdrop = document.createElement('div');
-  _backdrop.setAttribute('class', '__backdrop__');
-
-  var _hide = function() {
-    if(_timeoutHandler !== null && _spinner !== null) {
-      _spinner.stop();
-      _spinner = null;
-      clearTimeout(_timeoutHandler);
-      _timeoutHandler = null;
-      if(document.getElementsByClassName('__backdrop__').length > 0) {
-        document.body.removeChild(_backdrop);
-        document.body.style.overflowY = 'scroll';
-      }
-    }
-  };
-
-  var _show = function() {
-    _hide();
-    document.body.appendChild(_backdrop);
-    document.body.style.overflowY = 'hidden';
-    _spinner = new Spinner(_options).spin(document.querySelector('body'));
-    _timeoutHandler = setTimeout(function() {
-      if(_spinner !== null) {
-        _spinner.stop();
-        _spinner = null;
-        document.body.removeChild(_backdrop);
-        document.body.style.overflowY = 'scroll';
-      };
-    }, _timeout);
-  };
-
-  if(typeof module !== 'undefined' && module) {
-    module.exports = {show: _show, hide: _hide};
-  }
-})();
-
-},{"spin.js":115}],16:[function(require,module,exports){
+},{"./../redux/store.vue":20,"vue":186,"vue-hot-reload-api":119}],17:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -933,7 +1040,7 @@ var _store2 = _interopRequireDefault(_store);
 
 var _constants = require('./../constants/constants.vue');
 
-var _backdrop = require('./../../modules/backdrop.js');
+var _backdropEs2015Babeled = require('./../../babeled/components/backdrop.es2015.babeled.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -951,10 +1058,10 @@ function login() {
   var credentials = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
   return new _promise2.default(function (resolve, reject) {
-    (0, _backdrop.show)();
+    (0, _backdropEs2015Babeled.show)();
 
     _superagent2.default.post(path).send(credentials).end(function (error, response) {
-      (0, _backdrop.hide)();
+      (0, _backdropEs2015Babeled.hide)();
 
       if (response && response.ok === true) {
         _localforage2.default.setItem('auth', response.body, function (error_, value) {
@@ -1022,7 +1129,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, module.exports.template)
   }
 })()}
-},{"./../../modules/backdrop.js":15,"./../constants/constants.vue":17,"./../store.vue":19,"babel-runtime/core-js/promise":23,"localforage":103,"superagent":117,"vue":187,"vue-hot-reload-api":120}],17:[function(require,module,exports){
+},{"./../../babeled/components/backdrop.es2015.babeled.js":1,"./../constants/constants.vue":18,"./../store.vue":20,"babel-runtime/core-js/promise":23,"localforage":102,"superagent":116,"vue":186,"vue-hot-reload-api":119}],18:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1049,7 +1156,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, module.exports.template)
   }
 })()}
-},{"vue":187,"vue-hot-reload-api":120}],18:[function(require,module,exports){
+},{"vue":186,"vue-hot-reload-api":119}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1100,7 +1207,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, module.exports.template)
   }
 })()}
-},{"./../constants/constants.vue":17,"babel-runtime/core-js/object/assign":22,"vue":187,"vue-hot-reload-api":120}],19:[function(require,module,exports){
+},{"./../constants/constants.vue":18,"babel-runtime/core-js/object/assign":22,"vue":186,"vue-hot-reload-api":119}],20:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1128,7 +1235,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, module.exports.template)
   }
 })()}
-},{"./reducers/auth.vue":18,"redux":107,"vue":187,"vue-hot-reload-api":120}],20:[function(require,module,exports){
+},{"./reducers/auth.vue":19,"redux":106,"vue":186,"vue-hot-reload-api":119}],21:[function(require,module,exports){
 (function (global){
 // this makes sure "non-npm" jquery packages play well with jquery
 global.jQuery = require('jquery');
@@ -1136,18 +1243,22 @@ global.jQuery = require('jquery');
 var Vue = require('vue');
 var VueRouter = require('vue-router');
 var notie = require('notie');
-var disabled = require('./app/directives/disabled.vue');
+
+var disabled = require('./app/babeled/directives/disabled.es2015.babeled.js');
+var dateTime = require('./app/babeled/components/dateTime.es2015.babeled.js');
+var documentUpload = require('./app/babeled/components/documentUpload.es2015.babeled.js');
+var documentInfo = require('./app/babeled/components/documentInfo.es2015.babeled.js');
+var documentList = require('./app/babeled/components/documentList.es2015.babeled.js');
+var summernote = require('./app/babeled/components/summernote.es2015.babeled.js');
+var imageCrop = require('./app/babeled/components/imageCrop.es2015.babeled.js');
+
 var app = require('./app/components/app.vue');
 var one = require('./app/components/one.vue');
 var two = require('./app/components/two.vue');
 var landing = require('./app/components/landing.vue');
 var login = require('./app/components/login.vue');
 var components = require('./app/components/components.vue');
-var dateTime = require('./app/components/dateTime.vue');
-var documentUpload = require('./app/components/documentUpload.vue');
-var documentInfo = require('./app/components/documentInfo.vue');
-var documentList = require('./app/components/documentList.vue');
-var summernote = require('./app/components/summernote.vue');
+
 var auth = require('./app/redux/actions/auth.vue');
 var store = require('./app/redux/store.vue');
 
@@ -1159,6 +1270,7 @@ Vue.use(documentUpload);
 Vue.use(documentInfo);
 Vue.use(documentList);
 Vue.use(summernote);
+Vue.use(imageCrop);
 
 var router = new VueRouter({
   hashbang: false,
@@ -1246,61 +1358,33 @@ auth.init().then(function() {
 });
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./app/components/app.vue":1,"./app/components/components.vue":2,"./app/components/dateTime.vue":3,"./app/components/documentInfo.vue":4,"./app/components/documentList.vue":5,"./app/components/documentUpload.vue":6,"./app/components/landing.vue":7,"./app/components/login.vue":8,"./app/components/one.vue":10,"./app/components/summernote.vue":11,"./app/components/two.vue":12,"./app/directives/disabled.vue":13,"./app/redux/actions/auth.vue":16,"./app/redux/store.vue":19,"jquery":102,"notie":105,"vue":187,"vue-router":121}],21:[function(require,module,exports){
-module.exports = { "default": require("core-js/library/fn/array/from"), __esModule: true };
-},{"core-js/library/fn/array/from":25}],22:[function(require,module,exports){
+},{"./app/babeled/components/dateTime.es2015.babeled.js":2,"./app/babeled/components/documentInfo.es2015.babeled.js":3,"./app/babeled/components/documentList.es2015.babeled.js":4,"./app/babeled/components/documentUpload.es2015.babeled.js":5,"./app/babeled/components/imageCrop.es2015.babeled.js":6,"./app/babeled/components/summernote.es2015.babeled.js":7,"./app/babeled/directives/disabled.es2015.babeled.js":8,"./app/components/app.vue":9,"./app/components/components.vue":10,"./app/components/landing.vue":11,"./app/components/login.vue":12,"./app/components/one.vue":14,"./app/components/two.vue":15,"./app/redux/actions/auth.vue":17,"./app/redux/store.vue":20,"jquery":101,"notie":104,"vue":186,"vue-router":120}],22:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/object/assign"), __esModule: true };
-},{"core-js/library/fn/object/assign":26}],23:[function(require,module,exports){
+},{"core-js/library/fn/object/assign":24}],23:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/promise"), __esModule: true };
-},{"core-js/library/fn/promise":27}],24:[function(require,module,exports){
-"use strict";
-
-var _from = require("babel-runtime/core-js/array/from");
-
-var _from2 = _interopRequireDefault(_from);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function (arr) {
-  if (Array.isArray(arr)) {
-    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
-      arr2[i] = arr[i];
-    }
-
-    return arr2;
-  } else {
-    return (0, _from2.default)(arr);
-  }
-};
-
-exports.__esModule = true;
-},{"babel-runtime/core-js/array/from":21}],25:[function(require,module,exports){
-require('../../modules/es6.string.iterator');
-require('../../modules/es6.array.from');
-module.exports = require('../../modules/$.core').Array.from;
-},{"../../modules/$.core":33,"../../modules/es6.array.from":78,"../../modules/es6.string.iterator":83}],26:[function(require,module,exports){
+},{"core-js/library/fn/promise":25}],24:[function(require,module,exports){
 require('../../modules/es6.object.assign');
 module.exports = require('../../modules/$.core').Object.assign;
-},{"../../modules/$.core":33,"../../modules/es6.object.assign":80}],27:[function(require,module,exports){
+},{"../../modules/$.core":31,"../../modules/es6.object.assign":77}],25:[function(require,module,exports){
 require('../modules/es6.object.to-string');
 require('../modules/es6.string.iterator');
 require('../modules/web.dom.iterable');
 require('../modules/es6.promise');
 module.exports = require('../modules/$.core').Promise;
-},{"../modules/$.core":33,"../modules/es6.object.to-string":81,"../modules/es6.promise":82,"../modules/es6.string.iterator":83,"../modules/web.dom.iterable":84}],28:[function(require,module,exports){
+},{"../modules/$.core":31,"../modules/es6.object.to-string":78,"../modules/es6.promise":79,"../modules/es6.string.iterator":80,"../modules/web.dom.iterable":81}],26:[function(require,module,exports){
 module.exports = function(it){
   if(typeof it != 'function')throw TypeError(it + ' is not a function!');
   return it;
 };
-},{}],29:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 module.exports = function(){ /* empty */ };
-},{}],30:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 var isObject = require('./$.is-object');
 module.exports = function(it){
   if(!isObject(it))throw TypeError(it + ' is not an object!');
   return it;
 };
-},{"./$.is-object":48}],31:[function(require,module,exports){
+},{"./$.is-object":46}],29:[function(require,module,exports){
 // getting tag from 19.1.3.6 Object.prototype.toString()
 var cof = require('./$.cof')
   , TAG = require('./$.wks')('toStringTag')
@@ -1317,16 +1401,16 @@ module.exports = function(it){
     // ES3 arguments fallback
     : (B = cof(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : B;
 };
-},{"./$.cof":32,"./$.wks":76}],32:[function(require,module,exports){
+},{"./$.cof":30,"./$.wks":74}],30:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = function(it){
   return toString.call(it).slice(8, -1);
 };
-},{}],33:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 var core = module.exports = {version: '1.2.6'};
 if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
-},{}],34:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 // optional / simple context binding
 var aFunction = require('./$.a-function');
 module.exports = function(fn, that, length){
@@ -1347,18 +1431,18 @@ module.exports = function(fn, that, length){
     return fn.apply(that, arguments);
   };
 };
-},{"./$.a-function":28}],35:[function(require,module,exports){
+},{"./$.a-function":26}],33:[function(require,module,exports){
 // 7.2.1 RequireObjectCoercible(argument)
 module.exports = function(it){
   if(it == undefined)throw TypeError("Can't call method on  " + it);
   return it;
 };
-},{}],36:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 // Thank's IE8 for his funny defineProperty
 module.exports = !require('./$.fails')(function(){
   return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
 });
-},{"./$.fails":39}],37:[function(require,module,exports){
+},{"./$.fails":37}],35:[function(require,module,exports){
 var isObject = require('./$.is-object')
   , document = require('./$.global').document
   // in old IE typeof document.createElement is 'object'
@@ -1366,7 +1450,7 @@ var isObject = require('./$.is-object')
 module.exports = function(it){
   return is ? document.createElement(it) : {};
 };
-},{"./$.global":41,"./$.is-object":48}],38:[function(require,module,exports){
+},{"./$.global":39,"./$.is-object":46}],36:[function(require,module,exports){
 var global    = require('./$.global')
   , core      = require('./$.core')
   , ctx       = require('./$.ctx')
@@ -1413,7 +1497,7 @@ $export.P = 8;  // proto
 $export.B = 16; // bind
 $export.W = 32; // wrap
 module.exports = $export;
-},{"./$.core":33,"./$.ctx":34,"./$.global":41}],39:[function(require,module,exports){
+},{"./$.core":31,"./$.ctx":32,"./$.global":39}],37:[function(require,module,exports){
 module.exports = function(exec){
   try {
     return !!exec();
@@ -1421,7 +1505,7 @@ module.exports = function(exec){
     return true;
   }
 };
-},{}],40:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 var ctx         = require('./$.ctx')
   , call        = require('./$.iter-call')
   , isArrayIter = require('./$.is-array-iter')
@@ -1441,17 +1525,17 @@ module.exports = function(iterable, entries, fn, that){
     call(iterator, f, step.value, entries);
   }
 };
-},{"./$.an-object":30,"./$.ctx":34,"./$.is-array-iter":47,"./$.iter-call":49,"./$.to-length":73,"./core.get-iterator-method":77}],41:[function(require,module,exports){
+},{"./$.an-object":28,"./$.ctx":32,"./$.is-array-iter":45,"./$.iter-call":47,"./$.to-length":71,"./core.get-iterator-method":75}],39:[function(require,module,exports){
 // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
 var global = module.exports = typeof window != 'undefined' && window.Math == Math
   ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
 if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
-},{}],42:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 var hasOwnProperty = {}.hasOwnProperty;
 module.exports = function(it, key){
   return hasOwnProperty.call(it, key);
 };
-},{}],43:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 var $          = require('./$')
   , createDesc = require('./$.property-desc');
 module.exports = require('./$.descriptors') ? function(object, key, value){
@@ -1460,9 +1544,9 @@ module.exports = require('./$.descriptors') ? function(object, key, value){
   object[key] = value;
   return object;
 };
-},{"./$":55,"./$.descriptors":36,"./$.property-desc":59}],44:[function(require,module,exports){
+},{"./$":53,"./$.descriptors":34,"./$.property-desc":57}],42:[function(require,module,exports){
 module.exports = require('./$.global').document && document.documentElement;
-},{"./$.global":41}],45:[function(require,module,exports){
+},{"./$.global":39}],43:[function(require,module,exports){
 // fast apply, http://jsperf.lnkit.com/fast-apply/5
 module.exports = function(fn, args, that){
   var un = that === undefined;
@@ -1479,13 +1563,13 @@ module.exports = function(fn, args, that){
                       : fn.call(that, args[0], args[1], args[2], args[3]);
   } return              fn.apply(that, args);
 };
-},{}],46:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
 var cof = require('./$.cof');
 module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
   return cof(it) == 'String' ? it.split('') : Object(it);
 };
-},{"./$.cof":32}],47:[function(require,module,exports){
+},{"./$.cof":30}],45:[function(require,module,exports){
 // check on default Array iterator
 var Iterators  = require('./$.iterators')
   , ITERATOR   = require('./$.wks')('iterator')
@@ -1494,11 +1578,11 @@ var Iterators  = require('./$.iterators')
 module.exports = function(it){
   return it !== undefined && (Iterators.Array === it || ArrayProto[ITERATOR] === it);
 };
-},{"./$.iterators":54,"./$.wks":76}],48:[function(require,module,exports){
+},{"./$.iterators":52,"./$.wks":74}],46:[function(require,module,exports){
 module.exports = function(it){
   return typeof it === 'object' ? it !== null : typeof it === 'function';
 };
-},{}],49:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 // call something on iterator step with safe closing on error
 var anObject = require('./$.an-object');
 module.exports = function(iterator, fn, value, entries){
@@ -1511,7 +1595,7 @@ module.exports = function(iterator, fn, value, entries){
     throw e;
   }
 };
-},{"./$.an-object":30}],50:[function(require,module,exports){
+},{"./$.an-object":28}],48:[function(require,module,exports){
 'use strict';
 var $              = require('./$')
   , descriptor     = require('./$.property-desc')
@@ -1525,7 +1609,7 @@ module.exports = function(Constructor, NAME, next){
   Constructor.prototype = $.create(IteratorPrototype, {next: descriptor(1, next)});
   setToStringTag(Constructor, NAME + ' Iterator');
 };
-},{"./$":55,"./$.hide":43,"./$.property-desc":59,"./$.set-to-string-tag":65,"./$.wks":76}],51:[function(require,module,exports){
+},{"./$":53,"./$.hide":41,"./$.property-desc":57,"./$.set-to-string-tag":63,"./$.wks":74}],49:[function(require,module,exports){
 'use strict';
 var LIBRARY        = require('./$.library')
   , $export        = require('./$.export')
@@ -1592,7 +1676,7 @@ module.exports = function(Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED
   }
   return methods;
 };
-},{"./$":55,"./$.export":38,"./$.has":42,"./$.hide":43,"./$.iter-create":50,"./$.iterators":54,"./$.library":56,"./$.redefine":61,"./$.set-to-string-tag":65,"./$.wks":76}],52:[function(require,module,exports){
+},{"./$":53,"./$.export":36,"./$.has":40,"./$.hide":41,"./$.iter-create":48,"./$.iterators":52,"./$.library":54,"./$.redefine":59,"./$.set-to-string-tag":63,"./$.wks":74}],50:[function(require,module,exports){
 var ITERATOR     = require('./$.wks')('iterator')
   , SAFE_CLOSING = false;
 
@@ -1614,13 +1698,13 @@ module.exports = function(exec, skipClosing){
   } catch(e){ /* empty */ }
   return safe;
 };
-},{"./$.wks":76}],53:[function(require,module,exports){
+},{"./$.wks":74}],51:[function(require,module,exports){
 module.exports = function(done, value){
   return {value: value, done: !!done};
 };
-},{}],54:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 module.exports = {};
-},{}],55:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 var $Object = Object;
 module.exports = {
   create:     $Object.create,
@@ -1634,9 +1718,9 @@ module.exports = {
   getSymbols: $Object.getOwnPropertySymbols,
   each:       [].forEach
 };
-},{}],56:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 module.exports = true;
-},{}],57:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 var global    = require('./$.global')
   , macrotask = require('./$.task').set
   , Observer  = global.MutationObserver || global.WebKitMutationObserver
@@ -1701,7 +1785,7 @@ module.exports = function asap(fn){
     notify();
   } last = task;
 };
-},{"./$.cof":32,"./$.global":41,"./$.task":70}],58:[function(require,module,exports){
+},{"./$.cof":30,"./$.global":39,"./$.task":68}],56:[function(require,module,exports){
 // 19.1.2.1 Object.assign(target, source, ...)
 var $        = require('./$')
   , toObject = require('./$.to-object')
@@ -1735,7 +1819,7 @@ module.exports = require('./$.fails')(function(){
   }
   return T;
 } : Object.assign;
-},{"./$":55,"./$.fails":39,"./$.iobject":46,"./$.to-object":74}],59:[function(require,module,exports){
+},{"./$":53,"./$.fails":37,"./$.iobject":44,"./$.to-object":72}],57:[function(require,module,exports){
 module.exports = function(bitmap, value){
   return {
     enumerable  : !(bitmap & 1),
@@ -1744,20 +1828,20 @@ module.exports = function(bitmap, value){
     value       : value
   };
 };
-},{}],60:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 var redefine = require('./$.redefine');
 module.exports = function(target, src){
   for(var key in src)redefine(target, key, src[key]);
   return target;
 };
-},{"./$.redefine":61}],61:[function(require,module,exports){
+},{"./$.redefine":59}],59:[function(require,module,exports){
 module.exports = require('./$.hide');
-},{"./$.hide":43}],62:[function(require,module,exports){
+},{"./$.hide":41}],60:[function(require,module,exports){
 // 7.2.9 SameValue(x, y)
 module.exports = Object.is || function is(x, y){
   return x === y ? x !== 0 || 1 / x === 1 / y : x != x && y != y;
 };
-},{}],63:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 // Works with __proto__ only. Old v8 can't work with null proto objects.
 /* eslint-disable no-proto */
 var getDesc  = require('./$').getDesc
@@ -1784,7 +1868,7 @@ module.exports = {
     }({}, false) : undefined),
   check: check
 };
-},{"./$":55,"./$.an-object":30,"./$.ctx":34,"./$.is-object":48}],64:[function(require,module,exports){
+},{"./$":53,"./$.an-object":28,"./$.ctx":32,"./$.is-object":46}],62:[function(require,module,exports){
 'use strict';
 var core        = require('./$.core')
   , $           = require('./$')
@@ -1798,7 +1882,7 @@ module.exports = function(KEY){
     get: function(){ return this; }
   });
 };
-},{"./$":55,"./$.core":33,"./$.descriptors":36,"./$.wks":76}],65:[function(require,module,exports){
+},{"./$":53,"./$.core":31,"./$.descriptors":34,"./$.wks":74}],63:[function(require,module,exports){
 var def = require('./$').setDesc
   , has = require('./$.has')
   , TAG = require('./$.wks')('toStringTag');
@@ -1806,14 +1890,14 @@ var def = require('./$').setDesc
 module.exports = function(it, tag, stat){
   if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
 };
-},{"./$":55,"./$.has":42,"./$.wks":76}],66:[function(require,module,exports){
+},{"./$":53,"./$.has":40,"./$.wks":74}],64:[function(require,module,exports){
 var global = require('./$.global')
   , SHARED = '__core-js_shared__'
   , store  = global[SHARED] || (global[SHARED] = {});
 module.exports = function(key){
   return store[key] || (store[key] = {});
 };
-},{"./$.global":41}],67:[function(require,module,exports){
+},{"./$.global":39}],65:[function(require,module,exports){
 // 7.3.20 SpeciesConstructor(O, defaultConstructor)
 var anObject  = require('./$.an-object')
   , aFunction = require('./$.a-function')
@@ -1822,12 +1906,12 @@ module.exports = function(O, D){
   var C = anObject(O).constructor, S;
   return C === undefined || (S = anObject(C)[SPECIES]) == undefined ? D : aFunction(S);
 };
-},{"./$.a-function":28,"./$.an-object":30,"./$.wks":76}],68:[function(require,module,exports){
+},{"./$.a-function":26,"./$.an-object":28,"./$.wks":74}],66:[function(require,module,exports){
 module.exports = function(it, Constructor, name){
   if(!(it instanceof Constructor))throw TypeError(name + ": use the 'new' operator!");
   return it;
 };
-},{}],69:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 var toInteger = require('./$.to-integer')
   , defined   = require('./$.defined');
 // true  -> String#at
@@ -1845,7 +1929,7 @@ module.exports = function(TO_STRING){
       : TO_STRING ? s.slice(i, i + 2) : (a - 0xd800 << 10) + (b - 0xdc00) + 0x10000;
   };
 };
-},{"./$.defined":35,"./$.to-integer":71}],70:[function(require,module,exports){
+},{"./$.defined":33,"./$.to-integer":69}],68:[function(require,module,exports){
 var ctx                = require('./$.ctx')
   , invoke             = require('./$.invoke')
   , html               = require('./$.html')
@@ -1921,40 +2005,40 @@ module.exports = {
   set:   setTask,
   clear: clearTask
 };
-},{"./$.cof":32,"./$.ctx":34,"./$.dom-create":37,"./$.global":41,"./$.html":44,"./$.invoke":45}],71:[function(require,module,exports){
+},{"./$.cof":30,"./$.ctx":32,"./$.dom-create":35,"./$.global":39,"./$.html":42,"./$.invoke":43}],69:[function(require,module,exports){
 // 7.1.4 ToInteger
 var ceil  = Math.ceil
   , floor = Math.floor;
 module.exports = function(it){
   return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
 };
-},{}],72:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 // to indexed object, toObject with fallback for non-array-like ES3 strings
 var IObject = require('./$.iobject')
   , defined = require('./$.defined');
 module.exports = function(it){
   return IObject(defined(it));
 };
-},{"./$.defined":35,"./$.iobject":46}],73:[function(require,module,exports){
+},{"./$.defined":33,"./$.iobject":44}],71:[function(require,module,exports){
 // 7.1.15 ToLength
 var toInteger = require('./$.to-integer')
   , min       = Math.min;
 module.exports = function(it){
   return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
 };
-},{"./$.to-integer":71}],74:[function(require,module,exports){
+},{"./$.to-integer":69}],72:[function(require,module,exports){
 // 7.1.13 ToObject(argument)
 var defined = require('./$.defined');
 module.exports = function(it){
   return Object(defined(it));
 };
-},{"./$.defined":35}],75:[function(require,module,exports){
+},{"./$.defined":33}],73:[function(require,module,exports){
 var id = 0
   , px = Math.random();
 module.exports = function(key){
   return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
 };
-},{}],76:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 var store  = require('./$.shared')('wks')
   , uid    = require('./$.uid')
   , Symbol = require('./$.global').Symbol;
@@ -1962,7 +2046,7 @@ module.exports = function(name){
   return store[name] || (store[name] =
     Symbol && Symbol[name] || (Symbol || uid)('Symbol.' + name));
 };
-},{"./$.global":41,"./$.shared":66,"./$.uid":75}],77:[function(require,module,exports){
+},{"./$.global":39,"./$.shared":64,"./$.uid":73}],75:[function(require,module,exports){
 var classof   = require('./$.classof')
   , ITERATOR  = require('./$.wks')('iterator')
   , Iterators = require('./$.iterators');
@@ -1971,45 +2055,7 @@ module.exports = require('./$.core').getIteratorMethod = function(it){
     || it['@@iterator']
     || Iterators[classof(it)];
 };
-},{"./$.classof":31,"./$.core":33,"./$.iterators":54,"./$.wks":76}],78:[function(require,module,exports){
-'use strict';
-var ctx         = require('./$.ctx')
-  , $export     = require('./$.export')
-  , toObject    = require('./$.to-object')
-  , call        = require('./$.iter-call')
-  , isArrayIter = require('./$.is-array-iter')
-  , toLength    = require('./$.to-length')
-  , getIterFn   = require('./core.get-iterator-method');
-$export($export.S + $export.F * !require('./$.iter-detect')(function(iter){ Array.from(iter); }), 'Array', {
-  // 22.1.2.1 Array.from(arrayLike, mapfn = undefined, thisArg = undefined)
-  from: function from(arrayLike/*, mapfn = undefined, thisArg = undefined*/){
-    var O       = toObject(arrayLike)
-      , C       = typeof this == 'function' ? this : Array
-      , $$      = arguments
-      , $$len   = $$.length
-      , mapfn   = $$len > 1 ? $$[1] : undefined
-      , mapping = mapfn !== undefined
-      , index   = 0
-      , iterFn  = getIterFn(O)
-      , length, result, step, iterator;
-    if(mapping)mapfn = ctx(mapfn, $$len > 2 ? $$[2] : undefined, 2);
-    // if object isn't iterable or it's array with default iterator - use simple case
-    if(iterFn != undefined && !(C == Array && isArrayIter(iterFn))){
-      for(iterator = iterFn.call(O), result = new C; !(step = iterator.next()).done; index++){
-        result[index] = mapping ? call(iterator, mapfn, [step.value, index], true) : step.value;
-      }
-    } else {
-      length = toLength(O.length);
-      for(result = new C(length); length > index; index++){
-        result[index] = mapping ? mapfn(O[index], index) : O[index];
-      }
-    }
-    result.length = index;
-    return result;
-  }
-});
-
-},{"./$.ctx":34,"./$.export":38,"./$.is-array-iter":47,"./$.iter-call":49,"./$.iter-detect":52,"./$.to-length":73,"./$.to-object":74,"./core.get-iterator-method":77}],79:[function(require,module,exports){
+},{"./$.classof":29,"./$.core":31,"./$.iterators":52,"./$.wks":74}],76:[function(require,module,exports){
 'use strict';
 var addToUnscopables = require('./$.add-to-unscopables')
   , step             = require('./$.iter-step')
@@ -2044,14 +2090,14 @@ Iterators.Arguments = Iterators.Array;
 addToUnscopables('keys');
 addToUnscopables('values');
 addToUnscopables('entries');
-},{"./$.add-to-unscopables":29,"./$.iter-define":51,"./$.iter-step":53,"./$.iterators":54,"./$.to-iobject":72}],80:[function(require,module,exports){
+},{"./$.add-to-unscopables":27,"./$.iter-define":49,"./$.iter-step":51,"./$.iterators":52,"./$.to-iobject":70}],77:[function(require,module,exports){
 // 19.1.3.1 Object.assign(target, source)
 var $export = require('./$.export');
 
 $export($export.S + $export.F, 'Object', {assign: require('./$.object-assign')});
-},{"./$.export":38,"./$.object-assign":58}],81:[function(require,module,exports){
+},{"./$.export":36,"./$.object-assign":56}],78:[function(require,module,exports){
 
-},{}],82:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 'use strict';
 var $          = require('./$')
   , LIBRARY    = require('./$.library')
@@ -2341,7 +2387,7 @@ $export($export.S + $export.F * !(USE_NATIVE && require('./$.iter-detect')(funct
     return capability.promise;
   }
 });
-},{"./$":55,"./$.a-function":28,"./$.an-object":30,"./$.classof":31,"./$.core":33,"./$.ctx":34,"./$.descriptors":36,"./$.export":38,"./$.for-of":40,"./$.global":41,"./$.is-object":48,"./$.iter-detect":52,"./$.library":56,"./$.microtask":57,"./$.redefine-all":60,"./$.same-value":62,"./$.set-proto":63,"./$.set-species":64,"./$.set-to-string-tag":65,"./$.species-constructor":67,"./$.strict-new":68,"./$.wks":76}],83:[function(require,module,exports){
+},{"./$":53,"./$.a-function":26,"./$.an-object":28,"./$.classof":29,"./$.core":31,"./$.ctx":32,"./$.descriptors":34,"./$.export":36,"./$.for-of":38,"./$.global":39,"./$.is-object":46,"./$.iter-detect":50,"./$.library":54,"./$.microtask":55,"./$.redefine-all":58,"./$.same-value":60,"./$.set-proto":61,"./$.set-species":62,"./$.set-to-string-tag":63,"./$.species-constructor":65,"./$.strict-new":66,"./$.wks":74}],80:[function(require,module,exports){
 'use strict';
 var $at  = require('./$.string-at')(true);
 
@@ -2359,11 +2405,11 @@ require('./$.iter-define')(String, 'String', function(iterated){
   this._i += point.length;
   return {value: point, done: false};
 });
-},{"./$.iter-define":51,"./$.string-at":69}],84:[function(require,module,exports){
+},{"./$.iter-define":49,"./$.string-at":67}],81:[function(require,module,exports){
 require('./es6.array.iterator');
 var Iterators = require('./$.iterators');
 Iterators.NodeList = Iterators.HTMLCollection = Iterators.Array;
-},{"./$.iterators":54,"./es6.array.iterator":79}],85:[function(require,module,exports){
+},{"./$.iterators":52,"./es6.array.iterator":76}],82:[function(require,module,exports){
 // This file is autogenerated via the `commonjs` Grunt task. You can require() this file in a CommonJS environment.
 require('../../js/transition.js')
 require('../../js/alert.js')
@@ -2377,7 +2423,7 @@ require('../../js/popover.js')
 require('../../js/scrollspy.js')
 require('../../js/tab.js')
 require('../../js/affix.js')
-},{"../../js/affix.js":86,"../../js/alert.js":87,"../../js/button.js":88,"../../js/carousel.js":89,"../../js/collapse.js":90,"../../js/dropdown.js":91,"../../js/modal.js":92,"../../js/popover.js":93,"../../js/scrollspy.js":94,"../../js/tab.js":95,"../../js/tooltip.js":96,"../../js/transition.js":97}],86:[function(require,module,exports){
+},{"../../js/affix.js":83,"../../js/alert.js":84,"../../js/button.js":85,"../../js/carousel.js":86,"../../js/collapse.js":87,"../../js/dropdown.js":88,"../../js/modal.js":89,"../../js/popover.js":90,"../../js/scrollspy.js":91,"../../js/tab.js":92,"../../js/tooltip.js":93,"../../js/transition.js":94}],83:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: affix.js v3.3.5
  * http://getbootstrap.com/javascript/#affix
@@ -2541,7 +2587,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],87:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: alert.js v3.3.5
  * http://getbootstrap.com/javascript/#alerts
@@ -2637,7 +2683,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],88:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: button.js v3.3.5
  * http://getbootstrap.com/javascript/#buttons
@@ -2759,7 +2805,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],89:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: carousel.js v3.3.5
  * http://getbootstrap.com/javascript/#carousel
@@ -2998,7 +3044,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],90:[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: collapse.js v3.3.5
  * http://getbootstrap.com/javascript/#collapse
@@ -3211,7 +3257,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],91:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: dropdown.js v3.3.5
  * http://getbootstrap.com/javascript/#dropdowns
@@ -3378,7 +3424,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],92:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: modal.js v3.3.5
  * http://getbootstrap.com/javascript/#modals
@@ -3717,7 +3763,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],93:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: popover.js v3.3.5
  * http://getbootstrap.com/javascript/#popovers
@@ -3827,7 +3873,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],94:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: scrollspy.js v3.3.5
  * http://getbootstrap.com/javascript/#scrollspy
@@ -4001,7 +4047,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],95:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: tab.js v3.3.5
  * http://getbootstrap.com/javascript/#tabs
@@ -4158,7 +4204,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],96:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: tooltip.js v3.3.5
  * http://getbootstrap.com/javascript/#tooltip
@@ -4674,7 +4720,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],97:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: transition.js v3.3.5
  * http://getbootstrap.com/javascript/#transitions
@@ -4735,7 +4781,2693 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],98:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
+/*!
+ * Cropper v2.0.0
+ * https://github.com/fengyuanchen/cropper
+ *
+ * Copyright (c) 2014-2015 Fengyuan Chen and contributors
+ * Released under the MIT license
+ *
+ * Date: 2015-11-11T11:11:11.111Z
+ */
+
+(function (factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as anonymous module.
+    define(['jquery'], factory);
+  } else if (typeof exports === 'object') {
+    // Node / CommonJS
+    factory(require('jquery'));
+  } else {
+    // Browser globals.
+    factory(jQuery);
+  }
+})(function ($) {
+
+  'use strict';
+
+  // Globals
+  var $window = $(window);
+  var $document = $(document);
+  var location = window.location;
+
+  // Constants
+  var NAMESPACE = 'cropper';
+
+  // Classes
+  var CLASS_MODAL = 'cropper-modal';
+  var CLASS_HIDE = 'cropper-hide';
+  var CLASS_HIDDEN = 'cropper-hidden';
+  var CLASS_INVISIBLE = 'cropper-invisible';
+  var CLASS_MOVE = 'cropper-move';
+  var CLASS_CROP = 'cropper-crop';
+  var CLASS_DISABLED = 'cropper-disabled';
+  var CLASS_BG = 'cropper-bg';
+
+  // Events
+  var EVENT_MOUSE_DOWN = 'mousedown touchstart pointerdown MSPointerDown';
+  var EVENT_MOUSE_MOVE = 'mousemove touchmove pointermove MSPointerMove';
+  var EVENT_MOUSE_UP = 'mouseup touchend touchcancel pointerup pointercancel MSPointerUp MSPointerCancel';
+  var EVENT_WHEEL = 'wheel mousewheel DOMMouseScroll';
+  var EVENT_DBLCLICK = 'dblclick';
+  var EVENT_LOAD = 'load.' + NAMESPACE;
+  var EVENT_ERROR = 'error.' + NAMESPACE;
+  var EVENT_RESIZE = 'resize.' + NAMESPACE; // Bind to window with namespace
+  var EVENT_BUILD = 'build.' + NAMESPACE;
+  var EVENT_BUILT = 'built.' + NAMESPACE;
+  var EVENT_CROP_START = 'cropstart.' + NAMESPACE;
+  var EVENT_CROP_MOVE = 'cropmove.' + NAMESPACE;
+  var EVENT_CROP_END = 'cropend.' + NAMESPACE;
+  var EVENT_CROP = 'crop.' + NAMESPACE;
+  var EVENT_ZOOM = 'zoom.' + NAMESPACE;
+
+  // RegExps
+  var REGEXP_ACTIONS = /^(e|w|s|n|se|sw|ne|nw|all|crop|move|zoom)$/;
+
+  // Data keys
+  var DATA_PREVIEW = 'preview';
+  var DATA_ACTION = 'action';
+
+  // Actions
+  var ACTION_EAST = 'e';
+  var ACTION_WEST = 'w';
+  var ACTION_SOUTH = 's';
+  var ACTION_NORTH = 'n';
+  var ACTION_SOUTH_EAST = 'se';
+  var ACTION_SOUTH_WEST = 'sw';
+  var ACTION_NORTH_EAST = 'ne';
+  var ACTION_NORTH_WEST = 'nw';
+  var ACTION_ALL = 'all';
+  var ACTION_CROP = 'crop';
+  var ACTION_MOVE = 'move';
+  var ACTION_ZOOM = 'zoom';
+  var ACTION_NONE = 'none';
+
+  // Supports
+  var SUPPORT_CANVAS = $.isFunction($('<canvas>')[0].getContext);
+
+  // Maths
+  var num = Number;
+  var min = Math.min;
+  var max = Math.max;
+  var abs = Math.abs;
+  var sin = Math.sin;
+  var cos = Math.cos;
+  var sqrt = Math.sqrt;
+  var round = Math.round;
+
+  // Prototype
+  var prototype = {
+    version: '2.0.0'
+  };
+
+  function isNumber(n) {
+    return typeof n === 'number' && !isNaN(n);
+  }
+
+  function isUndefined(n) {
+    return typeof n === 'undefined';
+  }
+
+  function toArray(obj, offset) {
+    var args = [];
+
+    // This is necessary for IE8
+    if (isNumber(offset)) {
+      args.push(offset);
+    }
+
+    return args.slice.apply(obj, args);
+  }
+
+  // Custom proxy to avoid jQuery's guid
+  function proxy(fn, context) {
+    var args = toArray(arguments, 2);
+
+    return function () {
+      return fn.apply(context, args.concat(toArray(arguments)));
+    };
+  }
+
+  function isCrossOriginURL(url) {
+    var parts = url.match(/^(https?:)\/\/([^\:\/\?#]+):?(\d*)/i);
+
+    return parts && (
+      parts[1] !== location.protocol ||
+      parts[2] !== location.hostname ||
+      parts[3] !== location.port
+    );
+  }
+
+  function addTimestamp(url) {
+    var timestamp = 'timestamp=' + (new Date()).getTime();
+
+    return (url + (url.indexOf('?') === -1 ? '?' : '&') + timestamp);
+  }
+
+  function getCrossOrigin(crossOrigin) {
+    return crossOrigin ? ' crossOrigin="' + crossOrigin + '"' : '';
+  }
+
+  function getImageSize(image, callback) {
+    var newImage;
+
+    // Modern browsers
+    if (image.naturalWidth) {
+      return callback(image.naturalWidth, image.naturalHeight);
+    }
+
+    // IE8: Don't use `new Image()` here (#319)
+    newImage = document.createElement('img');
+
+    newImage.onload = function () {
+      callback(this.width, this.height);
+    };
+
+    newImage.src = image.src;
+  }
+
+  function getTransform(options) {
+    var transforms = [];
+    var rotate = options.rotate;
+    var scaleX = options.scaleX;
+    var scaleY = options.scaleY;
+
+    if (isNumber(rotate)) {
+      transforms.push('rotate(' + rotate + 'deg)');
+    }
+
+    if (isNumber(scaleX) && isNumber(scaleY)) {
+      transforms.push('scale(' + scaleX + ',' + scaleY + ')');
+    }
+
+    return transforms.length ? transforms.join(' ') : 'none';
+  }
+
+  function getRotatedSizes(data, isReversed) {
+    var deg = abs(data.degree) % 180;
+    var arc = (deg > 90 ? (180 - deg) : deg) * Math.PI / 180;
+    var sinArc = sin(arc);
+    var cosArc = cos(arc);
+    var width = data.width;
+    var height = data.height;
+    var aspectRatio = data.aspectRatio;
+    var newWidth;
+    var newHeight;
+
+    if (!isReversed) {
+      newWidth = width * cosArc + height * sinArc;
+      newHeight = width * sinArc + height * cosArc;
+    } else {
+      newWidth = width / (cosArc + sinArc / aspectRatio);
+      newHeight = newWidth / aspectRatio;
+    }
+
+    return {
+      width: newWidth,
+      height: newHeight
+    };
+  }
+
+  function getSourceCanvas(image, data) {
+    var canvas = $('<canvas>')[0];
+    var context = canvas.getContext('2d');
+    var x = 0;
+    var y = 0;
+    var width = data.naturalWidth;
+    var height = data.naturalHeight;
+    var rotate = data.rotate;
+    var scaleX = data.scaleX;
+    var scaleY = data.scaleY;
+    var scalable = isNumber(scaleX) && isNumber(scaleY) && (scaleX !== 1 || scaleY !== 1);
+    var rotatable = isNumber(rotate) && rotate !== 0;
+    var advanced = rotatable || scalable;
+    var canvasWidth = width;
+    var canvasHeight = height;
+    var translateX;
+    var translateY;
+    var rotated;
+
+    if (scalable) {
+      translateX = width / 2;
+      translateY = height / 2;
+    }
+
+    if (rotatable) {
+      rotated = getRotatedSizes({
+        width: width,
+        height: height,
+        degree: rotate
+      });
+
+      canvasWidth = rotated.width;
+      canvasHeight = rotated.height;
+      translateX = rotated.width / 2;
+      translateY = rotated.height / 2;
+    }
+
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+
+    if (advanced) {
+      x = -width / 2;
+      y = -height / 2;
+
+      context.save();
+      context.translate(translateX, translateY);
+    }
+
+    if (rotatable) {
+      context.rotate(rotate * Math.PI / 180);
+    }
+
+    // Should call `scale` after rotated
+    if (scalable) {
+      context.scale(scaleX, scaleY);
+    }
+
+    context.drawImage(image, x, y, width, height);
+
+    if (advanced) {
+      context.restore();
+    }
+
+    return canvas;
+  }
+
+  function Cropper(element, options) {
+    this.$element = $(element);
+    this.options = $.extend({}, Cropper.DEFAULTS, $.isPlainObject(options) && options);
+    this.isLoaded = false;
+    this.isBuilt = false;
+    this.isCompleted = false;
+    this.isRotated = false;
+    this.isCropped = false;
+    this.isDisabled = false;
+    this.isReplaced = false;
+    this.isLimited = false;
+    this.isImg = false;
+    this.originalUrl = '';
+    this.crossOrigin = '';
+    this.canvas = null;
+    this.cropBox = null;
+    this.init();
+  }
+
+  $.extend(prototype, {
+    init: function () {
+      var $this = this.$element;
+      var url;
+
+      if ($this.is('img')) {
+        this.isImg = true;
+
+        // Should use `$.fn.attr` here. e.g.: "img/picture.jpg"
+        this.originalUrl = url = $this.attr('src');
+
+        // Stop when it's a blank image
+        if (!url) {
+          return;
+        }
+
+        // Should use `$.fn.prop` here. e.g.: "http://example.com/img/picture.jpg"
+        url = $this.prop('src');
+      } else if ($this.is('canvas') && SUPPORT_CANVAS) {
+        url = $this[0].toDataURL();
+      }
+
+      this.load(url);
+    },
+
+    // A shortcut for triggering custom events
+    trigger: function (type, data) {
+      var e = $.Event(type, data);
+
+      this.$element.trigger(e);
+
+      return e;
+    },
+
+    load: function (url) {
+      var options = this.options;
+      var $this = this.$element;
+      var crossOrigin = '';
+      var bustCacheUrl;
+      var $clone;
+
+      if (!url) {
+        return;
+      }
+
+      this.url = url;
+
+      // Trigger build event first
+      $this.one(EVENT_BUILD, options.build);
+
+      if (this.trigger(EVENT_BUILD).isDefaultPrevented()) {
+        return;
+      }
+
+      if (options.checkCrossOrigin && isCrossOriginURL(url)) {
+        crossOrigin = $this.prop('crossOrigin');
+
+        // Bust cache (#148), only when there was not a "crossOrigin" property
+        if (!crossOrigin) {
+          crossOrigin = 'anonymous';
+          bustCacheUrl = addTimestamp(url);
+        }
+      }
+
+      this.crossOrigin = crossOrigin;
+      this.$clone = $clone = $('<img' + getCrossOrigin(crossOrigin) + ' src="' + (bustCacheUrl || url) + '">');
+
+      if (this.isImg) {
+        if ($this[0].complete) {
+          this.start();
+        } else {
+          $this.one(EVENT_LOAD, $.proxy(this.start, this));
+        }
+      } else {
+        $clone.
+          one(EVENT_LOAD, $.proxy(this.start, this)).
+          one(EVENT_ERROR, $.proxy(this.stop, this)).
+          addClass(CLASS_HIDE).
+          insertAfter($this);
+      }
+    },
+
+    start: function () {
+      var $image = this.$element;
+      var $clone = this.$clone;
+
+      if (!this.isImg) {
+        $clone.off(EVENT_ERROR, this.stop);
+        $image = $clone;
+      }
+
+      getImageSize($image[0], $.proxy(function (naturalWidth, naturalHeight) {
+        this.image = {
+          naturalWidth: naturalWidth,
+          naturalHeight: naturalHeight,
+          aspectRatio: naturalWidth / naturalHeight
+        };
+
+        this.isLoaded = true;
+        this.build();
+      }, this));
+    },
+
+    stop: function () {
+      this.$clone.remove();
+      this.$clone = null;
+    }
+  });
+
+  $.extend(prototype, {
+    build: function () {
+      var options = this.options;
+      var $this = this.$element;
+      var $clone = this.$clone;
+      var $cropper;
+      var $cropBox;
+      var $face;
+
+      if (!this.isLoaded) {
+        return;
+      }
+
+      // Unbuild first when replace
+      if (this.isBuilt) {
+        this.unbuild();
+      }
+
+      // Create cropper elements
+      this.$container = $this.parent();
+      this.$cropper = $cropper = $(Cropper.TEMPLATE);
+      this.$canvas = $cropper.find('.cropper-canvas').append($clone);
+      this.$dragBox = $cropper.find('.cropper-drag-box');
+      this.$cropBox = $cropBox = $cropper.find('.cropper-crop-box');
+      this.$viewBox = $cropper.find('.cropper-view-box');
+      this.$face = $face = $cropBox.find('.cropper-face');
+
+      // Hide the original image
+      $this.addClass(CLASS_HIDDEN).after($cropper);
+
+      // Show the clone image if is hidden
+      if (!this.isImg) {
+        $clone.removeClass(CLASS_HIDE);
+      }
+
+      this.initPreview();
+      this.bind();
+
+      options.aspectRatio = max(0, options.aspectRatio) || NaN;
+      options.viewMode = max(0, min(3, round(options.viewMode))) || 0;
+
+      if (options.autoCrop) {
+        this.isCropped = true;
+
+        if (options.modal) {
+          this.$dragBox.addClass(CLASS_MODAL);
+        }
+      } else {
+        $cropBox.addClass(CLASS_HIDDEN);
+      }
+
+      if (!options.guides) {
+        $cropBox.find('.cropper-dashed').addClass(CLASS_HIDDEN);
+      }
+
+      if (!options.center) {
+        $cropBox.find('.cropper-center').addClass(CLASS_HIDDEN);
+      }
+
+      if (options.cropBoxMovable) {
+        $face.addClass(CLASS_MOVE).data(DATA_ACTION, ACTION_ALL);
+      }
+
+      if (!options.highlight) {
+        $face.addClass(CLASS_INVISIBLE);
+      }
+
+      if (options.background) {
+        $cropper.addClass(CLASS_BG);
+      }
+
+      if (!options.cropBoxResizable) {
+        $cropBox.find('.cropper-line, .cropper-point').addClass(CLASS_HIDDEN);
+      }
+
+      this.setDragMode(options.dragMode);
+      this.render();
+      this.isBuilt = true;
+      this.setData(options.data);
+      $this.one(EVENT_BUILT, options.built);
+
+      // Trigger the built event asynchronously to keep `data('cropper')` is defined
+      setTimeout($.proxy(function () {
+        this.trigger(EVENT_BUILT);
+        this.isCompleted = true;
+      }, this), 0);
+    },
+
+    unbuild: function () {
+      if (!this.isBuilt) {
+        return;
+      }
+
+      this.isBuilt = false;
+      this.initialImage = null;
+
+      // Clear `initialCanvas` is necessary when replace
+      this.initialCanvas = null;
+      this.initialCropBox = null;
+      this.container = null;
+      this.canvas = null;
+
+      // Clear `cropBox` is necessary when replace
+      this.cropBox = null;
+      this.unbind();
+
+      this.resetPreview();
+      this.$preview = null;
+
+      this.$viewBox = null;
+      this.$cropBox = null;
+      this.$dragBox = null;
+      this.$canvas = null;
+      this.$container = null;
+
+      this.$cropper.remove();
+      this.$cropper = null;
+    }
+  });
+
+  $.extend(prototype, {
+    render: function () {
+      this.initContainer();
+      this.initCanvas();
+      this.initCropBox();
+
+      this.renderCanvas();
+
+      if (this.isCropped) {
+        this.renderCropBox();
+      }
+    },
+
+    initContainer: function () {
+      var options = this.options;
+      var $this = this.$element;
+      var $container = this.$container;
+      var $cropper = this.$cropper;
+
+      $cropper.addClass(CLASS_HIDDEN);
+      $this.removeClass(CLASS_HIDDEN);
+
+      $cropper.css((this.container = {
+        width: max($container.width(), num(options.minContainerWidth) || 200),
+        height: max($container.height(), num(options.minContainerHeight) || 100)
+      }));
+
+      $this.addClass(CLASS_HIDDEN);
+      $cropper.removeClass(CLASS_HIDDEN);
+    },
+
+    // Canvas (image wrapper)
+    initCanvas: function () {
+      var viewMode = this.options.viewMode;
+      var container = this.container;
+      var containerWidth = container.width;
+      var containerHeight = container.height;
+      var image = this.image;
+      var aspectRatio = image.aspectRatio;
+      var canvas = {
+            naturalWidth: image.naturalWidth,
+            naturalHeight: image.naturalHeight,
+            aspectRatio: aspectRatio,
+            width: containerWidth,
+            height: containerHeight
+          };
+
+      if (containerHeight * aspectRatio > containerWidth) {
+        if (viewMode === 3) {
+          canvas.width = containerHeight * aspectRatio;
+        } else {
+          canvas.height = containerWidth / aspectRatio;
+        }
+      } else {
+        if (viewMode === 3) {
+          canvas.height = containerWidth / aspectRatio;
+        } else {
+          canvas.width = containerHeight * aspectRatio;
+        }
+      }
+
+      canvas.oldLeft = canvas.left = (containerWidth - canvas.width) / 2;
+      canvas.oldTop = canvas.top = (containerHeight - canvas.height) / 2;
+
+      this.canvas = canvas;
+      this.isLimited = (viewMode === 1 || viewMode === 2);
+      this.limitCanvas(true, true);
+      this.initialImage = $.extend({}, image);
+      this.initialCanvas = $.extend({}, canvas);
+    },
+
+    limitCanvas: function (isSizeLimited, isPositionLimited) {
+      var options = this.options;
+      var viewMode = options.viewMode;
+      var container = this.container;
+      var containerWidth = container.width;
+      var containerHeight = container.height;
+      var canvas = this.canvas;
+      var aspectRatio = canvas.aspectRatio;
+      var cropBox = this.cropBox;
+      var isCropped = this.isCropped && cropBox;
+      var minCanvasWidth;
+      var minCanvasHeight;
+      var newCanvasLeft;
+      var newCanvasTop;
+
+      if (isSizeLimited) {
+        minCanvasWidth = num(options.minCanvasWidth) || 0;
+        minCanvasHeight = num(options.minCanvasHeight) || 0;
+
+        if (viewMode) {
+          if (viewMode > 1) {
+            minCanvasWidth = max(minCanvasWidth, containerWidth);
+            minCanvasHeight = max(minCanvasHeight, containerHeight);
+
+            if (viewMode === 3) {
+              if (minCanvasHeight * aspectRatio > minCanvasWidth) {
+                minCanvasWidth = minCanvasHeight * aspectRatio;
+              } else {
+                minCanvasHeight = minCanvasWidth / aspectRatio;
+              }
+            }
+          } else {
+            if (minCanvasWidth) {
+              minCanvasWidth = max(minCanvasWidth, isCropped ? cropBox.width : 0);
+            } else if (minCanvasHeight) {
+              minCanvasHeight = max(minCanvasHeight, isCropped ? cropBox.height : 0);
+            } else if (isCropped) {
+              minCanvasWidth = cropBox.width;
+              minCanvasHeight = cropBox.height;
+
+              if (minCanvasHeight * aspectRatio > minCanvasWidth) {
+                minCanvasWidth = minCanvasHeight * aspectRatio;
+              } else {
+                minCanvasHeight = minCanvasWidth / aspectRatio;
+              }
+            }
+          }
+        }
+
+        if (minCanvasWidth && minCanvasHeight) {
+          if (minCanvasHeight * aspectRatio > minCanvasWidth) {
+            minCanvasHeight = minCanvasWidth / aspectRatio;
+          } else {
+            minCanvasWidth = minCanvasHeight * aspectRatio;
+          }
+        } else if (minCanvasWidth) {
+          minCanvasHeight = minCanvasWidth / aspectRatio;
+        } else if (minCanvasHeight) {
+          minCanvasWidth = minCanvasHeight * aspectRatio;
+        }
+
+        canvas.minWidth = minCanvasWidth;
+        canvas.minHeight = minCanvasHeight;
+        canvas.maxWidth = Infinity;
+        canvas.maxHeight = Infinity;
+      }
+
+      if (isPositionLimited) {
+        if (viewMode) {
+          newCanvasLeft = containerWidth - canvas.width;
+          newCanvasTop = containerHeight - canvas.height;
+
+          canvas.minLeft = min(0, newCanvasLeft);
+          canvas.minTop = min(0, newCanvasTop);
+          canvas.maxLeft = max(0, newCanvasLeft);
+          canvas.maxTop = max(0, newCanvasTop);
+
+          if (isCropped && this.isLimited) {
+            canvas.minLeft = min(
+              cropBox.left,
+              cropBox.left + cropBox.width - canvas.width
+            );
+            canvas.minTop = min(
+              cropBox.top,
+              cropBox.top + cropBox.height - canvas.height
+            );
+            canvas.maxLeft = cropBox.left;
+            canvas.maxTop = cropBox.top;
+
+            if (viewMode === 2) {
+              if (canvas.width >= containerWidth) {
+                canvas.minLeft = min(0, newCanvasLeft);
+                canvas.maxLeft = max(0, newCanvasLeft);
+              }
+
+              if (canvas.height >= containerHeight) {
+                canvas.minTop = min(0, newCanvasTop);
+                canvas.maxTop = max(0, newCanvasTop);
+              }
+            }
+          }
+        } else {
+          canvas.minLeft = -canvas.width;
+          canvas.minTop = -canvas.height;
+          canvas.maxLeft = containerWidth;
+          canvas.maxTop = containerHeight;
+        }
+      }
+    },
+
+    renderCanvas: function (isChanged) {
+      var canvas = this.canvas;
+      var image = this.image;
+      var rotate = image.rotate;
+      var naturalWidth = image.naturalWidth;
+      var naturalHeight = image.naturalHeight;
+      var aspectRatio;
+      var rotated;
+
+      if (this.isRotated) {
+        this.isRotated = false;
+
+        // Computes rotated sizes with image sizes
+        rotated = getRotatedSizes({
+          width: image.width,
+          height: image.height,
+          degree: rotate
+        });
+
+        aspectRatio = rotated.width / rotated.height;
+
+        if (aspectRatio !== canvas.aspectRatio) {
+          canvas.left -= (rotated.width - canvas.width) / 2;
+          canvas.top -= (rotated.height - canvas.height) / 2;
+          canvas.width = rotated.width;
+          canvas.height = rotated.height;
+          canvas.aspectRatio = aspectRatio;
+          canvas.naturalWidth = naturalWidth;
+          canvas.naturalHeight = naturalHeight;
+
+          // Computes rotated sizes with natural image sizes
+          if (rotate % 180) {
+            rotated = getRotatedSizes({
+              width: naturalWidth,
+              height: naturalHeight,
+              degree: rotate
+            });
+
+            canvas.naturalWidth = rotated.width;
+            canvas.naturalHeight = rotated.height;
+          }
+
+          this.limitCanvas(true, false);
+        }
+      }
+
+      if (canvas.width > canvas.maxWidth || canvas.width < canvas.minWidth) {
+        canvas.left = canvas.oldLeft;
+      }
+
+      if (canvas.height > canvas.maxHeight || canvas.height < canvas.minHeight) {
+        canvas.top = canvas.oldTop;
+      }
+
+      canvas.width = min(max(canvas.width, canvas.minWidth), canvas.maxWidth);
+      canvas.height = min(max(canvas.height, canvas.minHeight), canvas.maxHeight);
+
+      this.limitCanvas(false, true);
+
+      canvas.oldLeft = canvas.left = min(max(canvas.left, canvas.minLeft), canvas.maxLeft);
+      canvas.oldTop = canvas.top = min(max(canvas.top, canvas.minTop), canvas.maxTop);
+
+      this.$canvas.css({
+        width: canvas.width,
+        height: canvas.height,
+        left: canvas.left,
+        top: canvas.top
+      });
+
+      this.renderImage();
+
+      if (this.isCropped && this.isLimited) {
+        this.limitCropBox(true, true);
+      }
+
+      if (isChanged) {
+        this.output();
+      }
+    },
+
+    renderImage: function (isChanged) {
+      var canvas = this.canvas;
+      var image = this.image;
+      var reversed;
+
+      if (image.rotate) {
+        reversed = getRotatedSizes({
+          width: canvas.width,
+          height: canvas.height,
+          degree: image.rotate,
+          aspectRatio: image.aspectRatio
+        }, true);
+      }
+
+      $.extend(image, reversed ? {
+        width: reversed.width,
+        height: reversed.height,
+        left: (canvas.width - reversed.width) / 2,
+        top: (canvas.height - reversed.height) / 2
+      } : {
+        width: canvas.width,
+        height: canvas.height,
+        left: 0,
+        top: 0
+      });
+
+      this.$clone.css({
+        width: image.width,
+        height: image.height,
+        marginLeft: image.left,
+        marginTop: image.top,
+        transform: getTransform(image)
+      });
+
+      if (isChanged) {
+        this.output();
+      }
+    },
+
+    initCropBox: function () {
+      var options = this.options;
+      var canvas = this.canvas;
+      var aspectRatio = options.aspectRatio;
+      var autoCropArea = num(options.autoCropArea) || 0.8;
+      var cropBox = {
+            width: canvas.width,
+            height: canvas.height
+          };
+
+      if (aspectRatio) {
+        if (canvas.height * aspectRatio > canvas.width) {
+          cropBox.height = cropBox.width / aspectRatio;
+        } else {
+          cropBox.width = cropBox.height * aspectRatio;
+        }
+      }
+
+      this.cropBox = cropBox;
+      this.limitCropBox(true, true);
+
+      // Initialize auto crop area
+      cropBox.width = min(max(cropBox.width, cropBox.minWidth), cropBox.maxWidth);
+      cropBox.height = min(max(cropBox.height, cropBox.minHeight), cropBox.maxHeight);
+
+      // The width of auto crop area must large than "minWidth", and the height too. (#164)
+      cropBox.width = max(cropBox.minWidth, cropBox.width * autoCropArea);
+      cropBox.height = max(cropBox.minHeight, cropBox.height * autoCropArea);
+      cropBox.oldLeft = cropBox.left = canvas.left + (canvas.width - cropBox.width) / 2;
+      cropBox.oldTop = cropBox.top = canvas.top + (canvas.height - cropBox.height) / 2;
+
+      this.initialCropBox = $.extend({}, cropBox);
+    },
+
+    limitCropBox: function (isSizeLimited, isPositionLimited) {
+      var options = this.options;
+      var aspectRatio = options.aspectRatio;
+      var container = this.container;
+      var containerWidth = container.width;
+      var containerHeight = container.height;
+      var canvas = this.canvas;
+      var cropBox = this.cropBox;
+      var isLimited = this.isLimited;
+      var minCropBoxWidth;
+      var minCropBoxHeight;
+      var maxCropBoxWidth;
+      var maxCropBoxHeight;
+
+      if (isSizeLimited) {
+        minCropBoxWidth = num(options.minCropBoxWidth) || 0;
+        minCropBoxHeight = num(options.minCropBoxHeight) || 0;
+
+        // The min/maxCropBoxWidth/Height must be less than containerWidth/Height
+        minCropBoxWidth = min(minCropBoxWidth, containerWidth);
+        minCropBoxHeight = min(minCropBoxHeight, containerHeight);
+        maxCropBoxWidth = min(containerWidth, isLimited ? canvas.width : containerWidth);
+        maxCropBoxHeight = min(containerHeight, isLimited ? canvas.height : containerHeight);
+
+        if (aspectRatio) {
+          if (minCropBoxWidth && minCropBoxHeight) {
+            if (minCropBoxHeight * aspectRatio > minCropBoxWidth) {
+              minCropBoxHeight = minCropBoxWidth / aspectRatio;
+            } else {
+              minCropBoxWidth = minCropBoxHeight * aspectRatio;
+            }
+          } else if (minCropBoxWidth) {
+            minCropBoxHeight = minCropBoxWidth / aspectRatio;
+          } else if (minCropBoxHeight) {
+            minCropBoxWidth = minCropBoxHeight * aspectRatio;
+          }
+
+          if (maxCropBoxHeight * aspectRatio > maxCropBoxWidth) {
+            maxCropBoxHeight = maxCropBoxWidth / aspectRatio;
+          } else {
+            maxCropBoxWidth = maxCropBoxHeight * aspectRatio;
+          }
+        }
+
+        // The minWidth/Height must be less than maxWidth/Height
+        cropBox.minWidth = min(minCropBoxWidth, maxCropBoxWidth);
+        cropBox.minHeight = min(minCropBoxHeight, maxCropBoxHeight);
+        cropBox.maxWidth = maxCropBoxWidth;
+        cropBox.maxHeight = maxCropBoxHeight;
+      }
+
+      if (isPositionLimited) {
+        if (isLimited) {
+          cropBox.minLeft = max(0, canvas.left);
+          cropBox.minTop = max(0, canvas.top);
+          cropBox.maxLeft = min(containerWidth, canvas.left + canvas.width) - cropBox.width;
+          cropBox.maxTop = min(containerHeight, canvas.top + canvas.height) - cropBox.height;
+        } else {
+          cropBox.minLeft = 0;
+          cropBox.minTop = 0;
+          cropBox.maxLeft = containerWidth - cropBox.width;
+          cropBox.maxTop = containerHeight - cropBox.height;
+        }
+      }
+    },
+
+    renderCropBox: function () {
+      var options = this.options;
+      var container = this.container;
+      var containerWidth = container.width;
+      var containerHeight = container.height;
+      var cropBox = this.cropBox;
+
+      if (cropBox.width > cropBox.maxWidth || cropBox.width < cropBox.minWidth) {
+        cropBox.left = cropBox.oldLeft;
+      }
+
+      if (cropBox.height > cropBox.maxHeight || cropBox.height < cropBox.minHeight) {
+        cropBox.top = cropBox.oldTop;
+      }
+
+      cropBox.width = min(max(cropBox.width, cropBox.minWidth), cropBox.maxWidth);
+      cropBox.height = min(max(cropBox.height, cropBox.minHeight), cropBox.maxHeight);
+
+      this.limitCropBox(false, true);
+
+      cropBox.oldLeft = cropBox.left = min(max(cropBox.left, cropBox.minLeft), cropBox.maxLeft);
+      cropBox.oldTop = cropBox.top = min(max(cropBox.top, cropBox.minTop), cropBox.maxTop);
+
+      if (options.movable && options.cropBoxMovable) {
+
+        // Turn to move the canvas when the crop box is equal to the container
+        this.$face.data(DATA_ACTION, (cropBox.width === containerWidth && cropBox.height === containerHeight) ? ACTION_MOVE : ACTION_ALL);
+      }
+
+      this.$cropBox.css({
+        width: cropBox.width,
+        height: cropBox.height,
+        left: cropBox.left,
+        top: cropBox.top
+      });
+
+      if (this.isCropped && this.isLimited) {
+        this.limitCanvas(true, true);
+      }
+
+      if (!this.isDisabled) {
+        this.output();
+      }
+    },
+
+    output: function () {
+      this.preview();
+
+      if (this.isCompleted) {
+        this.trigger(EVENT_CROP, this.getData());
+      } else if (!this.isBuilt) {
+
+        // Only trigger one crop event before complete
+        this.$element.one(EVENT_BUILT, $.proxy(function () {
+          this.trigger(EVENT_CROP, this.getData());
+        }, this));
+      }
+    }
+  });
+
+  $.extend(prototype, {
+    initPreview: function () {
+      var crossOrigin = getCrossOrigin(this.crossOrigin);
+      var url = this.url;
+
+      this.$preview = $(this.options.preview);
+      this.$viewBox.html('<img' + crossOrigin + ' src="' + url + '">');
+      this.$preview.each(function () {
+        var $this = $(this);
+
+        // Save the original size for recover
+        $this.data(DATA_PREVIEW, {
+          width: $this.width(),
+          height: $this.height(),
+          html: $this.html()
+        });
+
+        /**
+         * Override img element styles
+         * Add `display:block` to avoid margin top issue
+         * (Occur only when margin-top <= -height)
+         */
+        $this.html(
+          '<img' + crossOrigin + ' src="' + url + '" style="' +
+          'display:block;width:100%;height:auto;' +
+          'min-width:0!important;min-height:0!important;' +
+          'max-width:none!important;max-height:none!important;' +
+          'image-orientation:0deg!important;">'
+        );
+      });
+    },
+
+    resetPreview: function () {
+      this.$preview.each(function () {
+        var $this = $(this);
+        var data = $this.data(DATA_PREVIEW);
+
+        $this.css({
+          width: data.width,
+          height: data.height
+        }).html(data.html).removeData(DATA_PREVIEW);
+      });
+    },
+
+    preview: function () {
+      var image = this.image;
+      var canvas = this.canvas;
+      var cropBox = this.cropBox;
+      var cropBoxWidth = cropBox.width;
+      var cropBoxHeight = cropBox.height;
+      var width = image.width;
+      var height = image.height;
+      var left = cropBox.left - canvas.left - image.left;
+      var top = cropBox.top - canvas.top - image.top;
+
+      if (!this.isCropped || this.isDisabled) {
+        return;
+      }
+
+      this.$viewBox.find('img').css({
+        width: width,
+        height: height,
+        marginLeft: -left,
+        marginTop: -top,
+        transform: getTransform(image)
+      });
+
+      this.$preview.each(function () {
+        var $this = $(this);
+        var data = $this.data(DATA_PREVIEW);
+        var originalWidth = data.width;
+        var originalHeight = data.height;
+        var newWidth = originalWidth;
+        var newHeight = originalHeight;
+        var ratio = 1;
+
+        if (cropBoxWidth) {
+          ratio = originalWidth / cropBoxWidth;
+          newHeight = cropBoxHeight * ratio;
+        }
+
+        if (cropBoxHeight && newHeight > originalHeight) {
+          ratio = originalHeight / cropBoxHeight;
+          newWidth = cropBoxWidth * ratio;
+          newHeight = originalHeight;
+        }
+
+        $this.css({
+          width: newWidth,
+          height: newHeight
+        }).find('img').css({
+          width: width * ratio,
+          height: height * ratio,
+          marginLeft: -left * ratio,
+          marginTop: -top * ratio,
+          transform: getTransform(image)
+        });
+      });
+    }
+  });
+
+  $.extend(prototype, {
+    bind: function () {
+      var options = this.options;
+      var $this = this.$element;
+      var $cropper = this.$cropper;
+
+      if ($.isFunction(options.cropstart)) {
+        $this.on(EVENT_CROP_START, options.cropstart);
+      }
+
+      if ($.isFunction(options.cropmove)) {
+        $this.on(EVENT_CROP_MOVE, options.cropmove);
+      }
+
+      if ($.isFunction(options.cropend)) {
+        $this.on(EVENT_CROP_END, options.cropend);
+      }
+
+      if ($.isFunction(options.crop)) {
+        $this.on(EVENT_CROP, options.crop);
+      }
+
+      if ($.isFunction(options.zoom)) {
+        $this.on(EVENT_ZOOM, options.zoom);
+      }
+
+      $cropper.on(EVENT_MOUSE_DOWN, $.proxy(this.cropStart, this));
+
+      if (options.zoomable && options.zoomOnWheel) {
+        $cropper.on(EVENT_WHEEL, $.proxy(this.wheel, this));
+      }
+
+      if (options.toggleDragModeOnDblclick) {
+        $cropper.on(EVENT_DBLCLICK, $.proxy(this.dblclick, this));
+      }
+
+      $document.
+        on(EVENT_MOUSE_MOVE, (this._cropMove = proxy(this.cropMove, this))).
+        on(EVENT_MOUSE_UP, (this._cropEnd = proxy(this.cropEnd, this)));
+
+      if (options.responsive) {
+        $window.on(EVENT_RESIZE, (this._resize = proxy(this.resize, this)));
+      }
+    },
+
+    unbind: function () {
+      var options = this.options;
+      var $this = this.$element;
+      var $cropper = this.$cropper;
+
+      if ($.isFunction(options.cropstart)) {
+        $this.off(EVENT_CROP_START, options.cropstart);
+      }
+
+      if ($.isFunction(options.cropmove)) {
+        $this.off(EVENT_CROP_MOVE, options.cropmove);
+      }
+
+      if ($.isFunction(options.cropend)) {
+        $this.off(EVENT_CROP_END, options.cropend);
+      }
+
+      if ($.isFunction(options.crop)) {
+        $this.off(EVENT_CROP, options.crop);
+      }
+
+      if ($.isFunction(options.zoom)) {
+        $this.off(EVENT_ZOOM, options.zoom);
+      }
+
+      $cropper.off(EVENT_MOUSE_DOWN, this.cropStart);
+
+      if (options.zoomable && options.zoomOnWheel) {
+        $cropper.off(EVENT_WHEEL, this.wheel);
+      }
+
+      if (options.toggleDragModeOnDblclick) {
+        $cropper.off(EVENT_DBLCLICK, this.dblclick);
+      }
+
+      $document.
+        off(EVENT_MOUSE_MOVE, this._cropMove).
+        off(EVENT_MOUSE_UP, this._cropEnd);
+
+      if (options.responsive) {
+        $window.off(EVENT_RESIZE, this._resize);
+      }
+    }
+  });
+
+  $.extend(prototype, {
+    resize: function () {
+      var $container = this.$container;
+      var container = this.container;
+      var canvasData;
+      var cropBoxData;
+      var ratio;
+
+      // Check `container` is necessary for IE8
+      if (this.isDisabled || !container) {
+        return;
+      }
+
+      ratio = $container.width() / container.width;
+
+      // Resize when width changed or height changed
+      if (ratio !== 1 || $container.height() !== container.height) {
+        canvasData = this.getCanvasData();
+        cropBoxData = this.getCropBoxData();
+
+        this.render();
+        this.setCanvasData($.each(canvasData, function (i, n) {
+          canvasData[i] = n * ratio;
+        }));
+        this.setCropBoxData($.each(cropBoxData, function (i, n) {
+          cropBoxData[i] = n * ratio;
+        }));
+      }
+    },
+
+    dblclick: function () {
+      if (this.isDisabled) {
+        return;
+      }
+
+      if (this.$dragBox.hasClass(CLASS_CROP)) {
+        this.setDragMode(ACTION_MOVE);
+      } else {
+        this.setDragMode(ACTION_CROP);
+      }
+    },
+
+    wheel: function (event) {
+      var originalEvent = event.originalEvent;
+      var e = originalEvent || event;
+      var ratio = num(this.options.wheelZoomRatio) || 0.1;
+      var delta = 1;
+
+      if (this.isDisabled) {
+        return;
+      }
+
+      event.preventDefault();
+
+      if (e.deltaY) {
+        delta = e.deltaY > 0 ? 1 : -1;
+      } else if (e.wheelDelta) {
+        delta = -e.wheelDelta / 120;
+      } else if (e.detail) {
+        delta = e.detail > 0 ? 1 : -1;
+      }
+
+      this.zoom(-delta * ratio, originalEvent);
+    },
+
+    cropStart: function (event) {
+      var options = this.options;
+      var originalEvent = event.originalEvent;
+      var touches = originalEvent && originalEvent.touches;
+      var e = event;
+      var touchesLength;
+      var action;
+
+      if (this.isDisabled) {
+        return;
+      }
+
+      if (touches) {
+        touchesLength = touches.length;
+
+        if (touchesLength > 1) {
+          if (options.zoomable && options.zoomOnTouch && touchesLength === 2) {
+            e = touches[1];
+            this.startX2 = e.pageX;
+            this.startY2 = e.pageY;
+            action = ACTION_ZOOM;
+          } else {
+            return;
+          }
+        }
+
+        e = touches[0];
+      }
+
+      action = action || $(e.target).data(DATA_ACTION);
+
+      if (REGEXP_ACTIONS.test(action)) {
+        if (this.trigger(EVENT_CROP_START, {
+          originalEvent: originalEvent,
+          action: action
+        }).isDefaultPrevented()) {
+          return;
+        }
+
+        event.preventDefault();
+
+        this.action = action;
+        this.cropping = false;
+
+        // IE8  has `event.pageX/Y`, but not `event.originalEvent.pageX/Y`
+        // IE10 has `event.originalEvent.pageX/Y`, but not `event.pageX/Y`
+        this.startX = e.pageX || originalEvent && originalEvent.pageX;
+        this.startY = e.pageY || originalEvent && originalEvent.pageY;
+
+        if (action === ACTION_CROP) {
+          this.cropping = true;
+          this.$dragBox.addClass(CLASS_MODAL);
+        }
+      }
+    },
+
+    cropMove: function (event) {
+      var options = this.options;
+      var originalEvent = event.originalEvent;
+      var touches = originalEvent && originalEvent.touches;
+      var e = event;
+      var action = this.action;
+      var touchesLength;
+
+      if (this.isDisabled) {
+        return;
+      }
+
+      if (touches) {
+        touchesLength = touches.length;
+
+        if (touchesLength > 1) {
+          if (options.zoomable && options.zoomOnTouch && touchesLength === 2) {
+            e = touches[1];
+            this.endX2 = e.pageX;
+            this.endY2 = e.pageY;
+          } else {
+            return;
+          }
+        }
+
+        e = touches[0];
+      }
+
+      if (action) {
+        if (this.trigger(EVENT_CROP_MOVE, {
+          originalEvent: originalEvent,
+          action: action
+        }).isDefaultPrevented()) {
+          return;
+        }
+
+        event.preventDefault();
+
+        this.endX = e.pageX || originalEvent && originalEvent.pageX;
+        this.endY = e.pageY || originalEvent && originalEvent.pageY;
+
+        this.change(e.shiftKey, action === ACTION_ZOOM ? originalEvent : null);
+      }
+    },
+
+    cropEnd: function (event) {
+      var originalEvent = event.originalEvent;
+      var action = this.action;
+
+      if (this.isDisabled) {
+        return;
+      }
+
+      if (action) {
+        event.preventDefault();
+
+        if (this.cropping) {
+          this.cropping = false;
+          this.$dragBox.toggleClass(CLASS_MODAL, this.isCropped && this.options.modal);
+        }
+
+        this.action = '';
+
+        this.trigger(EVENT_CROP_END, {
+          originalEvent: originalEvent,
+          action: action
+        });
+      }
+    }
+  });
+
+  $.extend(prototype, {
+    change: function (shiftKey, originalEvent) {
+      var options = this.options;
+      var aspectRatio = options.aspectRatio;
+      var action = this.action;
+      var container = this.container;
+      var canvas = this.canvas;
+      var cropBox = this.cropBox;
+      var width = cropBox.width;
+      var height = cropBox.height;
+      var left = cropBox.left;
+      var top = cropBox.top;
+      var right = left + width;
+      var bottom = top + height;
+      var minLeft = 0;
+      var minTop = 0;
+      var maxWidth = container.width;
+      var maxHeight = container.height;
+      var renderable = true;
+      var offset;
+      var range;
+
+      // Locking aspect ratio in "free mode" by holding shift key (#259)
+      if (!aspectRatio && shiftKey) {
+        aspectRatio = width && height ? width / height : 1;
+      }
+
+      if (this.limited) {
+        minLeft = cropBox.minLeft;
+        minTop = cropBox.minTop;
+        maxWidth = minLeft + min(container.width, canvas.width);
+        maxHeight = minTop + min(container.height, canvas.height);
+      }
+
+      range = {
+        x: this.endX - this.startX,
+        y: this.endY - this.startY
+      };
+
+      if (aspectRatio) {
+        range.X = range.y * aspectRatio;
+        range.Y = range.x / aspectRatio;
+      }
+
+      switch (action) {
+        // Move crop box
+        case ACTION_ALL:
+          left += range.x;
+          top += range.y;
+          break;
+
+        // Resize crop box
+        case ACTION_EAST:
+          if (range.x >= 0 && (right >= maxWidth || aspectRatio &&
+            (top <= minTop || bottom >= maxHeight))) {
+
+            renderable = false;
+            break;
+          }
+
+          width += range.x;
+
+          if (aspectRatio) {
+            height = width / aspectRatio;
+            top -= range.Y / 2;
+          }
+
+          if (width < 0) {
+            action = ACTION_WEST;
+            width = 0;
+          }
+
+          break;
+
+        case ACTION_NORTH:
+          if (range.y <= 0 && (top <= minTop || aspectRatio &&
+            (left <= minLeft || right >= maxWidth))) {
+
+            renderable = false;
+            break;
+          }
+
+          height -= range.y;
+          top += range.y;
+
+          if (aspectRatio) {
+            width = height * aspectRatio;
+            left += range.X / 2;
+          }
+
+          if (height < 0) {
+            action = ACTION_SOUTH;
+            height = 0;
+          }
+
+          break;
+
+        case ACTION_WEST:
+          if (range.x <= 0 && (left <= minLeft || aspectRatio &&
+            (top <= minTop || bottom >= maxHeight))) {
+
+            renderable = false;
+            break;
+          }
+
+          width -= range.x;
+          left += range.x;
+
+          if (aspectRatio) {
+            height = width / aspectRatio;
+            top += range.Y / 2;
+          }
+
+          if (width < 0) {
+            action = ACTION_EAST;
+            width = 0;
+          }
+
+          break;
+
+        case ACTION_SOUTH:
+          if (range.y >= 0 && (bottom >= maxHeight || aspectRatio &&
+            (left <= minLeft || right >= maxWidth))) {
+
+            renderable = false;
+            break;
+          }
+
+          height += range.y;
+
+          if (aspectRatio) {
+            width = height * aspectRatio;
+            left -= range.X / 2;
+          }
+
+          if (height < 0) {
+            action = ACTION_NORTH;
+            height = 0;
+          }
+
+          break;
+
+        case ACTION_NORTH_EAST:
+          if (aspectRatio) {
+            if (range.y <= 0 && (top <= minTop || right >= maxWidth)) {
+              renderable = false;
+              break;
+            }
+
+            height -= range.y;
+            top += range.y;
+            width = height * aspectRatio;
+          } else {
+            if (range.x >= 0) {
+              if (right < maxWidth) {
+                width += range.x;
+              } else if (range.y <= 0 && top <= minTop) {
+                renderable = false;
+              }
+            } else {
+              width += range.x;
+            }
+
+            if (range.y <= 0) {
+              if (top > minTop) {
+                height -= range.y;
+                top += range.y;
+              }
+            } else {
+              height -= range.y;
+              top += range.y;
+            }
+          }
+
+          if (width < 0 && height < 0) {
+            action = ACTION_SOUTH_WEST;
+            height = 0;
+            width = 0;
+          } else if (width < 0) {
+            action = ACTION_NORTH_WEST;
+            width = 0;
+          } else if (height < 0) {
+            action = ACTION_SOUTH_EAST;
+            height = 0;
+          }
+
+          break;
+
+        case ACTION_NORTH_WEST:
+          if (aspectRatio) {
+            if (range.y <= 0 && (top <= minTop || left <= minLeft)) {
+              renderable = false;
+              break;
+            }
+
+            height -= range.y;
+            top += range.y;
+            width = height * aspectRatio;
+            left += range.X;
+          } else {
+            if (range.x <= 0) {
+              if (left > minLeft) {
+                width -= range.x;
+                left += range.x;
+              } else if (range.y <= 0 && top <= minTop) {
+                renderable = false;
+              }
+            } else {
+              width -= range.x;
+              left += range.x;
+            }
+
+            if (range.y <= 0) {
+              if (top > minTop) {
+                height -= range.y;
+                top += range.y;
+              }
+            } else {
+              height -= range.y;
+              top += range.y;
+            }
+          }
+
+          if (width < 0 && height < 0) {
+            action = ACTION_SOUTH_EAST;
+            height = 0;
+            width = 0;
+          } else if (width < 0) {
+            action = ACTION_NORTH_EAST;
+            width = 0;
+          } else if (height < 0) {
+            action = ACTION_SOUTH_WEST;
+            height = 0;
+          }
+
+          break;
+
+        case ACTION_SOUTH_WEST:
+          if (aspectRatio) {
+            if (range.x <= 0 && (left <= minLeft || bottom >= maxHeight)) {
+              renderable = false;
+              break;
+            }
+
+            width -= range.x;
+            left += range.x;
+            height = width / aspectRatio;
+          } else {
+            if (range.x <= 0) {
+              if (left > minLeft) {
+                width -= range.x;
+                left += range.x;
+              } else if (range.y >= 0 && bottom >= maxHeight) {
+                renderable = false;
+              }
+            } else {
+              width -= range.x;
+              left += range.x;
+            }
+
+            if (range.y >= 0) {
+              if (bottom < maxHeight) {
+                height += range.y;
+              }
+            } else {
+              height += range.y;
+            }
+          }
+
+          if (width < 0 && height < 0) {
+            action = ACTION_NORTH_EAST;
+            height = 0;
+            width = 0;
+          } else if (width < 0) {
+            action = ACTION_SOUTH_EAST;
+            width = 0;
+          } else if (height < 0) {
+            action = ACTION_NORTH_WEST;
+            height = 0;
+          }
+
+          break;
+
+        case ACTION_SOUTH_EAST:
+          if (aspectRatio) {
+            if (range.x >= 0 && (right >= maxWidth || bottom >= maxHeight)) {
+              renderable = false;
+              break;
+            }
+
+            width += range.x;
+            height = width / aspectRatio;
+          } else {
+            if (range.x >= 0) {
+              if (right < maxWidth) {
+                width += range.x;
+              } else if (range.y >= 0 && bottom >= maxHeight) {
+                renderable = false;
+              }
+            } else {
+              width += range.x;
+            }
+
+            if (range.y >= 0) {
+              if (bottom < maxHeight) {
+                height += range.y;
+              }
+            } else {
+              height += range.y;
+            }
+          }
+
+          if (width < 0 && height < 0) {
+            action = ACTION_NORTH_WEST;
+            height = 0;
+            width = 0;
+          } else if (width < 0) {
+            action = ACTION_SOUTH_WEST;
+            width = 0;
+          } else if (height < 0) {
+            action = ACTION_NORTH_EAST;
+            height = 0;
+          }
+
+          break;
+
+        // Move canvas
+        case ACTION_MOVE:
+          this.move(range.x, range.y);
+          renderable = false;
+          break;
+
+        // Zoom canvas
+        case ACTION_ZOOM:
+          this.zoom((function (x1, y1, x2, y2) {
+            var z1 = sqrt(x1 * x1 + y1 * y1);
+            var z2 = sqrt(x2 * x2 + y2 * y2);
+
+            return (z2 - z1) / z1;
+          })(
+            abs(this.startX - this.startX2),
+            abs(this.startY - this.startY2),
+            abs(this.endX - this.endX2),
+            abs(this.endY - this.endY2)
+          ), originalEvent);
+          this.startX2 = this.endX2;
+          this.startY2 = this.endY2;
+          renderable = false;
+          break;
+
+        // Create crop box
+        case ACTION_CROP:
+          if (range.x || range.y) {
+            offset = this.$cropper.offset();
+            left = this.startX - offset.left;
+            top = this.startY - offset.top;
+            width = cropBox.minWidth;
+            height = cropBox.minHeight;
+
+            if (range.x > 0) {
+              action = range.y > 0 ? ACTION_SOUTH_EAST :
+                (range.y < 0 ? ACTION_NORTH_EAST : ACTION_EAST);
+            } else if (range.x < 0) {
+              left -= width;
+              action = range.y > 0 ? ACTION_SOUTH_WEST :
+                (range.y < 0 ? ACTION_NORTH_WEST : ACTION_WEST);
+            } else {
+              action = range.y > 0 ? ACTION_SOUTH : ACTION_NORTH;
+            }
+
+            if (range.y < 0) {
+              top -= height;
+            }
+
+            // Show the crop box if is hidden
+            if (!this.isCropped) {
+              this.$cropBox.removeClass(CLASS_HIDDEN);
+              this.isCropped = true;
+
+              if (this.limited) {
+                this.limitCropBox(true, true);
+              }
+            }
+          }
+
+          break;
+
+        // No default
+      }
+
+      if (renderable) {
+        cropBox.width = width;
+        cropBox.height = height;
+        cropBox.left = left;
+        cropBox.top = top;
+        this.action = action;
+
+        this.renderCropBox();
+      }
+
+      // Override
+      this.startX = this.endX;
+      this.startY = this.endY;
+    }
+  });
+
+  $.extend(prototype, {
+
+    // Show the crop box manually
+    crop: function () {
+      if (!this.isBuilt || this.isDisabled) {
+        return;
+      }
+
+      if (!this.isCropped) {
+        this.isCropped = true;
+        this.limitCropBox(true, true);
+
+        if (this.options.modal) {
+          this.$dragBox.addClass(CLASS_MODAL);
+        }
+
+        this.$cropBox.removeClass(CLASS_HIDDEN);
+      }
+
+      this.setCropBoxData(this.initialCropBox);
+    },
+
+    // Reset the image and crop box to their initial states
+    reset: function () {
+      if (!this.isBuilt || this.isDisabled) {
+        return;
+      }
+
+      this.image = $.extend({}, this.initialImage);
+      this.canvas = $.extend({}, this.initialCanvas);
+      this.cropBox = $.extend({}, this.initialCropBox);
+
+      this.renderCanvas();
+
+      if (this.isCropped) {
+        this.renderCropBox();
+      }
+    },
+
+    // Clear the crop box
+    clear: function () {
+      if (!this.isCropped || this.isDisabled) {
+        return;
+      }
+
+      $.extend(this.cropBox, {
+        left: 0,
+        top: 0,
+        width: 0,
+        height: 0
+      });
+
+      this.isCropped = false;
+      this.renderCropBox();
+
+      this.limitCanvas(true, true);
+
+      // Render canvas after crop box rendered
+      this.renderCanvas();
+
+      this.$dragBox.removeClass(CLASS_MODAL);
+      this.$cropBox.addClass(CLASS_HIDDEN);
+    },
+
+    /**
+     * Replace the image's src and rebuild the cropper
+     *
+     * @param {String} url
+     */
+    replace: function (url) {
+      if (!this.isDisabled && url) {
+        if (this.isImg) {
+          this.isReplaced = true;
+          this.$element.attr('src', url);
+        }
+
+        // Clear previous data
+        this.options.data = null;
+        this.load(url);
+      }
+    },
+
+    // Enable (unfreeze) the cropper
+    enable: function () {
+      if (this.isBuilt) {
+        this.isDisabled = false;
+        this.$cropper.removeClass(CLASS_DISABLED);
+      }
+    },
+
+    // Disable (freeze) the cropper
+    disable: function () {
+      if (this.isBuilt) {
+        this.isDisabled = true;
+        this.$cropper.addClass(CLASS_DISABLED);
+      }
+    },
+
+    // Destroy the cropper and remove the instance from the image
+    destroy: function () {
+      var $this = this.$element;
+
+      if (this.isLoaded) {
+        if (this.isImg && this.isReplaced) {
+          $this.attr('src', this.originalUrl);
+        }
+
+        this.unbuild();
+        $this.removeClass(CLASS_HIDDEN);
+      } else {
+        if (this.isImg) {
+          $this.off(EVENT_LOAD, this.start);
+        } else if (this.$clone) {
+          this.$clone.remove();
+        }
+      }
+
+      $this.removeData(NAMESPACE);
+    },
+
+    /**
+     * Move the canvas with relative offsets
+     *
+     * @param {Number} offsetX
+     * @param {Number} offsetY (optional)
+     */
+    move: function (offsetX, offsetY) {
+      var canvas = this.canvas;
+
+      this.moveTo(
+        isUndefined(offsetX) ? offsetX : canvas.left + num(offsetX),
+        isUndefined(offsetY) ? offsetY : canvas.top + num(offsetY)
+      );
+    },
+
+    /**
+     * Move the canvas to an absolute point
+     *
+     * @param {Number} x
+     * @param {Number} y (optional)
+     */
+    moveTo: function (x, y) {
+      var canvas = this.canvas;
+      var isChanged = false;
+
+      // If "y" is not present, its default value is "x"
+      if (isUndefined(y)) {
+        y = x;
+      }
+
+      x = num(x);
+      y = num(y);
+
+      if (this.isBuilt && !this.isDisabled && this.options.movable) {
+        if (isNumber(x)) {
+          canvas.left = x;
+          isChanged = true;
+        }
+
+        if (isNumber(y)) {
+          canvas.top = y;
+          isChanged = true;
+        }
+
+        if (isChanged) {
+          this.renderCanvas(true);
+        }
+      }
+    },
+
+    /**
+     * Zoom the canvas with a relative ratio
+     *
+     * @param {Number} ratio
+     * @param {Event} _originalEvent (private)
+     */
+    zoom: function (ratio, _originalEvent) {
+      var canvas = this.canvas;
+
+      ratio = num(ratio);
+
+      if (ratio < 0) {
+        ratio =  1 / (1 - ratio);
+      } else {
+        ratio = 1 + ratio;
+      }
+
+      this.zoomTo(canvas.width * ratio / canvas.naturalWidth, _originalEvent);
+    },
+
+    /**
+     * Zoom the canvas to an absolute ratio
+     *
+     * @param {Number} ratio
+     * @param {Event} _originalEvent (private)
+     */
+    zoomTo: function (ratio, _originalEvent) {
+      var options = this.options;
+      var canvas = this.canvas;
+      var width = canvas.width;
+      var height = canvas.height;
+      var naturalWidth = canvas.naturalWidth;
+      var naturalHeight = canvas.naturalHeight;
+      var newWidth;
+      var newHeight;
+
+      ratio = num(ratio);
+
+      if (ratio >= 0 && this.isBuilt && !this.isDisabled && options.zoomable) {
+        newWidth = naturalWidth * ratio;
+        newHeight = naturalHeight * ratio;
+
+        if (this.trigger(EVENT_ZOOM, {
+          originalEvent: _originalEvent,
+          oldRatio: width / naturalWidth,
+          ratio: newWidth / naturalWidth
+        }).isDefaultPrevented()) {
+          return;
+        }
+
+        canvas.left -= (newWidth - width) / 2;
+        canvas.top -= (newHeight - height) / 2;
+        canvas.width = newWidth;
+        canvas.height = newHeight;
+        this.renderCanvas(true);
+      }
+    },
+
+    /**
+     * Rotate the canvas with a relative degree
+     *
+     * @param {Number} degree
+     */
+    rotate: function (degree) {
+      this.rotateTo((this.image.rotate || 0) + num(degree));
+    },
+
+    /**
+     * Rotate the canvas to an absolute degree
+     * https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#rotate()
+     *
+     * @param {Number} degree
+     */
+    rotateTo: function (degree) {
+      degree = num(degree);
+
+      if (isNumber(degree) && this.isBuilt && !this.isDisabled && this.options.rotatable) {
+        this.image.rotate = degree % 360;
+        this.isRotated = true;
+        this.renderCanvas(true);
+      }
+    },
+
+    /**
+     * Scale the image
+     * https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function#scale()
+     *
+     * @param {Number} scaleX
+     * @param {Number} scaleY (optional)
+     */
+    scale: function (scaleX, scaleY) {
+      var image = this.image;
+      var isChanged = false;
+
+      // If "scaleY" is not present, its default value is "scaleX"
+      if (isUndefined(scaleY)) {
+        scaleY = scaleX;
+      }
+
+      scaleX = num(scaleX);
+      scaleY = num(scaleY);
+
+      if (this.isBuilt && !this.isDisabled && this.options.scalable) {
+        if (isNumber(scaleX)) {
+          image.scaleX = scaleX;
+          isChanged = true;
+        }
+
+        if (isNumber(scaleY)) {
+          image.scaleY = scaleY;
+          isChanged = true;
+        }
+
+        if (isChanged) {
+          this.renderImage(true);
+        }
+      }
+    },
+
+    /**
+     * Scale the abscissa of the image
+     *
+     * @param {Number} scaleX
+     */
+    scaleX: function (scaleX) {
+      var scaleY = this.image.scaleY;
+
+      this.scale(scaleX, isNumber(scaleY) ? scaleY : 1);
+    },
+
+    /**
+     * Scale the ordinate of the image
+     *
+     * @param {Number} scaleY
+     */
+    scaleY: function (scaleY) {
+      var scaleX = this.image.scaleX;
+
+      this.scale(isNumber(scaleX) ? scaleX : 1, scaleY);
+    },
+
+    /**
+     * Get the cropped area position and size data (base on the original image)
+     *
+     * @param {Boolean} isRounded (optional)
+     * @return {Object} data
+     */
+    getData: function (isRounded) {
+      var options = this.options;
+      var image = this.image;
+      var canvas = this.canvas;
+      var cropBox = this.cropBox;
+      var ratio;
+      var data;
+
+      if (this.isBuilt && this.isCropped) {
+        data = {
+          x: cropBox.left - canvas.left,
+          y: cropBox.top - canvas.top,
+          width: cropBox.width,
+          height: cropBox.height
+        };
+
+        ratio = image.width / image.naturalWidth;
+
+        $.each(data, function (i, n) {
+          n = n / ratio;
+          data[i] = isRounded ? round(n) : n;
+        });
+
+      } else {
+        data = {
+          x: 0,
+          y: 0,
+          width: 0,
+          height: 0
+        };
+      }
+
+      if (options.rotatable) {
+        data.rotate = image.rotate || 0;
+      }
+
+      if (options.scalable) {
+        data.scaleX = image.scaleX || 1;
+        data.scaleY = image.scaleY || 1;
+      }
+
+      return data;
+    },
+
+    /**
+     * Set the cropped area position and size with new data
+     *
+     * @param {Object} data
+     */
+    setData: function (data) {
+      var options = this.options;
+      var image = this.image;
+      var canvas = this.canvas;
+      var cropBoxData = {};
+      var isRotated;
+      var isScaled;
+      var ratio;
+
+      if ($.isFunction(data)) {
+        data = data.call(this.element);
+      }
+
+      if (this.isBuilt && !this.isDisabled && $.isPlainObject(data)) {
+        if (options.rotatable) {
+          if (isNumber(data.rotate) && data.rotate !== image.rotate) {
+            image.rotate = data.rotate;
+            this.isRotated = isRotated = true;
+          }
+        }
+
+        if (options.scalable) {
+          if (isNumber(data.scaleX) && data.scaleX !== image.scaleX) {
+            image.scaleX = data.scaleX;
+            isScaled = true;
+          }
+
+          if (isNumber(data.scaleY) && data.scaleY !== image.scaleY) {
+            image.scaleY = data.scaleY;
+            isScaled = true;
+          }
+        }
+
+        if (isRotated) {
+          this.renderCanvas();
+        } else if (isScaled) {
+          this.renderImage();
+        }
+
+        ratio = image.width / image.naturalWidth;
+
+        if (isNumber(data.x)) {
+          cropBoxData.left = data.x * ratio + canvas.left;
+        }
+
+        if (isNumber(data.y)) {
+          cropBoxData.top = data.y * ratio + canvas.top;
+        }
+
+        if (isNumber(data.width)) {
+          cropBoxData.width = data.width * ratio;
+        }
+
+        if (isNumber(data.height)) {
+          cropBoxData.height = data.height * ratio;
+        }
+
+        this.setCropBoxData(cropBoxData);
+      }
+    },
+
+    /**
+     * Get the container size data
+     *
+     * @return {Object} data
+     */
+    getContainerData: function () {
+      return this.isBuilt ? this.container : {};
+    },
+
+    /**
+     * Get the image position and size data
+     *
+     * @return {Object} data
+     */
+    getImageData: function () {
+      return this.isLoaded ? this.image : {};
+    },
+
+    /**
+     * Get the canvas position and size data
+     *
+     * @return {Object} data
+     */
+    getCanvasData: function () {
+      var canvas = this.canvas;
+      var data = {};
+
+      if (this.isBuilt) {
+        $.each([
+          'left',
+          'top',
+          'width',
+          'height',
+          'naturalWidth',
+          'naturalHeight'
+        ], function (i, n) {
+          data[n] = canvas[n];
+        });
+      }
+
+      return data;
+    },
+
+    /**
+     * Set the canvas position and size with new data
+     *
+     * @param {Object} data
+     */
+    setCanvasData: function (data) {
+      var canvas = this.canvas;
+      var aspectRatio = canvas.aspectRatio;
+
+      if ($.isFunction(data)) {
+        data = data.call(this.$element);
+      }
+
+      if (this.isBuilt && !this.isDisabled && $.isPlainObject(data)) {
+        if (isNumber(data.left)) {
+          canvas.left = data.left;
+        }
+
+        if (isNumber(data.top)) {
+          canvas.top = data.top;
+        }
+
+        if (isNumber(data.width)) {
+          canvas.width = data.width;
+          canvas.height = data.width / aspectRatio;
+        } else if (isNumber(data.height)) {
+          canvas.height = data.height;
+          canvas.width = data.height * aspectRatio;
+        }
+
+        this.renderCanvas(true);
+      }
+    },
+
+    /**
+     * Get the crop box position and size data
+     *
+     * @return {Object} data
+     */
+    getCropBoxData: function () {
+      var cropBox = this.cropBox;
+      var data;
+
+      if (this.isBuilt && this.isCropped) {
+        data = {
+          left: cropBox.left,
+          top: cropBox.top,
+          width: cropBox.width,
+          height: cropBox.height
+        };
+      }
+
+      return data || {};
+    },
+
+    /**
+     * Set the crop box position and size with new data
+     *
+     * @param {Object} data
+     */
+    setCropBoxData: function (data) {
+      var cropBox = this.cropBox;
+      var aspectRatio = this.options.aspectRatio;
+      var isWidthChanged;
+      var isHeightChanged;
+
+      if ($.isFunction(data)) {
+        data = data.call(this.$element);
+      }
+
+      if (this.isBuilt && this.isCropped && !this.isDisabled && $.isPlainObject(data)) {
+
+        if (isNumber(data.left)) {
+          cropBox.left = data.left;
+        }
+
+        if (isNumber(data.top)) {
+          cropBox.top = data.top;
+        }
+
+        if (isNumber(data.width) && data.width !== cropBox.width) {
+          isWidthChanged = true;
+          cropBox.width = data.width;
+        }
+
+        if (isNumber(data.height) && data.height !== cropBox.height) {
+          isHeightChanged = true;
+          cropBox.height = data.height;
+        }
+
+        if (aspectRatio) {
+          if (isWidthChanged) {
+            cropBox.height = cropBox.width / aspectRatio;
+          } else if (isHeightChanged) {
+            cropBox.width = cropBox.height * aspectRatio;
+          }
+        }
+
+        this.renderCropBox();
+      }
+    },
+
+    /**
+     * Get a canvas drawn the cropped image
+     *
+     * @param {Object} options (optional)
+     * @return {HTMLCanvasElement} canvas
+     */
+    getCroppedCanvas: function (options) {
+      var originalWidth;
+      var originalHeight;
+      var canvasWidth;
+      var canvasHeight;
+      var scaledWidth;
+      var scaledHeight;
+      var scaledRatio;
+      var aspectRatio;
+      var canvas;
+      var context;
+      var data;
+
+      if (!this.isBuilt || !this.isCropped || !SUPPORT_CANVAS) {
+        return;
+      }
+
+      if (!$.isPlainObject(options)) {
+        options = {};
+      }
+
+      data = this.getData();
+      originalWidth = data.width;
+      originalHeight = data.height;
+      aspectRatio = originalWidth / originalHeight;
+
+      if ($.isPlainObject(options)) {
+        scaledWidth = options.width;
+        scaledHeight = options.height;
+
+        if (scaledWidth) {
+          scaledHeight = scaledWidth / aspectRatio;
+          scaledRatio = scaledWidth / originalWidth;
+        } else if (scaledHeight) {
+          scaledWidth = scaledHeight * aspectRatio;
+          scaledRatio = scaledHeight / originalHeight;
+        }
+      }
+
+
+      canvasWidth = round(scaledWidth || originalWidth);
+      canvasHeight = round(scaledHeight || originalHeight);
+
+      canvas = $('<canvas>')[0];
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
+      context = canvas.getContext('2d');
+
+      if (options.fillColor) {
+        context.fillStyle = options.fillColor;
+        context.fillRect(0, 0, canvasWidth, canvasHeight);
+      }
+
+      // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.drawImage
+      context.drawImage.apply(context, (function () {
+        var source = getSourceCanvas(this.$clone[0], this.image);
+        var sourceWidth = source.width;
+        var sourceHeight = source.height;
+        var args = [source];
+
+        // Source canvas
+        var srcX = data.x;
+        var srcY = data.y;
+        var srcWidth;
+        var srcHeight;
+
+        // Destination canvas
+        var dstX;
+        var dstY;
+        var dstWidth;
+        var dstHeight;
+
+        if (srcX <= -originalWidth || srcX > sourceWidth) {
+          srcX = srcWidth = dstX = dstWidth = 0;
+        } else if (srcX <= 0) {
+          dstX = -srcX;
+          srcX = 0;
+          srcWidth = dstWidth = min(sourceWidth, originalWidth + srcX);
+        } else if (srcX <= sourceWidth) {
+          dstX = 0;
+          srcWidth = dstWidth = min(originalWidth, sourceWidth - srcX);
+        }
+
+        if (srcWidth <= 0 || srcY <= -originalHeight || srcY > sourceHeight) {
+          srcY = srcHeight = dstY = dstHeight = 0;
+        } else if (srcY <= 0) {
+          dstY = -srcY;
+          srcY = 0;
+          srcHeight = dstHeight = min(sourceHeight, originalHeight + srcY);
+        } else if (srcY <= sourceHeight) {
+          dstY = 0;
+          srcHeight = dstHeight = min(originalHeight, sourceHeight - srcY);
+        }
+
+        args.push(srcX, srcY, srcWidth, srcHeight);
+
+        // Scale destination sizes
+        if (scaledRatio) {
+          dstX *= scaledRatio;
+          dstY *= scaledRatio;
+          dstWidth *= scaledRatio;
+          dstHeight *= scaledRatio;
+        }
+
+        // Avoid "IndexSizeError" in IE and Firefox
+        if (dstWidth > 0 && dstHeight > 0) {
+          args.push(dstX, dstY, dstWidth, dstHeight);
+        }
+
+        return args;
+      }).call(this));
+
+      return canvas;
+    },
+
+    /**
+     * Change the aspect ratio of the crop box
+     *
+     * @param {Number} aspectRatio
+     */
+    setAspectRatio: function (aspectRatio) {
+      var options = this.options;
+
+      if (!this.isDisabled && !isUndefined(aspectRatio)) {
+
+        // 0 -> NaN
+        options.aspectRatio = max(0, aspectRatio) || NaN;
+
+        if (this.isBuilt) {
+          this.initCropBox();
+
+          if (this.isCropped) {
+            this.renderCropBox();
+          }
+        }
+      }
+    },
+
+    /**
+     * Change the drag mode
+     *
+     * @param {String} mode (optional)
+     */
+    setDragMode: function (mode) {
+      var options = this.options;
+      var croppable;
+      var movable;
+
+      if (this.isLoaded && !this.isDisabled) {
+        croppable = mode === ACTION_CROP;
+        movable = options.movable && mode === ACTION_MOVE;
+        mode = (croppable || movable) ? mode : ACTION_NONE;
+
+        this.$dragBox.
+          data(DATA_ACTION, mode).
+          toggleClass(CLASS_CROP, croppable).
+          toggleClass(CLASS_MOVE, movable);
+
+        if (!options.cropBoxMovable) {
+
+          // Sync drag mode to crop box when it is not movable(#300)
+          this.$face.
+            data(DATA_ACTION, mode).
+            toggleClass(CLASS_CROP, croppable).
+            toggleClass(CLASS_MOVE, movable);
+        }
+      }
+    }
+  });
+
+  $.extend(Cropper.prototype, prototype);
+
+  Cropper.DEFAULTS = {
+
+    // Define the view mode of the cropper
+    viewMode: 0, // 0, 1, 2, 3
+
+    // Define the dragging mode of the cropper
+    dragMode: 'crop', // 'crop', 'move' or 'none'
+
+    // Define the aspect ratio of the crop box
+    aspectRatio: NaN,
+
+    // An object with the previous cropping result data
+    data: null,
+
+    // A jQuery selector for adding extra containers to preview
+    preview: '',
+
+    // Rebuild when resize the window
+    responsive: true,
+
+    // Check if the target image is cross origin
+    checkCrossOrigin: true,
+
+    // Show the black modal
+    modal: true,
+
+    // Show the dashed lines for guiding
+    guides: true,
+
+    // Show the center indicator for guiding
+    center: true,
+
+    // Show the white modal to highlight the crop box
+    highlight: true,
+
+    // Show the grid background
+    background: true,
+
+    // Enable to crop the image automatically when initialize
+    autoCrop: true,
+
+    // Define the percentage of automatic cropping area when initializes
+    autoCropArea: 0.8,
+
+    // Enable to move the image
+    movable: true,
+
+    // Enable to rotate the image
+    rotatable: true,
+
+    // Enable to scale the image
+    scalable: true,
+
+    // Enable to zoom the image
+    zoomable: true,
+
+    // Enable to zoom the image by dragging touch
+    zoomOnTouch: true,
+
+    // Enable to zoom the image by wheeling mouse
+    zoomOnWheel: true,
+
+    // Define zoom ratio when zoom the image by wheeling mouse
+    wheelZoomRatio: 0.1,
+
+    // Enable to move the crop box
+    cropBoxMovable: true,
+
+    // Enable to resize the crop box
+    cropBoxResizable: true,
+
+    // Toggle drag mode between "crop" and "move" when click twice on the cropper
+    toggleDragModeOnDblclick: true,
+
+    // Size limitation
+    minCanvasWidth: 0,
+    minCanvasHeight: 0,
+    minCropBoxWidth: 0,
+    minCropBoxHeight: 0,
+    minContainerWidth: 200,
+    minContainerHeight: 100,
+
+    // Shortcuts of events
+    build: null,
+    built: null,
+    cropstart: null,
+    cropmove: null,
+    cropend: null,
+    crop: null,
+    zoom: null
+  };
+
+  Cropper.setDefaults = function (options) {
+    $.extend(Cropper.DEFAULTS, options);
+  };
+
+  Cropper.TEMPLATE = (
+    '<div class="cropper-container">' +
+      '<div class="cropper-wrap-box">' +
+        '<div class="cropper-canvas"></div>' +
+      '</div>' +
+      '<div class="cropper-drag-box"></div>' +
+      '<div class="cropper-crop-box">' +
+        '<span class="cropper-view-box"></span>' +
+        '<span class="cropper-dashed dashed-h"></span>' +
+        '<span class="cropper-dashed dashed-v"></span>' +
+        '<span class="cropper-center"></span>' +
+        '<span class="cropper-face"></span>' +
+        '<span class="cropper-line line-e" data-action="e"></span>' +
+        '<span class="cropper-line line-n" data-action="n"></span>' +
+        '<span class="cropper-line line-w" data-action="w"></span>' +
+        '<span class="cropper-line line-s" data-action="s"></span>' +
+        '<span class="cropper-point point-e" data-action="e"></span>' +
+        '<span class="cropper-point point-n" data-action="n"></span>' +
+        '<span class="cropper-point point-w" data-action="w"></span>' +
+        '<span class="cropper-point point-s" data-action="s"></span>' +
+        '<span class="cropper-point point-ne" data-action="ne"></span>' +
+        '<span class="cropper-point point-nw" data-action="nw"></span>' +
+        '<span class="cropper-point point-sw" data-action="sw"></span>' +
+        '<span class="cropper-point point-se" data-action="se"></span>' +
+      '</div>' +
+    '</div>'
+  );
+
+  // Save the other cropper
+  Cropper.other = $.fn.cropper;
+
+  // Register as jQuery plugin
+  $.fn.cropper = function (options) {
+    var args = toArray(arguments, 1);
+    var result;
+
+    this.each(function () {
+      var $this = $(this);
+      var data = $this.data(NAMESPACE);
+      var fn;
+
+      if (!data) {
+        if (/destroy/.test(options)) {
+          return;
+        }
+
+        $this.data(NAMESPACE, (data = new Cropper(this, options)));
+      }
+
+      if (typeof options === 'string' && $.isFunction(fn = data[options])) {
+        result = fn.apply(data, args);
+      }
+    });
+
+    return isUndefined(result) ? this : result;
+  };
+
+  $.fn.cropper.Constructor = Cropper;
+  $.fn.cropper.setDefaults = Cropper.setDefaults;
+
+  // No conflict
+  $.fn.cropper.noConflict = function () {
+    $.fn.cropper = Cropper.other;
+    return this;
+  };
+
+});
+
+},{"jquery":96}],96:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -13947,7 +16679,9 @@ return jQuery;
 
 }));
 
-},{}],99:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
+module.exports=require(96)
+},{}],98:[function(require,module,exports){
 (function (global){
 //! moment.js
 //! version : 2.8.4
@@ -16887,7 +19621,7 @@ return jQuery;
 }).call(this);
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],100:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 /*! version : 4.15.35
  =========================================================
  bootstrap-datetimejs
@@ -19374,7 +22108,7 @@ return jQuery;
     };
 }));
 
-},{"jquery":98,"moment":99}],101:[function(require,module,exports){
+},{"jquery":97,"moment":98}],100:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -19439,9 +22173,9 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
+},{}],101:[function(require,module,exports){
+module.exports=require(96)
 },{}],102:[function(require,module,exports){
-module.exports=require(98)
-},{}],103:[function(require,module,exports){
 (function (process,global){
 /*!
     localForage -- Offline Storage, Improved
@@ -22225,7 +24959,7 @@ return /******/ (function(modules) { // webpackBootstrap
 });
 ;
 }).call(this,require("IrXUsu"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"IrXUsu":101}],104:[function(require,module,exports){
+},{"IrXUsu":100}],103:[function(require,module,exports){
 //! moment.js
 //! version : 2.10.6
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
@@ -25421,7 +28155,7 @@ return /******/ (function(modules) { // webpackBootstrap
     return _moment;
 
 }));
-},{}],105:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 /*
  * notie.js - A clean and simple notification plugin (alert/growl style) for javascript, with no dependencies.
  *
@@ -26200,7 +28934,7 @@ var notie = function(){
 if (typeof module !== 'undefined' && module) {
     module.exports = notie;
 }
-},{}],106:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -26364,7 +29098,7 @@ function createStore(reducer, initialState) {
     replaceReducer: replaceReducer
   };
 }
-},{"./utils/isPlainObject":112}],107:[function(require,module,exports){
+},{"./utils/isPlainObject":111}],106:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -26396,7 +29130,7 @@ exports.combineReducers = _utilsCombineReducers2['default'];
 exports.bindActionCreators = _utilsBindActionCreators2['default'];
 exports.applyMiddleware = _utilsApplyMiddleware2['default'];
 exports.compose = _utilsCompose2['default'];
-},{"./createStore":106,"./utils/applyMiddleware":108,"./utils/bindActionCreators":109,"./utils/combineReducers":110,"./utils/compose":111}],108:[function(require,module,exports){
+},{"./createStore":105,"./utils/applyMiddleware":107,"./utils/bindActionCreators":108,"./utils/combineReducers":109,"./utils/compose":110}],107:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -26458,7 +29192,7 @@ function applyMiddleware() {
 }
 
 module.exports = exports['default'];
-},{"./compose":111}],109:[function(require,module,exports){
+},{"./compose":110}],108:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -26514,7 +29248,7 @@ function bindActionCreators(actionCreators, dispatch) {
 }
 
 module.exports = exports['default'];
-},{"../utils/mapValues":113}],110:[function(require,module,exports){
+},{"../utils/mapValues":112}],109:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -26648,7 +29382,7 @@ function combineReducers(reducers) {
 
 module.exports = exports['default'];
 }).call(this,require("IrXUsu"))
-},{"../createStore":106,"../utils/isPlainObject":112,"../utils/mapValues":113,"../utils/pick":114,"IrXUsu":101}],111:[function(require,module,exports){
+},{"../createStore":105,"../utils/isPlainObject":111,"../utils/mapValues":112,"../utils/pick":113,"IrXUsu":100}],110:[function(require,module,exports){
 /**
  * Composes single-argument functions from right to left.
  *
@@ -26674,7 +29408,7 @@ function compose() {
 }
 
 module.exports = exports["default"];
-},{}],112:[function(require,module,exports){
+},{}],111:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -26705,7 +29439,7 @@ function isPlainObject(obj) {
 }
 
 module.exports = exports['default'];
-},{}],113:[function(require,module,exports){
+},{}],112:[function(require,module,exports){
 /**
  * Applies a function to every key-value pair inside an object.
  *
@@ -26726,7 +29460,7 @@ function mapValues(obj, fn) {
 }
 
 module.exports = exports["default"];
-},{}],114:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 /**
  * Picks key-value pairs from an object where values satisfy a predicate.
  *
@@ -26749,7 +29483,7 @@ function pick(obj, fn) {
 }
 
 module.exports = exports["default"];
-},{}],115:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 /**
  * Copyright (c) 2011-2014 Felix Gnass
  * Licensed under the MIT license
@@ -27128,7 +29862,7 @@ module.exports = exports["default"];
 
 }));
 
-},{}],116:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 /**
  * Super simple wysiwyg editor on Bootstrap v0.6.16
  * http://summernote.org/
@@ -34430,7 +37164,7 @@ module.exports = exports["default"];
   });
 }));
 
-},{}],117:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -35589,7 +38323,7 @@ request.put = function(url, data, fn){
 
 module.exports = request;
 
-},{"emitter":118,"reduce":119}],118:[function(require,module,exports){
+},{"emitter":117,"reduce":118}],117:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -35755,7 +38489,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],119:[function(require,module,exports){
+},{}],118:[function(require,module,exports){
 
 /**
  * Reduce `arr` with `fn`.
@@ -35780,7 +38514,7 @@ module.exports = function(arr, fn, initial){
   
   return curr;
 };
-},{}],120:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
 var Vue // late bind
 var map = Object.create(null)
 var shimmed = false
@@ -36018,7 +38752,7 @@ function format (id) {
   return id.match(/[^\/]+\.vue$/)[0]
 }
 
-},{}],121:[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 'use strict';
 
 var babelHelpers = {};
@@ -38542,7 +41276,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 module.exports = Router;
-},{}],122:[function(require,module,exports){
+},{}],121:[function(require,module,exports){
 var _ = require('../util')
 var Watcher = require('../watcher')
 var Path = require('../parsers/path')
@@ -38718,7 +41452,7 @@ function clean (obj) {
   return JSON.parse(JSON.stringify(obj))
 }
 
-},{"../parsers/directive":172,"../parsers/expression":173,"../parsers/path":174,"../parsers/text":176,"../util":184,"../watcher":188}],123:[function(require,module,exports){
+},{"../parsers/directive":171,"../parsers/expression":172,"../parsers/path":173,"../parsers/text":175,"../util":183,"../watcher":187}],122:[function(require,module,exports){
 var _ = require('../util')
 var transition = require('../transition')
 
@@ -38924,7 +41658,7 @@ function remove (el, vm, cb) {
   if (cb) cb()
 }
 
-},{"../transition":177,"../util":184}],124:[function(require,module,exports){
+},{"../transition":176,"../util":183}],123:[function(require,module,exports){
 var _ = require('../util')
 
 /**
@@ -39095,7 +41829,7 @@ function modifyListenerCount (vm, event, count) {
   }
 }
 
-},{"../util":184}],125:[function(require,module,exports){
+},{"../util":183}],124:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var config = require('../config')
@@ -39260,7 +41994,7 @@ config._assetTypes.forEach(function (type) {
 })
 
 }).call(this,require("IrXUsu"))
-},{"../compiler":131,"../config":133,"../directives/internal":140,"../fragment/factory":162,"../parsers/directive":172,"../parsers/expression":173,"../parsers/path":174,"../parsers/template":175,"../parsers/text":176,"../util":184,"IrXUsu":101}],126:[function(require,module,exports){
+},{"../compiler":130,"../config":132,"../directives/internal":139,"../fragment/factory":161,"../parsers/directive":171,"../parsers/expression":172,"../parsers/path":173,"../parsers/template":174,"../parsers/text":175,"../util":183,"IrXUsu":100}],125:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var compiler = require('../compiler')
@@ -39332,7 +42066,7 @@ exports.$compile = function (el, host, scope, frag) {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../compiler":131,"../util":184,"IrXUsu":101}],127:[function(require,module,exports){
+},{"../compiler":130,"../util":183,"IrXUsu":100}],126:[function(require,module,exports){
 (function (process){
 var _ = require('./util')
 var config = require('./config')
@@ -39441,7 +42175,7 @@ exports.push = function (watcher) {
 }
 
 }).call(this,require("IrXUsu"))
-},{"./config":133,"./util":184,"IrXUsu":101}],128:[function(require,module,exports){
+},{"./config":132,"./util":183,"IrXUsu":100}],127:[function(require,module,exports){
 /**
  * A doubly linked list-based Least Recently Used (LRU)
  * cache. Will keep most recently used items while
@@ -39555,7 +42289,7 @@ p.get = function (key, returnEntry) {
 
 module.exports = Cache
 
-},{}],129:[function(require,module,exports){
+},{}],128:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var dirParser = require('../parsers/directive')
@@ -39766,7 +42500,7 @@ function getDefault (vm, options) {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../config":133,"../directives/internal/prop":141,"../parsers/directive":172,"../parsers/path":174,"../util":184,"IrXUsu":101}],130:[function(require,module,exports){
+},{"../config":132,"../directives/internal/prop":140,"../parsers/directive":171,"../parsers/path":173,"../util":183,"IrXUsu":100}],129:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var publicDirectives = require('../directives/public')
@@ -40541,13 +43275,13 @@ function makeNodeLinkFn (directives) {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../directives/internal":140,"../directives/public":150,"../parsers/directive":172,"../parsers/template":175,"../parsers/text":176,"../util":184,"./compile-props":129,"IrXUsu":101}],131:[function(require,module,exports){
+},{"../directives/internal":139,"../directives/public":149,"../parsers/directive":171,"../parsers/template":174,"../parsers/text":175,"../util":183,"./compile-props":128,"IrXUsu":100}],130:[function(require,module,exports){
 var _ = require('../util')
 
 _.extend(exports, require('./compile'))
 _.extend(exports, require('./transclude'))
 
-},{"../util":184,"./compile":130,"./transclude":132}],132:[function(require,module,exports){
+},{"../util":183,"./compile":129,"./transclude":131}],131:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var templateParser = require('../parsers/template')
@@ -40699,7 +43433,7 @@ function mergeAttrs (from, to) {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../parsers/template":175,"../util":184,"IrXUsu":101}],133:[function(require,module,exports){
+},{"../parsers/template":174,"../util":183,"IrXUsu":100}],132:[function(require,module,exports){
 module.exports = {
 
   /**
@@ -40813,7 +43547,7 @@ Object.defineProperty(module.exports, 'unsafeDelimiters', {
   }
 })
 
-},{"./parsers/text":176}],134:[function(require,module,exports){
+},{"./parsers/text":175}],133:[function(require,module,exports){
 (function (process){
 var _ = require('./util')
 var Watcher = require('./watcher')
@@ -41139,11 +43873,11 @@ Directive.prototype._teardown = function () {
 module.exports = Directive
 
 }).call(this,require("IrXUsu"))
-},{"./parsers/expression":173,"./util":184,"./watcher":188,"IrXUsu":101}],135:[function(require,module,exports){
+},{"./parsers/expression":172,"./util":183,"./watcher":187,"IrXUsu":100}],134:[function(require,module,exports){
 exports.slot = require('./slot')
 exports.partial = require('./partial')
 
-},{"./partial":136,"./slot":137}],136:[function(require,module,exports){
+},{"./partial":135,"./slot":136}],135:[function(require,module,exports){
 (function (process){
 var _ = require('../../util')
 var vIf = require('../public/if')
@@ -41190,7 +43924,7 @@ module.exports = {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../../fragment/factory":162,"../../util":184,"../public/if":149,"IrXUsu":101}],137:[function(require,module,exports){
+},{"../../fragment/factory":161,"../../util":183,"../public/if":148,"IrXUsu":100}],136:[function(require,module,exports){
 var _ = require('../../util')
 var templateParser = require('../../parsers/template')
 
@@ -41316,7 +44050,7 @@ function extractFragment (nodes, parent, main) {
   }
 }
 
-},{"../../parsers/template":175,"../../util":184}],138:[function(require,module,exports){
+},{"../../parsers/template":174,"../../util":183}],137:[function(require,module,exports){
 var _ = require('../../util')
 var addClass = _.addClass
 var removeClass = _.removeClass
@@ -41389,7 +44123,7 @@ function contains (value, key) {
     : value.hasOwnProperty(key)
 }
 
-},{"../../util":184}],139:[function(require,module,exports){
+},{"../../util":183}],138:[function(require,module,exports){
 (function (process){
 var _ = require('../../util')
 var templateParser = require('../../parsers/template')
@@ -41741,14 +44475,14 @@ module.exports = {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../../parsers/template":175,"../../util":184,"IrXUsu":101}],140:[function(require,module,exports){
+},{"../../parsers/template":174,"../../util":183,"IrXUsu":100}],139:[function(require,module,exports){
 exports.style = require('./style')
 exports['class'] = require('./class')
 exports.component = require('./component')
 exports.prop = require('./prop')
 exports.transition = require('./transition')
 
-},{"./class":138,"./component":139,"./prop":141,"./style":142,"./transition":143}],141:[function(require,module,exports){
+},{"./class":137,"./component":138,"./prop":140,"./style":141,"./transition":142}],140:[function(require,module,exports){
 // NOTE: the prop internal directive is compiled and linked
 // during _initScope(), before the created hook is called.
 // The purpose is to make the initial prop values available
@@ -41819,7 +44553,7 @@ module.exports = {
   }
 }
 
-},{"../../config":133,"../../util":184,"../../watcher":188}],142:[function(require,module,exports){
+},{"../../config":132,"../../util":183,"../../watcher":187}],141:[function(require,module,exports){
 var _ = require('../../util')
 var prefixes = ['-webkit-', '-moz-', '-ms-']
 var camelPrefixes = ['Webkit', 'Moz', 'ms']
@@ -41928,7 +44662,7 @@ function prefix (prop) {
   }
 }
 
-},{"../../util":184}],143:[function(require,module,exports){
+},{"../../util":183}],142:[function(require,module,exports){
 var _ = require('../../util')
 var Transition = require('../../transition/transition')
 
@@ -41950,7 +44684,7 @@ module.exports = {
   }
 }
 
-},{"../../transition/transition":179,"../../util":184}],144:[function(require,module,exports){
+},{"../../transition/transition":178,"../../util":183}],143:[function(require,module,exports){
 (function (process){
 var _ = require('../../util')
 
@@ -42077,7 +44811,7 @@ module.exports = {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../../util":184,"../internal/style":142,"IrXUsu":101}],145:[function(require,module,exports){
+},{"../../util":183,"../internal/style":141,"IrXUsu":100}],144:[function(require,module,exports){
 module.exports = {
   bind: function () {
     var el = this.el
@@ -42087,7 +44821,7 @@ module.exports = {
   }
 }
 
-},{}],146:[function(require,module,exports){
+},{}],145:[function(require,module,exports){
 var _ = require('../../util')
 
 module.exports = {
@@ -42116,7 +44850,7 @@ module.exports = {
   }
 }
 
-},{"../../util":184}],147:[function(require,module,exports){
+},{"../../util":183}],146:[function(require,module,exports){
 (function (process){
 var _ = require('../../util')
 var FragmentFactory = require('../../fragment/factory')
@@ -42709,7 +45443,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../../fragment/factory":162,"../../util":184,"IrXUsu":101}],148:[function(require,module,exports){
+},{"../../fragment/factory":161,"../../util":183,"IrXUsu":100}],147:[function(require,module,exports){
 var _ = require('../../util')
 var templateParser = require('../../parsers/template')
 
@@ -42751,7 +45485,7 @@ module.exports = {
   }
 }
 
-},{"../../parsers/template":175,"../../util":184}],149:[function(require,module,exports){
+},{"../../parsers/template":174,"../../util":183}],148:[function(require,module,exports){
 (function (process){
 var _ = require('../../util')
 var FragmentFactory = require('../../fragment/factory')
@@ -42821,7 +45555,7 @@ module.exports = {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../../fragment/factory":162,"../../util":184,"IrXUsu":101}],150:[function(require,module,exports){
+},{"../../fragment/factory":161,"../../util":183,"IrXUsu":100}],149:[function(require,module,exports){
 // text & html
 exports.text = require('./text')
 exports.html = require('./html')
@@ -42847,7 +45581,7 @@ exports.ref = require('./ref')
 // cloak
 exports.cloak = require('./cloak')
 
-},{"./bind":144,"./cloak":145,"./el":146,"./for":147,"./html":148,"./if":149,"./model":152,"./on":156,"./ref":157,"./show":158,"./text":159}],151:[function(require,module,exports){
+},{"./bind":143,"./cloak":144,"./el":145,"./for":146,"./html":147,"./if":148,"./model":151,"./on":155,"./ref":156,"./show":157,"./text":158}],150:[function(require,module,exports){
 var _ = require('../../../util')
 
 module.exports = {
@@ -42911,7 +45645,7 @@ module.exports = {
   }
 }
 
-},{"../../../util":184}],152:[function(require,module,exports){
+},{"../../../util":183}],151:[function(require,module,exports){
 (function (process){
 var _ = require('../../../util')
 
@@ -42997,7 +45731,7 @@ module.exports = {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../../../util":184,"./checkbox":151,"./radio":153,"./select":154,"./text":155,"IrXUsu":101}],153:[function(require,module,exports){
+},{"../../../util":183,"./checkbox":150,"./radio":152,"./select":153,"./text":154,"IrXUsu":100}],152:[function(require,module,exports){
 var _ = require('../../../util')
 
 module.exports = {
@@ -43033,7 +45767,7 @@ module.exports = {
   }
 }
 
-},{"../../../util":184}],154:[function(require,module,exports){
+},{"../../../util":183}],153:[function(require,module,exports){
 var _ = require('../../../util')
 
 module.exports = {
@@ -43153,7 +45887,7 @@ function indexOf (arr, val) {
   return -1
 }
 
-},{"../../../util":184}],155:[function(require,module,exports){
+},{"../../../util":183}],154:[function(require,module,exports){
 var _ = require('../../../util')
 
 module.exports = {
@@ -43282,7 +46016,7 @@ module.exports = {
   }
 }
 
-},{"../../../util":184}],156:[function(require,module,exports){
+},{"../../../util":183}],155:[function(require,module,exports){
 (function (process){
 var _ = require('../../util')
 
@@ -43410,7 +46144,7 @@ module.exports = {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../../util":184,"IrXUsu":101}],157:[function(require,module,exports){
+},{"../../util":183,"IrXUsu":100}],156:[function(require,module,exports){
 (function (process){
 if (process.env.NODE_ENV !== 'production') {
   module.exports = {
@@ -43424,7 +46158,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../../util":184,"IrXUsu":101}],158:[function(require,module,exports){
+},{"../../util":183,"IrXUsu":100}],157:[function(require,module,exports){
 var _ = require('../../util')
 var transition = require('../../transition')
 
@@ -43452,7 +46186,7 @@ module.exports = {
   }
 }
 
-},{"../../transition":177,"../../util":184}],159:[function(require,module,exports){
+},{"../../transition":176,"../../util":183}],158:[function(require,module,exports){
 var _ = require('../../util')
 
 module.exports = {
@@ -43468,7 +46202,7 @@ module.exports = {
   }
 }
 
-},{"../../util":184}],160:[function(require,module,exports){
+},{"../../util":183}],159:[function(require,module,exports){
 var _ = require('../util')
 var Path = require('../parsers/path')
 var toArray = require('../directives/public/for')._postProcess
@@ -43588,7 +46322,7 @@ function contains (val, search) {
   }
 }
 
-},{"../directives/public/for":147,"../parsers/path":174,"../util":184}],161:[function(require,module,exports){
+},{"../directives/public/for":146,"../parsers/path":173,"../util":183}],160:[function(require,module,exports){
 var _ = require('../util')
 
 /**
@@ -43708,7 +46442,7 @@ exports.debounce = function (handler, delay) {
 
 _.extend(exports, require('./array-filters'))
 
-},{"../util":184,"./array-filters":160}],162:[function(require,module,exports){
+},{"../util":183,"./array-filters":159}],161:[function(require,module,exports){
 var _ = require('../util')
 var compiler = require('../compiler')
 var templateParser = require('../parsers/template')
@@ -43766,7 +46500,7 @@ FragmentFactory.prototype.create = function (host, scope, parentFrag) {
 
 module.exports = FragmentFactory
 
-},{"../cache":128,"../compiler":131,"../parsers/template":175,"../util":184,"./fragment":163}],163:[function(require,module,exports){
+},{"../cache":127,"../compiler":130,"../parsers/template":174,"../util":183,"./fragment":162}],162:[function(require,module,exports){
 var _ = require('../util')
 var transition = require('../transition')
 
@@ -43954,7 +46688,7 @@ function detach (child) {
 
 module.exports = Fragment
 
-},{"../transition":177,"../util":184}],164:[function(require,module,exports){
+},{"../transition":176,"../util":183}],163:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var inDoc = _.inDoc
@@ -44121,7 +46855,7 @@ exports._callHook = function (hook) {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../util":184,"IrXUsu":101}],165:[function(require,module,exports){
+},{"../util":183,"IrXUsu":100}],164:[function(require,module,exports){
 var mergeOptions = require('../util').mergeOptions
 var uid = 0
 
@@ -44235,7 +46969,7 @@ exports._init = function (options) {
   }
 }
 
-},{"../util":184}],166:[function(require,module,exports){
+},{"../util":183}],165:[function(require,module,exports){
 var _ = require('../util')
 var Directive = require('../directive')
 var compiler = require('../compiler')
@@ -44474,7 +47208,7 @@ exports._cleanup = function () {
   this.$off()
 }
 
-},{"../compiler":131,"../directive":134,"../util":184}],167:[function(require,module,exports){
+},{"../compiler":130,"../directive":133,"../util":183}],166:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 
@@ -44571,7 +47305,7 @@ exports._resolveComponent = function (id, cb) {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../util":184,"IrXUsu":101}],168:[function(require,module,exports){
+},{"../util":183,"IrXUsu":100}],167:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var compiler = require('../compiler')
@@ -44816,7 +47550,7 @@ exports._initMeta = function () {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../compiler":131,"../observer":171,"../observer/dep":170,"../util":184,"../watcher":188,"IrXUsu":101}],169:[function(require,module,exports){
+},{"../compiler":130,"../observer":170,"../observer/dep":169,"../util":183,"../watcher":187,"IrXUsu":100}],168:[function(require,module,exports){
 var _ = require('../util')
 var arrayProto = Array.prototype
 var arrayMethods = Object.create(arrayProto)
@@ -44908,7 +47642,7 @@ _.define(
 
 module.exports = arrayMethods
 
-},{"../util":184}],170:[function(require,module,exports){
+},{"../util":183}],169:[function(require,module,exports){
 var _ = require('../util')
 var uid = 0
 
@@ -44971,7 +47705,7 @@ Dep.prototype.notify = function () {
 
 module.exports = Dep
 
-},{"../util":184}],171:[function(require,module,exports){
+},{"../util":183}],170:[function(require,module,exports){
 var _ = require('../util')
 var config = require('../config')
 var Dep = require('./dep')
@@ -45200,7 +47934,7 @@ _.defineReactive = defineReactive
 
 module.exports = Observer
 
-},{"../config":133,"../util":184,"./array":169,"./dep":170}],172:[function(require,module,exports){
+},{"../config":132,"../util":183,"./array":168,"./dep":169}],171:[function(require,module,exports){
 var _ = require('../util')
 var Cache = require('../cache')
 var cache = new Cache(1000)
@@ -45336,7 +48070,7 @@ exports.parse = function (s) {
   return dir
 }
 
-},{"../cache":128,"../util":184}],173:[function(require,module,exports){
+},{"../cache":127,"../util":183}],172:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var Path = require('./path')
@@ -45604,7 +48338,7 @@ exports.isSimplePath = function (exp) {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../cache":128,"../util":184,"./path":174,"IrXUsu":101}],174:[function(require,module,exports){
+},{"../cache":127,"../util":183,"./path":173,"IrXUsu":100}],173:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var Cache = require('../cache')
@@ -45966,7 +48700,7 @@ exports.set = function (obj, path, val) {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../cache":128,"../util":184,"IrXUsu":101}],175:[function(require,module,exports){
+},{"../cache":127,"../util":183,"IrXUsu":100}],174:[function(require,module,exports){
 var _ = require('../util')
 var Cache = require('../cache')
 var templateCache = new Cache(1000)
@@ -46256,7 +48990,7 @@ exports.parse = function (template, clone, noSelector) {
     : frag
 }
 
-},{"../cache":128,"../util":184}],176:[function(require,module,exports){
+},{"../cache":127,"../util":183}],175:[function(require,module,exports){
 var Cache = require('../cache')
 var config = require('../config')
 var dirParser = require('./directive')
@@ -46418,7 +49152,7 @@ function inlineFilters (exp, single) {
   }
 }
 
-},{"../cache":128,"../config":133,"./directive":172}],177:[function(require,module,exports){
+},{"../cache":127,"../config":132,"./directive":171}],176:[function(require,module,exports){
 var _ = require('../util')
 
 /**
@@ -46499,7 +49233,7 @@ var apply = exports.apply = function (el, direction, op, vm, cb) {
   transition[action](op, cb)
 }
 
-},{"../util":184}],178:[function(require,module,exports){
+},{"../util":183}],177:[function(require,module,exports){
 var _ = require('../util')
 var queue = []
 var queued = false
@@ -46536,7 +49270,7 @@ function flush () {
   return f
 }
 
-},{"../util":184}],179:[function(require,module,exports){
+},{"../util":183}],178:[function(require,module,exports){
 var _ = require('../util')
 var queue = require('./queue')
 var addClass = _.addClass
@@ -46905,7 +49639,7 @@ function isHidden (el) {
 
 module.exports = Transition
 
-},{"../util":184,"./queue":178}],180:[function(require,module,exports){
+},{"../util":183,"./queue":177}],179:[function(require,module,exports){
 (function (process){
 var _ = require('./index')
 
@@ -47059,7 +49793,7 @@ function formatValue (val) {
 }
 
 }).call(this,require("IrXUsu"))
-},{"./index":184,"IrXUsu":101}],181:[function(require,module,exports){
+},{"./index":183,"IrXUsu":100}],180:[function(require,module,exports){
 (function (process){
 /**
  * Enable debug utilities.
@@ -47110,7 +49844,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../config":133,"IrXUsu":101}],182:[function(require,module,exports){
+},{"../config":132,"IrXUsu":100}],181:[function(require,module,exports){
 (function (process){
 var _ = require('./index')
 var config = require('../config')
@@ -47477,7 +50211,7 @@ exports.removeNodeRange = function (start, end, vm, frag, cb) {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../config":133,"../transition":177,"./index":184,"IrXUsu":101}],183:[function(require,module,exports){
+},{"../config":132,"../transition":176,"./index":183,"IrXUsu":100}],182:[function(require,module,exports){
 // can we use __proto__?
 exports.hasProto = '__proto__' in {}
 
@@ -47564,7 +50298,7 @@ exports.nextTick = (function () {
   }
 })()
 
-},{}],184:[function(require,module,exports){
+},{}],183:[function(require,module,exports){
 var lang = require('./lang')
 var extend = lang.extend
 
@@ -47575,7 +50309,7 @@ extend(exports, require('./options'))
 extend(exports, require('./component'))
 extend(exports, require('./debug'))
 
-},{"./component":180,"./debug":181,"./dom":182,"./env":183,"./lang":185,"./options":186}],185:[function(require,module,exports){
+},{"./component":179,"./debug":180,"./dom":181,"./env":182,"./lang":184,"./options":185}],184:[function(require,module,exports){
 /**
  * Set a property on an object. Adds the new property and
  * triggers change notification if the property doesn't
@@ -47967,7 +50701,7 @@ exports.looseEqual = function (a, b) {
   /* eslint-enable eqeqeq */
 }
 
-},{}],186:[function(require,module,exports){
+},{}],185:[function(require,module,exports){
 (function (process){
 var _ = require('./index')
 var config = require('../config')
@@ -48330,7 +51064,7 @@ exports.resolveAsset = function resolve (options, type, id) {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../config":133,"./index":184,"IrXUsu":101}],187:[function(require,module,exports){
+},{"../config":132,"./index":183,"IrXUsu":100}],186:[function(require,module,exports){
 (function (process){
 var _ = require('./util')
 var extend = _.extend
@@ -48430,7 +51164,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 }).call(this,require("IrXUsu"))
-},{"./api/data":122,"./api/dom":123,"./api/events":124,"./api/global":125,"./api/lifecycle":126,"./directives/element":135,"./directives/public":150,"./filters":161,"./instance/events":164,"./instance/init":165,"./instance/lifecycle":166,"./instance/misc":167,"./instance/state":168,"./util":184,"IrXUsu":101}],188:[function(require,module,exports){
+},{"./api/data":121,"./api/dom":122,"./api/events":123,"./api/global":124,"./api/lifecycle":125,"./directives/element":134,"./directives/public":149,"./filters":160,"./instance/events":163,"./instance/init":164,"./instance/lifecycle":165,"./instance/misc":166,"./instance/state":167,"./util":183,"IrXUsu":100}],187:[function(require,module,exports){
 (function (process){
 var _ = require('./util')
 var config = require('./config')
@@ -48770,7 +51504,7 @@ function traverse (val) {
 module.exports = Watcher
 
 }).call(this,require("IrXUsu"))
-},{"./batcher":127,"./config":133,"./observer/dep":170,"./parsers/expression":173,"./util":184,"IrXUsu":101}],189:[function(require,module,exports){
+},{"./batcher":126,"./config":132,"./observer/dep":169,"./parsers/expression":172,"./util":183,"IrXUsu":100}],188:[function(require,module,exports){
 var inserted = exports.cache = {}
 
 exports.insert = function (css) {
@@ -48790,4 +51524,4 @@ exports.insert = function (css) {
   return elem
 }
 
-},{}]},{},[20])
+},{}]},{},[21])
