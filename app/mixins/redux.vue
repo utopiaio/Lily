@@ -12,9 +12,12 @@
       };
     },
     created() {
-      store.subscribe(() => {
+      this.unsubscribe = store.subscribe(() => {
         this.store = store.getState();
       });
+    },
+    beforeDestroy() {
+      this.unsubscribe();
     }
   };
 </script>
