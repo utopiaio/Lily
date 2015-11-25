@@ -3,15 +3,14 @@ var rename = require('gulp-rename');
 var livereload = require('gulp-livereload');
 var less = require('gulp-less');
 var vueify = require('vueify');
-var babel = require('gulp-babel');
 var browserify = require('gulp-browserify');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var path = require('path');
 
 var filePath = {
-  browserify: ['./app/**/*.vue'],
-  babel: ['./app/**/*.es2015.js'],
+  app: ['./index.html', './app.js', './app/**/*.vue', './app/**/*.css'],
+  vueify: ['./app/**/*.vue'],
   less: ['./app/**/*.less']
 };
 
@@ -26,30 +25,19 @@ gulp.task('less', function() {
     .pipe(livereload());
 });
 
-gulp.task('browserify', function() {
-  return gulp.src(['app.js'])
+gulp.task('vueify', function() {
+  return gulp.src('app.js')
     .pipe(browserify({transform: ['vueify']}))
     .pipe(gulp.dest('./app/dist'))
     .pipe(livereload());
 });
 
-gulp.task('babel', function() {
-  return gulp.src(filePath.babel, {base: process.cwd()})
-    .pipe(rename({suffix: '.babeled'}))
-    .pipe(babel())
-    .pipe(gulp.dest('./'));
-});
-
-gulp.task('watch-browserify', function() {
-  gulp.watch(filePath.browserify, ['browserify']);
+gulp.task('watch-app', function() {
+  gulp.watch(filePath.app, ['vueify']);
 });
 
 gulp.task('watch-less', function() {
   gulp.watch(filePath.less, ['less']);
-});
-
-gulp.task('watch-babel', function() {
-  gulp.watch(filePath.babel, ['babel']);
 });
 
 gulp.task('ugg', function() {
@@ -62,7 +50,6 @@ gulp.task('ugg', function() {
 gulp.task('default', function() {
   livereload.listen();
   livereload();
-  gulp.start('watch-browserify');
+  gulp.start('watch-app');
   gulp.start('watch-less');
-  gulp.start('watch-babel');
 });

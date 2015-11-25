@@ -9,11 +9,11 @@ var _notie = require('notie');
 
 var _notie2 = _interopRequireDefault(_notie);
 
-var _reduxEs2015Babeled = require('./../mixins/redux.es2015.babeled.js');
+var _redux = require('./../mixins/redux.vue');
 
-var _reduxEs2015Babeled2 = _interopRequireDefault(_reduxEs2015Babeled);
+var _redux2 = _interopRequireDefault(_redux);
 
-var _authEs2015Babeled = require('./../redux/actions/auth.es2015.babeled.js');
+var _auth = require('./../redux/actions/auth.vue');
 
 var _navbar = require('./navbar.vue');
 
@@ -22,7 +22,7 @@ var _navbar2 = _interopRequireDefault(_navbar);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-  mixins: [_reduxEs2015Babeled2.default],
+  mixins: [_redux2.default],
   name: 'app',
   computed: {
     show: function show() {
@@ -34,7 +34,7 @@ exports.default = {
       var _this = this;
 
       _notie2.default.confirm('Are you sure you want to logout?', 'Yes', 'Cancel', function () {
-        (0, _authEs2015Babeled.logout)().then(function () {
+        (0, _auth.logout)().then(function () {
           return _this.$route.router.go({ name: 'landing' });
         });
       });
@@ -57,7 +57,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, module.exports.template)
   }
 })()}
-},{"./../mixins/redux.es2015.babeled.js":16,"./../redux/actions/auth.es2015.babeled.js":17,"./navbar.vue":11,"notie":44,"vue":126,"vue-hot-reload-api":59}],2:[function(require,module,exports){
+},{"./../mixins/redux.vue":16,"./../redux/actions/auth.vue":17,"./navbar.vue":11,"notie":108,"vue":190,"vue-hot-reload-api":123}],2:[function(require,module,exports){
 'use strict';
 
 var _spin = require('spin.js');
@@ -67,13 +67,13 @@ var _spin2 = _interopRequireDefault(_spin);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _timeout = 10000; /**
-                       * @module {show, hide}
-                       * simply shows n' hides backdrop with a spinner in the middle
-                       *
-                       * usage:
-                       * show() - to show the backdrop
-                       * hide() - to hide the backdrop
-                       */
+                         * @module {show, hide}
+                         * simply shows n' hides backdrop with a spinner in the middle
+                         *
+                         * usage:
+                         * show() - to show the backdrop
+                         * hide() - to hide the backdrop
+                         */
 
 var _spinner = null;
 var _timeoutHandler = null;
@@ -132,7 +132,19 @@ var show = function show() {
 
 exports.show = show;
 exports.hide = hide;
-},{"spin.js":54}],3:[function(require,module,exports){
+if (module.exports.__esModule) module.exports = module.exports.default
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/moe/Sites/condor.io/app/components/backdrop.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, module.exports.template)
+  }
+})()}
+},{"spin.js":118,"vue":190,"vue-hot-reload-api":123}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -166,7 +178,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, module.exports.template)
   }
 })()}
-},{"vue":126,"vue-hot-reload-api":59}],4:[function(require,module,exports){
+},{"vue":190,"vue-hot-reload-api":123}],4:[function(require,module,exports){
 'use strict';
 
 var _jquery = require('jquery');
@@ -248,15 +260,27 @@ module.exports = {
     });
   }
 }; /**
-    * @module: dateTime
-    * a vue component for date-time picker
-    *
-    * usage:
-    * <date-time format="HH:mm" class="form-control" :model.sync="time"></date-time>
-    * <date-time format="YYYY-MM-DD" class="form-control" :model.sync="date"></date-time>
-    * <date-time format="YYYY-MM-DD hh:mm A" class="form-control" :model.sync="dateTime"></date-time>
-    */
-},{"eonasdan-bootstrap-datetimepicker":39,"jquery":41,"moment":43}],5:[function(require,module,exports){
+      * @module: dateTime
+      * a vue component for date-time picker
+      *
+      * usage:
+      * <date-time format="HH:mm" class="form-control" :model.sync="time"></date-time>
+      * <date-time format="YYYY-MM-DD" class="form-control" :model.sync="date"></date-time>
+      * <date-time format="YYYY-MM-DD hh:mm A" class="form-control" :model.sync="dateTime"></date-time>
+      */
+if (module.exports.__esModule) module.exports = module.exports.default
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/moe/Sites/condor.io/app/components/dateTime.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, module.exports.template)
+  }
+})()}
+},{"eonasdan-bootstrap-datetimepicker":103,"jquery":105,"moment":107,"vue":190,"vue-hot-reload-api":123}],5:[function(require,module,exports){
 'use strict';
 
 var _superagent = require('superagent');
@@ -279,7 +303,7 @@ module.exports = {
           }
         }
       },
-      template: '\n        <div v-show="validDocument" class="text-center">\n          <i class="ion-document-text" style="font-size: 48px;"></i>\n          <div style="padding-top: 0; margin-top: 0;">\n            <h5 v-text="src.name"></h5>\n            <button class="btn btn-sm btn-block btn-danger"><i class="ion-ios-trash-outline"></i>&nbsp;&nbsp;delete</button>\n          </div>\n        </div>',
+      template: '\n          <div v-show="validDocument" class="text-center">\n            <i class="ion-document-text" style="font-size: 48px;"></i>\n            <div style="padding-top: 0; margin-top: 0;">\n              <h5 v-text="src.name"></h5>\n              <button class="btn btn-sm btn-block btn-danger"><i class="ion-ios-trash-outline"></i>&nbsp;&nbsp;delete</button>\n            </div>\n          </div>',
       computed: {
         validDocument: function validDocument() {
           return this.src.hasOwnProperty('name');
@@ -315,24 +339,40 @@ module.exports = {
     });
   }
 }; /**
-    * @module documentInfo
-    * display document info and emit `deleted` event if deletion went successfully
-    *
-    * usage:
-    * <document-info :src="src" @deleted="deleted"></document-info>
-    */
-},{"superagent":56}],6:[function(require,module,exports){
+      * @module documentInfo
+      * display document info and emit `deleted` event if deletion went successfully
+      *
+      * usage:
+      * <document-info :src="src" @deleted="deleted"></document-info>
+      */
+if (module.exports.__esModule) module.exports = module.exports.default
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/moe/Sites/condor.io/app/components/documentInfo.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, module.exports.template)
+  }
+})()}
+},{"superagent":120,"vue":190,"vue-hot-reload-api":123}],6:[function(require,module,exports){
 'use strict';
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * @module documentList
- * this is a soft wrapper for document info component with delete method
- *
- * usage:
- * <document-list :src.sync="documentList"></document-info>
- */
+   * @module documentList
+   * this is a soft wrapper for document info component with delete method
+   *
+   * usage:
+   * <document-list :src.sync="documentList"></document-info>
+   */
 
 module.exports = {
   install: function install(Vue, options) {
@@ -344,7 +384,7 @@ module.exports = {
           twoWay: true
         }
       },
-      template: '\n        <div>\n          <div class="row" v-if="multiple === true">\n            <document-info v-for="document in src" track-by="$index" :src="document" @deleted="deleted" class="col-lg-4 col-md-6"></document-info>\n          </div>\n          <document-info v-if="multiple === false" :src="src" @deleted="deleted"></document-info>\n        </div>\n      ',
+      template: '\n          <div>\n            <div class="row" v-if="multiple === true">\n              <document-info v-for="document in src" track-by="$index" :src="document" @deleted="deleted" class="col-lg-4 col-md-6"></document-info>\n            </div>\n            <document-info v-if="multiple === false" :src="src" @deleted="deleted"></document-info>\n          </div>\n        ',
       computed: {
         /**
          * we're computing `multiple` because we can't access `this`
@@ -362,7 +402,7 @@ module.exports = {
           } else {
             for (var i = this.src.length - 1; i >= 0; i--) {
               if (this.src[i].id === doc.id) {
-                this.src = [].concat(_toConsumableArray(this.src.slice(0, i)), _toConsumableArray(this.src.slice(i + 1)));
+                this.src = [].concat((0, _toConsumableArray3.default)(this.src.slice(0, i)), (0, _toConsumableArray3.default)(this.src.slice(i + 1)));
                 break;
               }
             };
@@ -372,22 +412,30 @@ module.exports = {
     });
   }
 };
-},{}],7:[function(require,module,exports){
+if (module.exports.__esModule) module.exports = module.exports.default
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/moe/Sites/condor.io/app/components/documentList.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, module.exports.template)
+  }
+})()}
+},{"babel-runtime/helpers/toConsumableArray":25,"vue":190,"vue-hot-reload-api":123}],7:[function(require,module,exports){
 'use strict';
+
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
 var _superagent = require('superagent');
 
 var _superagent2 = _interopRequireDefault(_superagent);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } } /**
-                                                                                                                                                                                                     * @module documentUpload
-                                                                                                                                                                                                     * Vue component for document upload
-                                                                                                                                                                                                     *
-                                                                                                                                                                                                     * usage:
-                                                                                                                                                                                                     * <document-upload class="btn btn-default btn-block" :model.sync="model" url="http://rock.io/S3" accept="image/*" :multiple="true"><document-upload>
-                                                                                                                                                                                                     */
 
 module.exports = {
   install: function install(Vue, options) {
@@ -462,7 +510,7 @@ module.exports = {
 
             if (response && response.ok === true) {
               _this.__span.innerHTML = '<span class="badge">' + response.body.files.length + '</span>&nbsp;&nbsp;<span class="text-success">File' + (_this.multiple === true ? 's' : '') + ' uploaded successfully</span>';
-              _this.model = _this.multiple === true ? [].concat(_toConsumableArray(_this.model), _toConsumableArray(response.body.files)) : response.body.files[0];
+              _this.model = _this.multiple === true ? [].concat((0, _toConsumableArray3.default)(_this.model), (0, _toConsumableArray3.default)(response.body.files)) : response.body.files[0];
             } else {
               _this.__span.innerHTML = '<span class="text-danger">Error uploading file' + (_this.multiple === true ? 's' : '') + '</span>';
             }
@@ -476,8 +524,26 @@ module.exports = {
       }
     });
   }
-};
-},{"superagent":56}],8:[function(require,module,exports){
+}; /**
+      * @module documentUpload
+      * Vue component for document upload
+      *
+      * usage:
+      * <document-upload class="btn btn-default btn-block" :model.sync="model" url="http://rock.io/S3" accept="image/*" :multiple="true"><document-upload>
+      */
+if (module.exports.__esModule) module.exports = module.exports.default
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/moe/Sites/condor.io/app/components/documentUpload.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, module.exports.template)
+  }
+})()}
+},{"babel-runtime/helpers/toConsumableArray":25,"superagent":120,"vue":190,"vue-hot-reload-api":123}],8:[function(require,module,exports){
 'use strict';
 
 var _jquery = require('jquery');
@@ -565,7 +631,7 @@ module.exports = {
         };
       },
 
-      template: '\n        <div>\n          <img v-if="src.url" class="img-responsive" :src="src.url">\n          <p style="margin-top: 8px;" v-if="!cropped">\n            <button v-if="src.url" @click="crop" class="btn btn-default btn-block"><i class="fa fa-crop"></i>&nbsp;&nbsp;Crop</button>\n          </p>\n        </div>',
+      template: '\n          <div>\n            <img v-if="src.url" class="img-responsive" :src="src.url">\n            <p style="margin-top: 8px;" v-if="!cropped">\n              <button v-if="src.url" @click="crop" class="btn btn-default btn-block"><i class="fa fa-crop"></i>&nbsp;&nbsp;Crop</button>\n            </p>\n          </div>',
       ready: function ready() {
         if (this.src.hasOwnProperty('type') === true && this.src.type.search(/image/) > -1) {
           this.initiateCropper();
@@ -682,13 +748,25 @@ module.exports = {
     });
   }
 }; /**
-    * @module: imageCrop
-    * a Vue component that initiates cropper on an image file upload
-    *
-    * usage:
-    * <image-crop :src.sync="image" :x="16" :y="9" type="image/jpeg" :quality="0.6" url="http://rock.io/S3"></image-crop>
-    */
-},{"cropper":35,"jquery":41,"superagent":56}],9:[function(require,module,exports){
+      * @module: imageCrop
+      * a Vue component that initiates cropper on an image file upload
+      *
+      * usage:
+      * <image-crop :src.sync="image" :x="16" :y="9" type="image/jpeg" :quality="0.6" url="http://rock.io/S3"></image-crop>
+      */
+if (module.exports.__esModule) module.exports = module.exports.default
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/moe/Sites/condor.io/app/components/imageCrop.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, module.exports.template)
+  }
+})()}
+},{"cropper":99,"jquery":105,"superagent":120,"vue":190,"vue-hot-reload-api":123}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -710,7 +788,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, module.exports.template)
   }
 })()}
-},{"vue":126,"vue-hot-reload-api":59}],10:[function(require,module,exports){
+},{"vue":190,"vue-hot-reload-api":123}],10:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert(".login-form[_v-4d3a47e5] {\n  margin-top: 72px;\n  margin-bottom: 64px;\n  padding: 24px 24px 32px 24px;\n  border-radius: 4px;\n  background-color: #ecf0f1;\n  border: 1px solid #95a5a6;\n  -webkit-box-shadow: 0 2px 4px rgba(51, 51, 51, 0.5);\n  -moz-box-shadow: 0 2px 4px rgba(51, 51, 51, 0.5);\n  box-shadow: 0 2px 4px rgba(51, 51, 51, 0.5);\n}\n.login-form img[_v-4d3a47e5] {\n  display: inline-block;\n  width: 64px;\n}\n.login-form button[type=\"submit\"][_v-4d3a47e5] {\n  margin-top: 24px;\n}\n@media (max-width: 768px) {\n  .login-form[_v-4d3a47e5] {\n    margin-top: 32px;\n    margin-bottom: 32px;\n  }\n}\n")
 'use strict';
 
@@ -722,17 +800,17 @@ var _notie = require('notie');
 
 var _notie2 = _interopRequireDefault(_notie);
 
-var _reduxEs2015Babeled = require('./../mixins/redux.es2015.babeled.js');
+var _redux = require('./../mixins/redux.vue');
 
-var _reduxEs2015Babeled2 = _interopRequireDefault(_reduxEs2015Babeled);
+var _redux2 = _interopRequireDefault(_redux);
 
-var _authEs2015Babeled = require('./../redux/actions/auth.es2015.babeled.js');
+var _auth = require('./../redux/actions/auth.vue');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
   name: 'login',
-  mixins: [_reduxEs2015Babeled2.default],
+  mixins: [_redux2.default],
   data: function data() {
     return {
       credentials: {
@@ -755,7 +833,7 @@ exports.default = {
     login: function login() {
       var _this = this;
 
-      (0, _authEs2015Babeled.login)('http://rock.io/authenticate', this.credentials).then(function (authInfo) {
+      (0, _auth.login)('http://rock.io/authenticate', this.credentials).then(function (authInfo) {
         _notie2.default.alert(1, 'Welcome back ' + authInfo.user.user_full_name, 2);
         _this.$route.router.replace({ name: 'one' });
       }).catch(function (error) {
@@ -781,7 +859,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, module.exports.template)
   }
 })()}
-},{"./../mixins/redux.es2015.babeled.js":16,"./../redux/actions/auth.es2015.babeled.js":17,"notie":44,"vue":126,"vue-hot-reload-api":59,"vueify-insert-css":128}],11:[function(require,module,exports){
+},{"./../mixins/redux.vue":16,"./../redux/actions/auth.vue":17,"notie":108,"vue":190,"vue-hot-reload-api":123,"vueify-insert-css":192}],11:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("nav.navbar.navbar-default[_v-8f8fde78] {\n  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);\n  border-bottom: none;\n}\nnav.navbar.navbar-default .navbar-brand[_v-8f8fde78] {\n  padding: 4px;\n  margin: 0;\n  margin-right: 16px;\n}\nnav.navbar.navbar-default .navbar-brand img[_v-8f8fde78] {\n  height: 40px;\n  width: auto;\n}\nnav.navbar.navbar-default .nav.navbar-nav li a[_v-8f8fde78] {\n  cursor: pointer;\n  text-transform: uppercase;\n}\nnav.navbar.navbar-default .nav.navbar-nav li.v-link-active a[_v-8f8fde78],\nnav.navbar.navbar-default .nav.navbar-nav li.v-link-active a[_v-8f8fde78]:hover,\nnav.navbar.navbar-default .nav.navbar-nav li.v-link-active a[_v-8f8fde78]:focus {\n  color: #34495e;\n  background: -webkit-linear-gradient(top, #ecf0f1 85%, #34495e 15%);\n  background: linear-gradient(to bottom, #ecf0f1 85%, #34495e 15%);\n}\nnav.navbar.navbar-default .nav.navbar-nav a[href=\"logout\"][_v-8f8fde78] {\n  font-weight: bold;\n  color: #ff3366;\n}\nnav.navbar.navbar-default .nav.navbar-nav a[href=\"info\"][_v-8f8fde78] {\n  text-transform: capitalize;\n}\nnav.navbar.navbar-default .info[_v-8f8fde78] {\n  padding-left: 16px;\n  padding-right: 16px;\n}\nnav.navbar.navbar-default .info p[_v-8f8fde78] {\n  color: #37375A;\n  line-height: 100%;\n  margin: 16px 0;\n}\n")
 'use strict';
 
@@ -844,22 +922,18 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, module.exports.template)
   }
 })()}
-},{"bootstrap":22,"jquery":41,"vue":126,"vue-hot-reload-api":59,"vueify-insert-css":128}],12:[function(require,module,exports){
+},{"bootstrap":86,"jquery":105,"vue":190,"vue-hot-reload-api":123,"vueify-insert-css":192}],12:[function(require,module,exports){
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _redux = require('./../mixins/redux.vue');
 
-var _reduxEs2015Babeled = require('./../mixins/redux.es2015.babeled.js');
-
-var _reduxEs2015Babeled2 = _interopRequireDefault(_reduxEs2015Babeled);
+var _redux2 = _interopRequireDefault(_redux);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = {
+module.exports = {
   name: 'one',
-  mixins: [_reduxEs2015Babeled2.default]
+  mixins: [_redux2.default]
 };
 if (module.exports.__esModule) module.exports = module.exports.default
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n  <div>\n    <h1>one</h1>\n  </div>\n"
@@ -874,7 +948,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, module.exports.template)
   }
 })()}
-},{"./../mixins/redux.es2015.babeled.js":16,"vue":126,"vue-hot-reload-api":59}],13:[function(require,module,exports){
+},{"./../mixins/redux.vue":16,"vue":190,"vue-hot-reload-api":123}],13:[function(require,module,exports){
 'use strict';
 
 var _jquery = require('jquery');
@@ -926,29 +1000,37 @@ module.exports = {
     });
   }
 }; /**
-    * @module summoernote
-    * summernote component - basic initiation, destroy and update on change
-    *
-    * usage:
-    * <summernote :model.sync="model"></summernote>
-    * <summernote :model.sync="model" :options="{height: 300, toolbar: [['style', ['style']],['font', ['bold', 'italic', 'underline']],['fontsize', ['fontsize']],['color', ['color']],['para', ['ul', 'ol', 'paragraph']],['height', ['height']],['table', ['table']],['insert', ['link', 'picture', 'hr']]]}"></summernote>
-    */
-},{"bootstrap":22,"jquery":41,"summernote":55}],14:[function(require,module,exports){
+      * @module summoernote
+      * summernote component - basic initiation, destroy and update on change
+      *
+      * usage:
+      * <summernote :model.sync="model"></summernote>
+      * <summernote :model.sync="model" :options="{height: 300, toolbar: [['style', ['style']],['font', ['bold', 'italic', 'underline']],['fontsize', ['fontsize']],['color', ['color']],['para', ['ul', 'ol', 'paragraph']],['height', ['height']],['table', ['table']],['insert', ['link', 'picture', 'hr']]]}"></summernote>
+      */
+if (module.exports.__esModule) module.exports = module.exports.default
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/moe/Sites/condor.io/app/components/summernote.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, module.exports.template)
+  }
+})()}
+},{"bootstrap":86,"jquery":105,"summernote":119,"vue":190,"vue-hot-reload-api":123}],14:[function(require,module,exports){
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _redux = require('./../mixins/redux.vue');
 
-var _reduxEs2015Babeled = require('./../mixins/redux.es2015.babeled.js');
-
-var _reduxEs2015Babeled2 = _interopRequireDefault(_reduxEs2015Babeled);
+var _redux2 = _interopRequireDefault(_redux);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = {
+module.exports = {
   name: 'two',
-  mixins: [_reduxEs2015Babeled2.default]
+  mixins: [_redux2.default]
 };
 if (module.exports.__esModule) module.exports = module.exports.default
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n  <div>\n    <h1>two</h1>\n  </div>\n"
@@ -963,16 +1045,16 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, module.exports.template)
   }
 })()}
-},{"./../mixins/redux.es2015.babeled.js":16,"vue":126,"vue-hot-reload-api":59}],15:[function(require,module,exports){
+},{"./../mixins/redux.vue":16,"vue":190,"vue-hot-reload-api":123}],15:[function(require,module,exports){
 'use strict';
 
 /**
- * @module disabled
- * adds / removes `disabled` attribute on an element
- *
- * usage:
- * <button v-disabled="true">disabled</button>
- */
+   * @module disabled
+   * adds / removes `disabled` attribute on an element
+   *
+   * usage:
+   * <button v-disabled="true">disabled</button>
+   */
 
 module.exports = {
   install: function install(Vue, options) {
@@ -984,12 +1066,24 @@ module.exports = {
     });
   }
 };
-},{}],16:[function(require,module,exports){
+if (module.exports.__esModule) module.exports = module.exports.default
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/moe/Sites/condor.io/app/directives/disabled.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, module.exports.template)
+  }
+})()}
+},{"vue":190,"vue-hot-reload-api":123}],16:[function(require,module,exports){
 'use strict';
 
-var _storeEs2015Babeled = require('./../redux/store.es2015.babeled.js');
+var _store = require('./../redux/store.vue');
 
-var _storeEs2015Babeled2 = _interopRequireDefault(_storeEs2015Babeled);
+var _store2 = _interopRequireDefault(_store);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1000,19 +1094,35 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 module.exports = {
   data: function data() {
     return {
-      store: _storeEs2015Babeled2.default.getState()
+      store: _store2.default.getState()
     };
   },
   created: function created() {
     var _this = this;
 
-    _storeEs2015Babeled2.default.subscribe(function () {
-      _this.store = _storeEs2015Babeled2.default.getState();
+    _store2.default.subscribe(function () {
+      _this.store = _store2.default.getState();
     });
   }
 };
-},{"./../redux/store.es2015.babeled.js":20}],17:[function(require,module,exports){
+if (module.exports.__esModule) module.exports = module.exports.default
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/moe/Sites/condor.io/app/mixins/redux.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, module.exports.template)
+  }
+})()}
+},{"./../redux/store.vue":20,"vue":190,"vue-hot-reload-api":123}],17:[function(require,module,exports){
 'use strict';
+
+var _promise = require('babel-runtime/core-js/promise');
+
+var _promise2 = _interopRequireDefault(_promise);
 
 var _localforage = require('localforage');
 
@@ -1022,13 +1132,13 @@ var _superagent = require('superagent');
 
 var _superagent2 = _interopRequireDefault(_superagent);
 
-var _storeEs2015Babeled = require('./../store.es2015.babeled.js');
+var _store = require('./../store.vue');
 
-var _storeEs2015Babeled2 = _interopRequireDefault(_storeEs2015Babeled);
+var _store2 = _interopRequireDefault(_store);
 
-var _constantsEs2015Babeled = require('./../constants/constants.es2015.babeled.js');
+var _constants = require('./../constants/constants.vue');
 
-var _backdropEs2015Babeled = require('./../../components/backdrop.es2015.babeled.js');
+var _backdrop = require('./../../components/backdrop.vue');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1045,16 +1155,16 @@ function login() {
   var path = arguments.length <= 0 || arguments[0] === undefined ? 'http://rock.io/authenticate' : arguments[0];
   var credentials = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
-  return new Promise(function (resolve, reject) {
-    (0, _backdropEs2015Babeled.show)();
+  return new _promise2.default(function (resolve, reject) {
+    (0, _backdrop.show)();
 
     _superagent2.default.post(path).send(credentials).end(function (error, response) {
-      (0, _backdropEs2015Babeled.hide)();
+      (0, _backdrop.hide)();
 
       if (response && response.ok === true) {
         _localforage2.default.setItem('auth', response.body, function (_error, value) {
           if (error === null) {
-            _storeEs2015Babeled2.default.dispatch({ type: _constantsEs2015Babeled.AUTH_LOGIN, auth: response.body });
+            _store2.default.dispatch({ type: _constants.AUTH_LOGIN, auth: response.body });
             resolve(value);
           } else {
             reject(_error);
@@ -1078,9 +1188,9 @@ function login() {
  * @return {Prmomise}
  */
 function logout() {
-  return new Promise(function (resolve, reject) {
+  return new _promise2.default(function (resolve, reject) {
     _localforage2.default.removeItem('auth', function (error) {
-      _storeEs2015Babeled2.default.dispatch({ type: _constantsEs2015Babeled.AUTH_LOGOUT });
+      _store2.default.dispatch({ type: _constants.AUTH_LOGOUT });
       resolve();
     });
   });
@@ -1092,12 +1202,12 @@ function logout() {
  * @return {Promise}
  */
 function init() {
-  return new Promise(function (resolve, reject) {
+  return new _promise2.default(function (resolve, reject) {
     _localforage2.default.getItem('auth').then(function (value) {
       if (value === null) {
         reject('no auth');
       } else {
-        _storeEs2015Babeled2.default.dispatch({ type: _constantsEs2015Babeled.AUTH_UPDATE, auth: value });
+        _store2.default.dispatch({ type: _constants.AUTH_UPDATE, auth: value });
         resolve(value);
       }
     });
@@ -1107,7 +1217,19 @@ function init() {
 exports.login = login;
 exports.logout = logout;
 exports.init = init;
-},{"./../../components/backdrop.es2015.babeled.js":2,"./../constants/constants.es2015.babeled.js":18,"./../store.es2015.babeled.js":20,"localforage":42,"superagent":56}],18:[function(require,module,exports){
+if (module.exports.__esModule) module.exports = module.exports.default
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/moe/Sites/condor.io/app/redux/actions/auth.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, module.exports.template)
+  }
+})()}
+},{"./../../components/backdrop.vue":2,"./../constants/constants.vue":18,"./../store.vue":20,"babel-runtime/core-js/promise":24,"localforage":106,"superagent":120,"vue":190,"vue-hot-reload-api":123}],18:[function(require,module,exports){
 'use strict';
 
 var AUTH_LOGIN = 'AUTH_LOGIN';
@@ -1117,25 +1239,43 @@ var AUTH_UPDATE = 'AUTH_UPDATE';
 exports.AUTH_LOGIN = AUTH_LOGIN;
 exports.AUTH_LOGOUT = AUTH_LOGOUT;
 exports.AUTH_UPDATE = AUTH_UPDATE;
-},{}],19:[function(require,module,exports){
+if (module.exports.__esModule) module.exports = module.exports.default
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/moe/Sites/condor.io/app/redux/constants/constants.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, module.exports.template)
+  }
+})()}
+},{"vue":190,"vue-hot-reload-api":123}],19:[function(require,module,exports){
 'use strict';
 
-var _constantsEs2015Babeled = require('./../constants/constants.es2015.babeled.js');
+var _assign = require('babel-runtime/core-js/object/assign');
+
+var _assign2 = _interopRequireDefault(_assign);
+
+var _constants = require('./../constants/constants.vue');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function Auth() {
   var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
   var action = arguments[1];
 
   switch (action.type) {
-    case _constantsEs2015Babeled.AUTH_LOGIN:
+    case _constants.AUTH_LOGIN:
       return action.auth;
       break;
 
-    case _constantsEs2015Babeled.AUTH_UPDATE:
-      return Object.assign({}, state, action.auth);
+    case _constants.AUTH_UPDATE:
+      return (0, _assign2.default)({}, state, action.auth);
       break;
 
-    case _constantsEs2015Babeled.AUTH_LOGOUT:
+    case _constants.AUTH_LOGOUT:
       return {};
       break;
 
@@ -1146,19 +1286,43 @@ function Auth() {
 }
 
 module.exports = Auth;
-},{"./../constants/constants.es2015.babeled.js":18}],20:[function(require,module,exports){
+if (module.exports.__esModule) module.exports = module.exports.default
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/moe/Sites/condor.io/app/redux/reducers/auth.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, module.exports.template)
+  }
+})()}
+},{"./../constants/constants.vue":18,"babel-runtime/core-js/object/assign":23,"vue":190,"vue-hot-reload-api":123}],20:[function(require,module,exports){
 'use strict';
 
 var _redux = require('redux');
 
-var _authEs2015Babeled = require('./reducers/auth.es2015.babeled.js');
+var _auth = require('./reducers/auth.vue');
 
-var _authEs2015Babeled2 = _interopRequireDefault(_authEs2015Babeled);
+var _auth2 = _interopRequireDefault(_auth);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = (0, _redux.createStore)((0, _redux.combineReducers)({ auth: _authEs2015Babeled2.default }));
-},{"./reducers/auth.es2015.babeled.js":19,"redux":46}],21:[function(require,module,exports){
+module.exports = (0, _redux.createStore)((0, _redux.combineReducers)({ auth: _auth2.default }));
+if (module.exports.__esModule) module.exports = module.exports.default
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/Users/moe/Sites/condor.io/app/redux/store.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, module.exports.template)
+  }
+})()}
+},{"./reducers/auth.vue":19,"redux":110,"vue":190,"vue-hot-reload-api":123}],21:[function(require,module,exports){
 (function (global){
 // this makes sure "non-npm" jquery packages play well with jquery
 global.jQuery = require('jquery');
@@ -1167,13 +1331,13 @@ var Vue = require('vue');
 var VueRouter = require('vue-router');
 var notie = require('notie');
 
-var disabled = require('./app/directives/disabled.es2015.babeled.js');
-var dateTime = require('./app/components/dateTime.es2015.babeled.js');
-var documentUpload = require('./app/components/documentUpload.es2015.babeled.js');
-var documentInfo = require('./app/components/documentInfo.es2015.babeled.js');
-var documentList = require('./app/components/documentList.es2015.babeled.js');
-var summernote = require('./app/components/summernote.es2015.babeled.js');
-var imageCrop = require('./app/components/imageCrop.es2015.babeled.js');
+var disabled = require('./app/directives/disabled.vue');
+var dateTime = require('./app/components/dateTime.vue');
+var documentUpload = require('./app/components/documentUpload.vue');
+var documentInfo = require('./app/components/documentInfo.vue');
+var documentList = require('./app/components/documentList.vue');
+var summernote = require('./app/components/summernote.vue');
+var imageCrop = require('./app/components/imageCrop.vue');
 
 var app = require('./app/components/app.vue');
 var one = require('./app/components/one.vue');
@@ -1182,8 +1346,8 @@ var landing = require('./app/components/landing.vue');
 var login = require('./app/components/login.vue');
 var components = require('./app/components/components.vue');
 
-var auth = require('./app/redux/actions/auth.es2015.babeled.js');
-var store = require('./app/redux/store.es2015.babeled.js');
+var auth = require('./app/redux/actions/auth.vue');
+var store = require('./app/redux/store.vue');
 
 Vue.config.debug = true;
 Vue.use(VueRouter);
@@ -1281,7 +1445,1124 @@ auth.init().then(function() {
 });
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./app/components/app.vue":1,"./app/components/components.vue":3,"./app/components/dateTime.es2015.babeled.js":4,"./app/components/documentInfo.es2015.babeled.js":5,"./app/components/documentList.es2015.babeled.js":6,"./app/components/documentUpload.es2015.babeled.js":7,"./app/components/imageCrop.es2015.babeled.js":8,"./app/components/landing.vue":9,"./app/components/login.vue":10,"./app/components/one.vue":12,"./app/components/summernote.es2015.babeled.js":13,"./app/components/two.vue":14,"./app/directives/disabled.es2015.babeled.js":15,"./app/redux/actions/auth.es2015.babeled.js":17,"./app/redux/store.es2015.babeled.js":20,"jquery":41,"notie":44,"vue":126,"vue-router":60}],22:[function(require,module,exports){
+},{"./app/components/app.vue":1,"./app/components/components.vue":3,"./app/components/dateTime.vue":4,"./app/components/documentInfo.vue":5,"./app/components/documentList.vue":6,"./app/components/documentUpload.vue":7,"./app/components/imageCrop.vue":8,"./app/components/landing.vue":9,"./app/components/login.vue":10,"./app/components/one.vue":12,"./app/components/summernote.vue":13,"./app/components/two.vue":14,"./app/directives/disabled.vue":15,"./app/redux/actions/auth.vue":17,"./app/redux/store.vue":20,"jquery":105,"notie":108,"vue":190,"vue-router":124}],22:[function(require,module,exports){
+module.exports = { "default": require("core-js/library/fn/array/from"), __esModule: true };
+},{"core-js/library/fn/array/from":26}],23:[function(require,module,exports){
+module.exports = { "default": require("core-js/library/fn/object/assign"), __esModule: true };
+},{"core-js/library/fn/object/assign":27}],24:[function(require,module,exports){
+module.exports = { "default": require("core-js/library/fn/promise"), __esModule: true };
+},{"core-js/library/fn/promise":28}],25:[function(require,module,exports){
+"use strict";
+
+var _from = require("babel-runtime/core-js/array/from");
+
+var _from2 = _interopRequireDefault(_from);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }
+
+    return arr2;
+  } else {
+    return (0, _from2.default)(arr);
+  }
+};
+
+exports.__esModule = true;
+},{"babel-runtime/core-js/array/from":22}],26:[function(require,module,exports){
+require('../../modules/es6.string.iterator');
+require('../../modules/es6.array.from');
+module.exports = require('../../modules/$.core').Array.from;
+},{"../../modules/$.core":34,"../../modules/es6.array.from":79,"../../modules/es6.string.iterator":84}],27:[function(require,module,exports){
+require('../../modules/es6.object.assign');
+module.exports = require('../../modules/$.core').Object.assign;
+},{"../../modules/$.core":34,"../../modules/es6.object.assign":81}],28:[function(require,module,exports){
+require('../modules/es6.object.to-string');
+require('../modules/es6.string.iterator');
+require('../modules/web.dom.iterable');
+require('../modules/es6.promise');
+module.exports = require('../modules/$.core').Promise;
+},{"../modules/$.core":34,"../modules/es6.object.to-string":82,"../modules/es6.promise":83,"../modules/es6.string.iterator":84,"../modules/web.dom.iterable":85}],29:[function(require,module,exports){
+module.exports = function(it){
+  if(typeof it != 'function')throw TypeError(it + ' is not a function!');
+  return it;
+};
+},{}],30:[function(require,module,exports){
+module.exports = function(){ /* empty */ };
+},{}],31:[function(require,module,exports){
+var isObject = require('./$.is-object');
+module.exports = function(it){
+  if(!isObject(it))throw TypeError(it + ' is not an object!');
+  return it;
+};
+},{"./$.is-object":49}],32:[function(require,module,exports){
+// getting tag from 19.1.3.6 Object.prototype.toString()
+var cof = require('./$.cof')
+  , TAG = require('./$.wks')('toStringTag')
+  // ES3 wrong here
+  , ARG = cof(function(){ return arguments; }()) == 'Arguments';
+
+module.exports = function(it){
+  var O, T, B;
+  return it === undefined ? 'Undefined' : it === null ? 'Null'
+    // @@toStringTag case
+    : typeof (T = (O = Object(it))[TAG]) == 'string' ? T
+    // builtinTag case
+    : ARG ? cof(O)
+    // ES3 arguments fallback
+    : (B = cof(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : B;
+};
+},{"./$.cof":33,"./$.wks":77}],33:[function(require,module,exports){
+var toString = {}.toString;
+
+module.exports = function(it){
+  return toString.call(it).slice(8, -1);
+};
+},{}],34:[function(require,module,exports){
+var core = module.exports = {version: '1.2.6'};
+if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
+},{}],35:[function(require,module,exports){
+// optional / simple context binding
+var aFunction = require('./$.a-function');
+module.exports = function(fn, that, length){
+  aFunction(fn);
+  if(that === undefined)return fn;
+  switch(length){
+    case 1: return function(a){
+      return fn.call(that, a);
+    };
+    case 2: return function(a, b){
+      return fn.call(that, a, b);
+    };
+    case 3: return function(a, b, c){
+      return fn.call(that, a, b, c);
+    };
+  }
+  return function(/* ...args */){
+    return fn.apply(that, arguments);
+  };
+};
+},{"./$.a-function":29}],36:[function(require,module,exports){
+// 7.2.1 RequireObjectCoercible(argument)
+module.exports = function(it){
+  if(it == undefined)throw TypeError("Can't call method on  " + it);
+  return it;
+};
+},{}],37:[function(require,module,exports){
+// Thank's IE8 for his funny defineProperty
+module.exports = !require('./$.fails')(function(){
+  return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
+});
+},{"./$.fails":40}],38:[function(require,module,exports){
+var isObject = require('./$.is-object')
+  , document = require('./$.global').document
+  // in old IE typeof document.createElement is 'object'
+  , is = isObject(document) && isObject(document.createElement);
+module.exports = function(it){
+  return is ? document.createElement(it) : {};
+};
+},{"./$.global":42,"./$.is-object":49}],39:[function(require,module,exports){
+var global    = require('./$.global')
+  , core      = require('./$.core')
+  , ctx       = require('./$.ctx')
+  , PROTOTYPE = 'prototype';
+
+var $export = function(type, name, source){
+  var IS_FORCED = type & $export.F
+    , IS_GLOBAL = type & $export.G
+    , IS_STATIC = type & $export.S
+    , IS_PROTO  = type & $export.P
+    , IS_BIND   = type & $export.B
+    , IS_WRAP   = type & $export.W
+    , exports   = IS_GLOBAL ? core : core[name] || (core[name] = {})
+    , target    = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE]
+    , key, own, out;
+  if(IS_GLOBAL)source = name;
+  for(key in source){
+    // contains in native
+    own = !IS_FORCED && target && key in target;
+    if(own && key in exports)continue;
+    // export native or passed
+    out = own ? target[key] : source[key];
+    // prevent global pollution for namespaces
+    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
+    // bind timers to global for call from export context
+    : IS_BIND && own ? ctx(out, global)
+    // wrap global constructors for prevent change them in library
+    : IS_WRAP && target[key] == out ? (function(C){
+      var F = function(param){
+        return this instanceof C ? new C(param) : C(param);
+      };
+      F[PROTOTYPE] = C[PROTOTYPE];
+      return F;
+    // make static versions for prototype methods
+    })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
+    if(IS_PROTO)(exports[PROTOTYPE] || (exports[PROTOTYPE] = {}))[key] = out;
+  }
+};
+// type bitmap
+$export.F = 1;  // forced
+$export.G = 2;  // global
+$export.S = 4;  // static
+$export.P = 8;  // proto
+$export.B = 16; // bind
+$export.W = 32; // wrap
+module.exports = $export;
+},{"./$.core":34,"./$.ctx":35,"./$.global":42}],40:[function(require,module,exports){
+module.exports = function(exec){
+  try {
+    return !!exec();
+  } catch(e){
+    return true;
+  }
+};
+},{}],41:[function(require,module,exports){
+var ctx         = require('./$.ctx')
+  , call        = require('./$.iter-call')
+  , isArrayIter = require('./$.is-array-iter')
+  , anObject    = require('./$.an-object')
+  , toLength    = require('./$.to-length')
+  , getIterFn   = require('./core.get-iterator-method');
+module.exports = function(iterable, entries, fn, that){
+  var iterFn = getIterFn(iterable)
+    , f      = ctx(fn, that, entries ? 2 : 1)
+    , index  = 0
+    , length, step, iterator;
+  if(typeof iterFn != 'function')throw TypeError(iterable + ' is not iterable!');
+  // fast case for arrays with default iterator
+  if(isArrayIter(iterFn))for(length = toLength(iterable.length); length > index; index++){
+    entries ? f(anObject(step = iterable[index])[0], step[1]) : f(iterable[index]);
+  } else for(iterator = iterFn.call(iterable); !(step = iterator.next()).done; ){
+    call(iterator, f, step.value, entries);
+  }
+};
+},{"./$.an-object":31,"./$.ctx":35,"./$.is-array-iter":48,"./$.iter-call":50,"./$.to-length":74,"./core.get-iterator-method":78}],42:[function(require,module,exports){
+// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+var global = module.exports = typeof window != 'undefined' && window.Math == Math
+  ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
+if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
+},{}],43:[function(require,module,exports){
+var hasOwnProperty = {}.hasOwnProperty;
+module.exports = function(it, key){
+  return hasOwnProperty.call(it, key);
+};
+},{}],44:[function(require,module,exports){
+var $          = require('./$')
+  , createDesc = require('./$.property-desc');
+module.exports = require('./$.descriptors') ? function(object, key, value){
+  return $.setDesc(object, key, createDesc(1, value));
+} : function(object, key, value){
+  object[key] = value;
+  return object;
+};
+},{"./$":56,"./$.descriptors":37,"./$.property-desc":60}],45:[function(require,module,exports){
+module.exports = require('./$.global').document && document.documentElement;
+},{"./$.global":42}],46:[function(require,module,exports){
+// fast apply, http://jsperf.lnkit.com/fast-apply/5
+module.exports = function(fn, args, that){
+  var un = that === undefined;
+  switch(args.length){
+    case 0: return un ? fn()
+                      : fn.call(that);
+    case 1: return un ? fn(args[0])
+                      : fn.call(that, args[0]);
+    case 2: return un ? fn(args[0], args[1])
+                      : fn.call(that, args[0], args[1]);
+    case 3: return un ? fn(args[0], args[1], args[2])
+                      : fn.call(that, args[0], args[1], args[2]);
+    case 4: return un ? fn(args[0], args[1], args[2], args[3])
+                      : fn.call(that, args[0], args[1], args[2], args[3]);
+  } return              fn.apply(that, args);
+};
+},{}],47:[function(require,module,exports){
+// fallback for non-array-like ES3 and non-enumerable old V8 strings
+var cof = require('./$.cof');
+module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
+  return cof(it) == 'String' ? it.split('') : Object(it);
+};
+},{"./$.cof":33}],48:[function(require,module,exports){
+// check on default Array iterator
+var Iterators  = require('./$.iterators')
+  , ITERATOR   = require('./$.wks')('iterator')
+  , ArrayProto = Array.prototype;
+
+module.exports = function(it){
+  return it !== undefined && (Iterators.Array === it || ArrayProto[ITERATOR] === it);
+};
+},{"./$.iterators":55,"./$.wks":77}],49:[function(require,module,exports){
+module.exports = function(it){
+  return typeof it === 'object' ? it !== null : typeof it === 'function';
+};
+},{}],50:[function(require,module,exports){
+// call something on iterator step with safe closing on error
+var anObject = require('./$.an-object');
+module.exports = function(iterator, fn, value, entries){
+  try {
+    return entries ? fn(anObject(value)[0], value[1]) : fn(value);
+  // 7.4.6 IteratorClose(iterator, completion)
+  } catch(e){
+    var ret = iterator['return'];
+    if(ret !== undefined)anObject(ret.call(iterator));
+    throw e;
+  }
+};
+},{"./$.an-object":31}],51:[function(require,module,exports){
+'use strict';
+var $              = require('./$')
+  , descriptor     = require('./$.property-desc')
+  , setToStringTag = require('./$.set-to-string-tag')
+  , IteratorPrototype = {};
+
+// 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
+require('./$.hide')(IteratorPrototype, require('./$.wks')('iterator'), function(){ return this; });
+
+module.exports = function(Constructor, NAME, next){
+  Constructor.prototype = $.create(IteratorPrototype, {next: descriptor(1, next)});
+  setToStringTag(Constructor, NAME + ' Iterator');
+};
+},{"./$":56,"./$.hide":44,"./$.property-desc":60,"./$.set-to-string-tag":66,"./$.wks":77}],52:[function(require,module,exports){
+'use strict';
+var LIBRARY        = require('./$.library')
+  , $export        = require('./$.export')
+  , redefine       = require('./$.redefine')
+  , hide           = require('./$.hide')
+  , has            = require('./$.has')
+  , Iterators      = require('./$.iterators')
+  , $iterCreate    = require('./$.iter-create')
+  , setToStringTag = require('./$.set-to-string-tag')
+  , getProto       = require('./$').getProto
+  , ITERATOR       = require('./$.wks')('iterator')
+  , BUGGY          = !([].keys && 'next' in [].keys()) // Safari has buggy iterators w/o `next`
+  , FF_ITERATOR    = '@@iterator'
+  , KEYS           = 'keys'
+  , VALUES         = 'values';
+
+var returnThis = function(){ return this; };
+
+module.exports = function(Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED){
+  $iterCreate(Constructor, NAME, next);
+  var getMethod = function(kind){
+    if(!BUGGY && kind in proto)return proto[kind];
+    switch(kind){
+      case KEYS: return function keys(){ return new Constructor(this, kind); };
+      case VALUES: return function values(){ return new Constructor(this, kind); };
+    } return function entries(){ return new Constructor(this, kind); };
+  };
+  var TAG        = NAME + ' Iterator'
+    , DEF_VALUES = DEFAULT == VALUES
+    , VALUES_BUG = false
+    , proto      = Base.prototype
+    , $native    = proto[ITERATOR] || proto[FF_ITERATOR] || DEFAULT && proto[DEFAULT]
+    , $default   = $native || getMethod(DEFAULT)
+    , methods, key;
+  // Fix native
+  if($native){
+    var IteratorPrototype = getProto($default.call(new Base));
+    // Set @@toStringTag to native iterators
+    setToStringTag(IteratorPrototype, TAG, true);
+    // FF fix
+    if(!LIBRARY && has(proto, FF_ITERATOR))hide(IteratorPrototype, ITERATOR, returnThis);
+    // fix Array#{values, @@iterator}.name in V8 / FF
+    if(DEF_VALUES && $native.name !== VALUES){
+      VALUES_BUG = true;
+      $default = function values(){ return $native.call(this); };
+    }
+  }
+  // Define iterator
+  if((!LIBRARY || FORCED) && (BUGGY || VALUES_BUG || !proto[ITERATOR])){
+    hide(proto, ITERATOR, $default);
+  }
+  // Plug for library
+  Iterators[NAME] = $default;
+  Iterators[TAG]  = returnThis;
+  if(DEFAULT){
+    methods = {
+      values:  DEF_VALUES  ? $default : getMethod(VALUES),
+      keys:    IS_SET      ? $default : getMethod(KEYS),
+      entries: !DEF_VALUES ? $default : getMethod('entries')
+    };
+    if(FORCED)for(key in methods){
+      if(!(key in proto))redefine(proto, key, methods[key]);
+    } else $export($export.P + $export.F * (BUGGY || VALUES_BUG), NAME, methods);
+  }
+  return methods;
+};
+},{"./$":56,"./$.export":39,"./$.has":43,"./$.hide":44,"./$.iter-create":51,"./$.iterators":55,"./$.library":57,"./$.redefine":62,"./$.set-to-string-tag":66,"./$.wks":77}],53:[function(require,module,exports){
+var ITERATOR     = require('./$.wks')('iterator')
+  , SAFE_CLOSING = false;
+
+try {
+  var riter = [7][ITERATOR]();
+  riter['return'] = function(){ SAFE_CLOSING = true; };
+  Array.from(riter, function(){ throw 2; });
+} catch(e){ /* empty */ }
+
+module.exports = function(exec, skipClosing){
+  if(!skipClosing && !SAFE_CLOSING)return false;
+  var safe = false;
+  try {
+    var arr  = [7]
+      , iter = arr[ITERATOR]();
+    iter.next = function(){ safe = true; };
+    arr[ITERATOR] = function(){ return iter; };
+    exec(arr);
+  } catch(e){ /* empty */ }
+  return safe;
+};
+},{"./$.wks":77}],54:[function(require,module,exports){
+module.exports = function(done, value){
+  return {value: value, done: !!done};
+};
+},{}],55:[function(require,module,exports){
+module.exports = {};
+},{}],56:[function(require,module,exports){
+var $Object = Object;
+module.exports = {
+  create:     $Object.create,
+  getProto:   $Object.getPrototypeOf,
+  isEnum:     {}.propertyIsEnumerable,
+  getDesc:    $Object.getOwnPropertyDescriptor,
+  setDesc:    $Object.defineProperty,
+  setDescs:   $Object.defineProperties,
+  getKeys:    $Object.keys,
+  getNames:   $Object.getOwnPropertyNames,
+  getSymbols: $Object.getOwnPropertySymbols,
+  each:       [].forEach
+};
+},{}],57:[function(require,module,exports){
+module.exports = true;
+},{}],58:[function(require,module,exports){
+var global    = require('./$.global')
+  , macrotask = require('./$.task').set
+  , Observer  = global.MutationObserver || global.WebKitMutationObserver
+  , process   = global.process
+  , Promise   = global.Promise
+  , isNode    = require('./$.cof')(process) == 'process'
+  , head, last, notify;
+
+var flush = function(){
+  var parent, domain, fn;
+  if(isNode && (parent = process.domain)){
+    process.domain = null;
+    parent.exit();
+  }
+  while(head){
+    domain = head.domain;
+    fn     = head.fn;
+    if(domain)domain.enter();
+    fn(); // <- currently we use it only for Promise - try / catch not required
+    if(domain)domain.exit();
+    head = head.next;
+  } last = undefined;
+  if(parent)parent.enter();
+};
+
+// Node.js
+if(isNode){
+  notify = function(){
+    process.nextTick(flush);
+  };
+// browsers with MutationObserver
+} else if(Observer){
+  var toggle = 1
+    , node   = document.createTextNode('');
+  new Observer(flush).observe(node, {characterData: true}); // eslint-disable-line no-new
+  notify = function(){
+    node.data = toggle = -toggle;
+  };
+// environments with maybe non-completely correct, but existent Promise
+} else if(Promise && Promise.resolve){
+  notify = function(){
+    Promise.resolve().then(flush);
+  };
+// for other environments - macrotask based on:
+// - setImmediate
+// - MessageChannel
+// - window.postMessag
+// - onreadystatechange
+// - setTimeout
+} else {
+  notify = function(){
+    // strange IE + webpack dev server bug - use .call(global)
+    macrotask.call(global, flush);
+  };
+}
+
+module.exports = function asap(fn){
+  var task = {fn: fn, next: undefined, domain: isNode && process.domain};
+  if(last)last.next = task;
+  if(!head){
+    head = task;
+    notify();
+  } last = task;
+};
+},{"./$.cof":33,"./$.global":42,"./$.task":71}],59:[function(require,module,exports){
+// 19.1.2.1 Object.assign(target, source, ...)
+var $        = require('./$')
+  , toObject = require('./$.to-object')
+  , IObject  = require('./$.iobject');
+
+// should work with symbols and should have deterministic property order (V8 bug)
+module.exports = require('./$.fails')(function(){
+  var a = Object.assign
+    , A = {}
+    , B = {}
+    , S = Symbol()
+    , K = 'abcdefghijklmnopqrst';
+  A[S] = 7;
+  K.split('').forEach(function(k){ B[k] = k; });
+  return a({}, A)[S] != 7 || Object.keys(a({}, B)).join('') != K;
+}) ? function assign(target, source){ // eslint-disable-line no-unused-vars
+  var T     = toObject(target)
+    , $$    = arguments
+    , $$len = $$.length
+    , index = 1
+    , getKeys    = $.getKeys
+    , getSymbols = $.getSymbols
+    , isEnum     = $.isEnum;
+  while($$len > index){
+    var S      = IObject($$[index++])
+      , keys   = getSymbols ? getKeys(S).concat(getSymbols(S)) : getKeys(S)
+      , length = keys.length
+      , j      = 0
+      , key;
+    while(length > j)if(isEnum.call(S, key = keys[j++]))T[key] = S[key];
+  }
+  return T;
+} : Object.assign;
+},{"./$":56,"./$.fails":40,"./$.iobject":47,"./$.to-object":75}],60:[function(require,module,exports){
+module.exports = function(bitmap, value){
+  return {
+    enumerable  : !(bitmap & 1),
+    configurable: !(bitmap & 2),
+    writable    : !(bitmap & 4),
+    value       : value
+  };
+};
+},{}],61:[function(require,module,exports){
+var redefine = require('./$.redefine');
+module.exports = function(target, src){
+  for(var key in src)redefine(target, key, src[key]);
+  return target;
+};
+},{"./$.redefine":62}],62:[function(require,module,exports){
+module.exports = require('./$.hide');
+},{"./$.hide":44}],63:[function(require,module,exports){
+// 7.2.9 SameValue(x, y)
+module.exports = Object.is || function is(x, y){
+  return x === y ? x !== 0 || 1 / x === 1 / y : x != x && y != y;
+};
+},{}],64:[function(require,module,exports){
+// Works with __proto__ only. Old v8 can't work with null proto objects.
+/* eslint-disable no-proto */
+var getDesc  = require('./$').getDesc
+  , isObject = require('./$.is-object')
+  , anObject = require('./$.an-object');
+var check = function(O, proto){
+  anObject(O);
+  if(!isObject(proto) && proto !== null)throw TypeError(proto + ": can't set as prototype!");
+};
+module.exports = {
+  set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
+    function(test, buggy, set){
+      try {
+        set = require('./$.ctx')(Function.call, getDesc(Object.prototype, '__proto__').set, 2);
+        set(test, []);
+        buggy = !(test instanceof Array);
+      } catch(e){ buggy = true; }
+      return function setPrototypeOf(O, proto){
+        check(O, proto);
+        if(buggy)O.__proto__ = proto;
+        else set(O, proto);
+        return O;
+      };
+    }({}, false) : undefined),
+  check: check
+};
+},{"./$":56,"./$.an-object":31,"./$.ctx":35,"./$.is-object":49}],65:[function(require,module,exports){
+'use strict';
+var core        = require('./$.core')
+  , $           = require('./$')
+  , DESCRIPTORS = require('./$.descriptors')
+  , SPECIES     = require('./$.wks')('species');
+
+module.exports = function(KEY){
+  var C = core[KEY];
+  if(DESCRIPTORS && C && !C[SPECIES])$.setDesc(C, SPECIES, {
+    configurable: true,
+    get: function(){ return this; }
+  });
+};
+},{"./$":56,"./$.core":34,"./$.descriptors":37,"./$.wks":77}],66:[function(require,module,exports){
+var def = require('./$').setDesc
+  , has = require('./$.has')
+  , TAG = require('./$.wks')('toStringTag');
+
+module.exports = function(it, tag, stat){
+  if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
+};
+},{"./$":56,"./$.has":43,"./$.wks":77}],67:[function(require,module,exports){
+var global = require('./$.global')
+  , SHARED = '__core-js_shared__'
+  , store  = global[SHARED] || (global[SHARED] = {});
+module.exports = function(key){
+  return store[key] || (store[key] = {});
+};
+},{"./$.global":42}],68:[function(require,module,exports){
+// 7.3.20 SpeciesConstructor(O, defaultConstructor)
+var anObject  = require('./$.an-object')
+  , aFunction = require('./$.a-function')
+  , SPECIES   = require('./$.wks')('species');
+module.exports = function(O, D){
+  var C = anObject(O).constructor, S;
+  return C === undefined || (S = anObject(C)[SPECIES]) == undefined ? D : aFunction(S);
+};
+},{"./$.a-function":29,"./$.an-object":31,"./$.wks":77}],69:[function(require,module,exports){
+module.exports = function(it, Constructor, name){
+  if(!(it instanceof Constructor))throw TypeError(name + ": use the 'new' operator!");
+  return it;
+};
+},{}],70:[function(require,module,exports){
+var toInteger = require('./$.to-integer')
+  , defined   = require('./$.defined');
+// true  -> String#at
+// false -> String#codePointAt
+module.exports = function(TO_STRING){
+  return function(that, pos){
+    var s = String(defined(that))
+      , i = toInteger(pos)
+      , l = s.length
+      , a, b;
+    if(i < 0 || i >= l)return TO_STRING ? '' : undefined;
+    a = s.charCodeAt(i);
+    return a < 0xd800 || a > 0xdbff || i + 1 === l || (b = s.charCodeAt(i + 1)) < 0xdc00 || b > 0xdfff
+      ? TO_STRING ? s.charAt(i) : a
+      : TO_STRING ? s.slice(i, i + 2) : (a - 0xd800 << 10) + (b - 0xdc00) + 0x10000;
+  };
+};
+},{"./$.defined":36,"./$.to-integer":72}],71:[function(require,module,exports){
+var ctx                = require('./$.ctx')
+  , invoke             = require('./$.invoke')
+  , html               = require('./$.html')
+  , cel                = require('./$.dom-create')
+  , global             = require('./$.global')
+  , process            = global.process
+  , setTask            = global.setImmediate
+  , clearTask          = global.clearImmediate
+  , MessageChannel     = global.MessageChannel
+  , counter            = 0
+  , queue              = {}
+  , ONREADYSTATECHANGE = 'onreadystatechange'
+  , defer, channel, port;
+var run = function(){
+  var id = +this;
+  if(queue.hasOwnProperty(id)){
+    var fn = queue[id];
+    delete queue[id];
+    fn();
+  }
+};
+var listner = function(event){
+  run.call(event.data);
+};
+// Node.js 0.9+ & IE10+ has setImmediate, otherwise:
+if(!setTask || !clearTask){
+  setTask = function setImmediate(fn){
+    var args = [], i = 1;
+    while(arguments.length > i)args.push(arguments[i++]);
+    queue[++counter] = function(){
+      invoke(typeof fn == 'function' ? fn : Function(fn), args);
+    };
+    defer(counter);
+    return counter;
+  };
+  clearTask = function clearImmediate(id){
+    delete queue[id];
+  };
+  // Node.js 0.8-
+  if(require('./$.cof')(process) == 'process'){
+    defer = function(id){
+      process.nextTick(ctx(run, id, 1));
+    };
+  // Browsers with MessageChannel, includes WebWorkers
+  } else if(MessageChannel){
+    channel = new MessageChannel;
+    port    = channel.port2;
+    channel.port1.onmessage = listner;
+    defer = ctx(port.postMessage, port, 1);
+  // Browsers with postMessage, skip WebWorkers
+  // IE8 has postMessage, but it's sync & typeof its postMessage is 'object'
+  } else if(global.addEventListener && typeof postMessage == 'function' && !global.importScripts){
+    defer = function(id){
+      global.postMessage(id + '', '*');
+    };
+    global.addEventListener('message', listner, false);
+  // IE8-
+  } else if(ONREADYSTATECHANGE in cel('script')){
+    defer = function(id){
+      html.appendChild(cel('script'))[ONREADYSTATECHANGE] = function(){
+        html.removeChild(this);
+        run.call(id);
+      };
+    };
+  // Rest old browsers
+  } else {
+    defer = function(id){
+      setTimeout(ctx(run, id, 1), 0);
+    };
+  }
+}
+module.exports = {
+  set:   setTask,
+  clear: clearTask
+};
+},{"./$.cof":33,"./$.ctx":35,"./$.dom-create":38,"./$.global":42,"./$.html":45,"./$.invoke":46}],72:[function(require,module,exports){
+// 7.1.4 ToInteger
+var ceil  = Math.ceil
+  , floor = Math.floor;
+module.exports = function(it){
+  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
+};
+},{}],73:[function(require,module,exports){
+// to indexed object, toObject with fallback for non-array-like ES3 strings
+var IObject = require('./$.iobject')
+  , defined = require('./$.defined');
+module.exports = function(it){
+  return IObject(defined(it));
+};
+},{"./$.defined":36,"./$.iobject":47}],74:[function(require,module,exports){
+// 7.1.15 ToLength
+var toInteger = require('./$.to-integer')
+  , min       = Math.min;
+module.exports = function(it){
+  return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
+};
+},{"./$.to-integer":72}],75:[function(require,module,exports){
+// 7.1.13 ToObject(argument)
+var defined = require('./$.defined');
+module.exports = function(it){
+  return Object(defined(it));
+};
+},{"./$.defined":36}],76:[function(require,module,exports){
+var id = 0
+  , px = Math.random();
+module.exports = function(key){
+  return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
+};
+},{}],77:[function(require,module,exports){
+var store  = require('./$.shared')('wks')
+  , uid    = require('./$.uid')
+  , Symbol = require('./$.global').Symbol;
+module.exports = function(name){
+  return store[name] || (store[name] =
+    Symbol && Symbol[name] || (Symbol || uid)('Symbol.' + name));
+};
+},{"./$.global":42,"./$.shared":67,"./$.uid":76}],78:[function(require,module,exports){
+var classof   = require('./$.classof')
+  , ITERATOR  = require('./$.wks')('iterator')
+  , Iterators = require('./$.iterators');
+module.exports = require('./$.core').getIteratorMethod = function(it){
+  if(it != undefined)return it[ITERATOR]
+    || it['@@iterator']
+    || Iterators[classof(it)];
+};
+},{"./$.classof":32,"./$.core":34,"./$.iterators":55,"./$.wks":77}],79:[function(require,module,exports){
+'use strict';
+var ctx         = require('./$.ctx')
+  , $export     = require('./$.export')
+  , toObject    = require('./$.to-object')
+  , call        = require('./$.iter-call')
+  , isArrayIter = require('./$.is-array-iter')
+  , toLength    = require('./$.to-length')
+  , getIterFn   = require('./core.get-iterator-method');
+$export($export.S + $export.F * !require('./$.iter-detect')(function(iter){ Array.from(iter); }), 'Array', {
+  // 22.1.2.1 Array.from(arrayLike, mapfn = undefined, thisArg = undefined)
+  from: function from(arrayLike/*, mapfn = undefined, thisArg = undefined*/){
+    var O       = toObject(arrayLike)
+      , C       = typeof this == 'function' ? this : Array
+      , $$      = arguments
+      , $$len   = $$.length
+      , mapfn   = $$len > 1 ? $$[1] : undefined
+      , mapping = mapfn !== undefined
+      , index   = 0
+      , iterFn  = getIterFn(O)
+      , length, result, step, iterator;
+    if(mapping)mapfn = ctx(mapfn, $$len > 2 ? $$[2] : undefined, 2);
+    // if object isn't iterable or it's array with default iterator - use simple case
+    if(iterFn != undefined && !(C == Array && isArrayIter(iterFn))){
+      for(iterator = iterFn.call(O), result = new C; !(step = iterator.next()).done; index++){
+        result[index] = mapping ? call(iterator, mapfn, [step.value, index], true) : step.value;
+      }
+    } else {
+      length = toLength(O.length);
+      for(result = new C(length); length > index; index++){
+        result[index] = mapping ? mapfn(O[index], index) : O[index];
+      }
+    }
+    result.length = index;
+    return result;
+  }
+});
+
+},{"./$.ctx":35,"./$.export":39,"./$.is-array-iter":48,"./$.iter-call":50,"./$.iter-detect":53,"./$.to-length":74,"./$.to-object":75,"./core.get-iterator-method":78}],80:[function(require,module,exports){
+'use strict';
+var addToUnscopables = require('./$.add-to-unscopables')
+  , step             = require('./$.iter-step')
+  , Iterators        = require('./$.iterators')
+  , toIObject        = require('./$.to-iobject');
+
+// 22.1.3.4 Array.prototype.entries()
+// 22.1.3.13 Array.prototype.keys()
+// 22.1.3.29 Array.prototype.values()
+// 22.1.3.30 Array.prototype[@@iterator]()
+module.exports = require('./$.iter-define')(Array, 'Array', function(iterated, kind){
+  this._t = toIObject(iterated); // target
+  this._i = 0;                   // next index
+  this._k = kind;                // kind
+// 22.1.5.2.1 %ArrayIteratorPrototype%.next()
+}, function(){
+  var O     = this._t
+    , kind  = this._k
+    , index = this._i++;
+  if(!O || index >= O.length){
+    this._t = undefined;
+    return step(1);
+  }
+  if(kind == 'keys'  )return step(0, index);
+  if(kind == 'values')return step(0, O[index]);
+  return step(0, [index, O[index]]);
+}, 'values');
+
+// argumentsList[@@iterator] is %ArrayProto_values% (9.4.4.6, 9.4.4.7)
+Iterators.Arguments = Iterators.Array;
+
+addToUnscopables('keys');
+addToUnscopables('values');
+addToUnscopables('entries');
+},{"./$.add-to-unscopables":30,"./$.iter-define":52,"./$.iter-step":54,"./$.iterators":55,"./$.to-iobject":73}],81:[function(require,module,exports){
+// 19.1.3.1 Object.assign(target, source)
+var $export = require('./$.export');
+
+$export($export.S + $export.F, 'Object', {assign: require('./$.object-assign')});
+},{"./$.export":39,"./$.object-assign":59}],82:[function(require,module,exports){
+
+},{}],83:[function(require,module,exports){
+'use strict';
+var $          = require('./$')
+  , LIBRARY    = require('./$.library')
+  , global     = require('./$.global')
+  , ctx        = require('./$.ctx')
+  , classof    = require('./$.classof')
+  , $export    = require('./$.export')
+  , isObject   = require('./$.is-object')
+  , anObject   = require('./$.an-object')
+  , aFunction  = require('./$.a-function')
+  , strictNew  = require('./$.strict-new')
+  , forOf      = require('./$.for-of')
+  , setProto   = require('./$.set-proto').set
+  , same       = require('./$.same-value')
+  , SPECIES    = require('./$.wks')('species')
+  , speciesConstructor = require('./$.species-constructor')
+  , asap       = require('./$.microtask')
+  , PROMISE    = 'Promise'
+  , process    = global.process
+  , isNode     = classof(process) == 'process'
+  , P          = global[PROMISE]
+  , Wrapper;
+
+var testResolve = function(sub){
+  var test = new P(function(){});
+  if(sub)test.constructor = Object;
+  return P.resolve(test) === test;
+};
+
+var USE_NATIVE = function(){
+  var works = false;
+  function P2(x){
+    var self = new P(x);
+    setProto(self, P2.prototype);
+    return self;
+  }
+  try {
+    works = P && P.resolve && testResolve();
+    setProto(P2, P);
+    P2.prototype = $.create(P.prototype, {constructor: {value: P2}});
+    // actual Firefox has broken subclass support, test that
+    if(!(P2.resolve(5).then(function(){}) instanceof P2)){
+      works = false;
+    }
+    // actual V8 bug, https://code.google.com/p/v8/issues/detail?id=4162
+    if(works && require('./$.descriptors')){
+      var thenableThenGotten = false;
+      P.resolve($.setDesc({}, 'then', {
+        get: function(){ thenableThenGotten = true; }
+      }));
+      works = thenableThenGotten;
+    }
+  } catch(e){ works = false; }
+  return works;
+}();
+
+// helpers
+var sameConstructor = function(a, b){
+  // library wrapper special case
+  if(LIBRARY && a === P && b === Wrapper)return true;
+  return same(a, b);
+};
+var getConstructor = function(C){
+  var S = anObject(C)[SPECIES];
+  return S != undefined ? S : C;
+};
+var isThenable = function(it){
+  var then;
+  return isObject(it) && typeof (then = it.then) == 'function' ? then : false;
+};
+var PromiseCapability = function(C){
+  var resolve, reject;
+  this.promise = new C(function($$resolve, $$reject){
+    if(resolve !== undefined || reject !== undefined)throw TypeError('Bad Promise constructor');
+    resolve = $$resolve;
+    reject  = $$reject;
+  });
+  this.resolve = aFunction(resolve),
+  this.reject  = aFunction(reject)
+};
+var perform = function(exec){
+  try {
+    exec();
+  } catch(e){
+    return {error: e};
+  }
+};
+var notify = function(record, isReject){
+  if(record.n)return;
+  record.n = true;
+  var chain = record.c;
+  asap(function(){
+    var value = record.v
+      , ok    = record.s == 1
+      , i     = 0;
+    var run = function(reaction){
+      var handler = ok ? reaction.ok : reaction.fail
+        , resolve = reaction.resolve
+        , reject  = reaction.reject
+        , result, then;
+      try {
+        if(handler){
+          if(!ok)record.h = true;
+          result = handler === true ? value : handler(value);
+          if(result === reaction.promise){
+            reject(TypeError('Promise-chain cycle'));
+          } else if(then = isThenable(result)){
+            then.call(result, resolve, reject);
+          } else resolve(result);
+        } else reject(value);
+      } catch(e){
+        reject(e);
+      }
+    };
+    while(chain.length > i)run(chain[i++]); // variable length - can't use forEach
+    chain.length = 0;
+    record.n = false;
+    if(isReject)setTimeout(function(){
+      var promise = record.p
+        , handler, console;
+      if(isUnhandled(promise)){
+        if(isNode){
+          process.emit('unhandledRejection', value, promise);
+        } else if(handler = global.onunhandledrejection){
+          handler({promise: promise, reason: value});
+        } else if((console = global.console) && console.error){
+          console.error('Unhandled promise rejection', value);
+        }
+      } record.a = undefined;
+    }, 1);
+  });
+};
+var isUnhandled = function(promise){
+  var record = promise._d
+    , chain  = record.a || record.c
+    , i      = 0
+    , reaction;
+  if(record.h)return false;
+  while(chain.length > i){
+    reaction = chain[i++];
+    if(reaction.fail || !isUnhandled(reaction.promise))return false;
+  } return true;
+};
+var $reject = function(value){
+  var record = this;
+  if(record.d)return;
+  record.d = true;
+  record = record.r || record; // unwrap
+  record.v = value;
+  record.s = 2;
+  record.a = record.c.slice();
+  notify(record, true);
+};
+var $resolve = function(value){
+  var record = this
+    , then;
+  if(record.d)return;
+  record.d = true;
+  record = record.r || record; // unwrap
+  try {
+    if(record.p === value)throw TypeError("Promise can't be resolved itself");
+    if(then = isThenable(value)){
+      asap(function(){
+        var wrapper = {r: record, d: false}; // wrap
+        try {
+          then.call(value, ctx($resolve, wrapper, 1), ctx($reject, wrapper, 1));
+        } catch(e){
+          $reject.call(wrapper, e);
+        }
+      });
+    } else {
+      record.v = value;
+      record.s = 1;
+      notify(record, false);
+    }
+  } catch(e){
+    $reject.call({r: record, d: false}, e); // wrap
+  }
+};
+
+// constructor polyfill
+if(!USE_NATIVE){
+  // 25.4.3.1 Promise(executor)
+  P = function Promise(executor){
+    aFunction(executor);
+    var record = this._d = {
+      p: strictNew(this, P, PROMISE),         // <- promise
+      c: [],                                  // <- awaiting reactions
+      a: undefined,                           // <- checked in isUnhandled reactions
+      s: 0,                                   // <- state
+      d: false,                               // <- done
+      v: undefined,                           // <- value
+      h: false,                               // <- handled rejection
+      n: false                                // <- notify
+    };
+    try {
+      executor(ctx($resolve, record, 1), ctx($reject, record, 1));
+    } catch(err){
+      $reject.call(record, err);
+    }
+  };
+  require('./$.redefine-all')(P.prototype, {
+    // 25.4.5.3 Promise.prototype.then(onFulfilled, onRejected)
+    then: function then(onFulfilled, onRejected){
+      var reaction = new PromiseCapability(speciesConstructor(this, P))
+        , promise  = reaction.promise
+        , record   = this._d;
+      reaction.ok   = typeof onFulfilled == 'function' ? onFulfilled : true;
+      reaction.fail = typeof onRejected == 'function' && onRejected;
+      record.c.push(reaction);
+      if(record.a)record.a.push(reaction);
+      if(record.s)notify(record, false);
+      return promise;
+    },
+    // 25.4.5.1 Promise.prototype.catch(onRejected)
+    'catch': function(onRejected){
+      return this.then(undefined, onRejected);
+    }
+  });
+}
+
+$export($export.G + $export.W + $export.F * !USE_NATIVE, {Promise: P});
+require('./$.set-to-string-tag')(P, PROMISE);
+require('./$.set-species')(PROMISE);
+Wrapper = require('./$.core')[PROMISE];
+
+// statics
+$export($export.S + $export.F * !USE_NATIVE, PROMISE, {
+  // 25.4.4.5 Promise.reject(r)
+  reject: function reject(r){
+    var capability = new PromiseCapability(this)
+      , $$reject   = capability.reject;
+    $$reject(r);
+    return capability.promise;
+  }
+});
+$export($export.S + $export.F * (!USE_NATIVE || testResolve(true)), PROMISE, {
+  // 25.4.4.6 Promise.resolve(x)
+  resolve: function resolve(x){
+    // instanceof instead of internal slot check because we should fix it without replacement native Promise core
+    if(x instanceof P && sameConstructor(x.constructor, this))return x;
+    var capability = new PromiseCapability(this)
+      , $$resolve  = capability.resolve;
+    $$resolve(x);
+    return capability.promise;
+  }
+});
+$export($export.S + $export.F * !(USE_NATIVE && require('./$.iter-detect')(function(iter){
+  P.all(iter)['catch'](function(){});
+})), PROMISE, {
+  // 25.4.4.1 Promise.all(iterable)
+  all: function all(iterable){
+    var C          = getConstructor(this)
+      , capability = new PromiseCapability(C)
+      , resolve    = capability.resolve
+      , reject     = capability.reject
+      , values     = [];
+    var abrupt = perform(function(){
+      forOf(iterable, false, values.push, values);
+      var remaining = values.length
+        , results   = Array(remaining);
+      if(remaining)$.each.call(values, function(promise, index){
+        var alreadyCalled = false;
+        C.resolve(promise).then(function(value){
+          if(alreadyCalled)return;
+          alreadyCalled = true;
+          results[index] = value;
+          --remaining || resolve(results);
+        }, reject);
+      });
+      else resolve(results);
+    });
+    if(abrupt)reject(abrupt.error);
+    return capability.promise;
+  },
+  // 25.4.4.4 Promise.race(iterable)
+  race: function race(iterable){
+    var C          = getConstructor(this)
+      , capability = new PromiseCapability(C)
+      , reject     = capability.reject;
+    var abrupt = perform(function(){
+      forOf(iterable, false, function(promise){
+        C.resolve(promise).then(capability.resolve, reject);
+      });
+    });
+    if(abrupt)reject(abrupt.error);
+    return capability.promise;
+  }
+});
+},{"./$":56,"./$.a-function":29,"./$.an-object":31,"./$.classof":32,"./$.core":34,"./$.ctx":35,"./$.descriptors":37,"./$.export":39,"./$.for-of":41,"./$.global":42,"./$.is-object":49,"./$.iter-detect":53,"./$.library":57,"./$.microtask":58,"./$.redefine-all":61,"./$.same-value":63,"./$.set-proto":64,"./$.set-species":65,"./$.set-to-string-tag":66,"./$.species-constructor":68,"./$.strict-new":69,"./$.wks":77}],84:[function(require,module,exports){
+'use strict';
+var $at  = require('./$.string-at')(true);
+
+// 21.1.3.27 String.prototype[@@iterator]()
+require('./$.iter-define')(String, 'String', function(iterated){
+  this._t = String(iterated); // target
+  this._i = 0;                // next index
+// 21.1.5.2.1 %StringIteratorPrototype%.next()
+}, function(){
+  var O     = this._t
+    , index = this._i
+    , point;
+  if(index >= O.length)return {value: undefined, done: true};
+  point = $at(O, index);
+  this._i += point.length;
+  return {value: point, done: false};
+});
+},{"./$.iter-define":52,"./$.string-at":70}],85:[function(require,module,exports){
+require('./es6.array.iterator');
+var Iterators = require('./$.iterators');
+Iterators.NodeList = Iterators.HTMLCollection = Iterators.Array;
+},{"./$.iterators":55,"./es6.array.iterator":80}],86:[function(require,module,exports){
 // This file is autogenerated via the `commonjs` Grunt task. You can require() this file in a CommonJS environment.
 require('../../js/transition.js')
 require('../../js/alert.js')
@@ -1295,7 +2576,7 @@ require('../../js/popover.js')
 require('../../js/scrollspy.js')
 require('../../js/tab.js')
 require('../../js/affix.js')
-},{"../../js/affix.js":23,"../../js/alert.js":24,"../../js/button.js":25,"../../js/carousel.js":26,"../../js/collapse.js":27,"../../js/dropdown.js":28,"../../js/modal.js":29,"../../js/popover.js":30,"../../js/scrollspy.js":31,"../../js/tab.js":32,"../../js/tooltip.js":33,"../../js/transition.js":34}],23:[function(require,module,exports){
+},{"../../js/affix.js":87,"../../js/alert.js":88,"../../js/button.js":89,"../../js/carousel.js":90,"../../js/collapse.js":91,"../../js/dropdown.js":92,"../../js/modal.js":93,"../../js/popover.js":94,"../../js/scrollspy.js":95,"../../js/tab.js":96,"../../js/tooltip.js":97,"../../js/transition.js":98}],87:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: affix.js v3.3.5
  * http://getbootstrap.com/javascript/#affix
@@ -1459,7 +2740,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],24:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: alert.js v3.3.5
  * http://getbootstrap.com/javascript/#alerts
@@ -1555,7 +2836,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],25:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: button.js v3.3.5
  * http://getbootstrap.com/javascript/#buttons
@@ -1677,7 +2958,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],26:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: carousel.js v3.3.5
  * http://getbootstrap.com/javascript/#carousel
@@ -1916,7 +3197,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],27:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: collapse.js v3.3.5
  * http://getbootstrap.com/javascript/#collapse
@@ -2129,7 +3410,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],28:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: dropdown.js v3.3.5
  * http://getbootstrap.com/javascript/#dropdowns
@@ -2296,7 +3577,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],29:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: modal.js v3.3.5
  * http://getbootstrap.com/javascript/#modals
@@ -2635,7 +3916,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],30:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: popover.js v3.3.5
  * http://getbootstrap.com/javascript/#popovers
@@ -2745,7 +4026,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],31:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: scrollspy.js v3.3.5
  * http://getbootstrap.com/javascript/#scrollspy
@@ -2919,7 +4200,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],32:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: tab.js v3.3.5
  * http://getbootstrap.com/javascript/#tabs
@@ -3076,7 +4357,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],33:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: tooltip.js v3.3.5
  * http://getbootstrap.com/javascript/#tooltip
@@ -3592,7 +4873,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],34:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
 /* ========================================================================
  * Bootstrap: transition.js v3.3.5
  * http://getbootstrap.com/javascript/#transitions
@@ -3653,7 +4934,7 @@ require('../../js/affix.js')
 
 }(jQuery);
 
-},{}],35:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 /*!
  * Cropper v2.0.0
  * https://github.com/fengyuanchen/cropper
@@ -6339,7 +7620,7 @@ require('../../js/affix.js')
 
 });
 
-},{"jquery":36}],36:[function(require,module,exports){
+},{"jquery":100}],100:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -15551,9 +16832,9 @@ return jQuery;
 
 }));
 
-},{}],37:[function(require,module,exports){
-module.exports=require(36)
-},{}],38:[function(require,module,exports){
+},{}],101:[function(require,module,exports){
+module.exports=require(100)
+},{}],102:[function(require,module,exports){
 (function (global){
 //! moment.js
 //! version : 2.8.4
@@ -18493,7 +19774,7 @@ module.exports=require(36)
 }).call(this);
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],39:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 /*! version : 4.15.35
  =========================================================
  bootstrap-datetimejs
@@ -20980,7 +22261,7 @@ module.exports=require(36)
     };
 }));
 
-},{"jquery":37,"moment":38}],40:[function(require,module,exports){
+},{"jquery":101,"moment":102}],104:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -21045,9 +22326,9 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],41:[function(require,module,exports){
-module.exports=require(36)
-},{}],42:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
+module.exports=require(100)
+},{}],106:[function(require,module,exports){
 (function (process,global){
 /*!
     localForage -- Offline Storage, Improved
@@ -23831,7 +25112,7 @@ return /******/ (function(modules) { // webpackBootstrap
 });
 ;
 }).call(this,require("IrXUsu"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"IrXUsu":40}],43:[function(require,module,exports){
+},{"IrXUsu":104}],107:[function(require,module,exports){
 //! moment.js
 //! version : 2.10.6
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
@@ -27027,7 +28308,7 @@ return /******/ (function(modules) { // webpackBootstrap
     return _moment;
 
 }));
-},{}],44:[function(require,module,exports){
+},{}],108:[function(require,module,exports){
 /*
  * notie.js - A clean and simple notification plugin (alert/growl style) for javascript, with no dependencies.
  *
@@ -27806,7 +29087,7 @@ var notie = function(){
 if (typeof module !== 'undefined' && module) {
     module.exports = notie;
 }
-},{}],45:[function(require,module,exports){
+},{}],109:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -27970,7 +29251,7 @@ function createStore(reducer, initialState) {
     replaceReducer: replaceReducer
   };
 }
-},{"./utils/isPlainObject":51}],46:[function(require,module,exports){
+},{"./utils/isPlainObject":115}],110:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -28002,7 +29283,7 @@ exports.combineReducers = _utilsCombineReducers2['default'];
 exports.bindActionCreators = _utilsBindActionCreators2['default'];
 exports.applyMiddleware = _utilsApplyMiddleware2['default'];
 exports.compose = _utilsCompose2['default'];
-},{"./createStore":45,"./utils/applyMiddleware":47,"./utils/bindActionCreators":48,"./utils/combineReducers":49,"./utils/compose":50}],47:[function(require,module,exports){
+},{"./createStore":109,"./utils/applyMiddleware":111,"./utils/bindActionCreators":112,"./utils/combineReducers":113,"./utils/compose":114}],111:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -28064,7 +29345,7 @@ function applyMiddleware() {
 }
 
 module.exports = exports['default'];
-},{"./compose":50}],48:[function(require,module,exports){
+},{"./compose":114}],112:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -28120,7 +29401,7 @@ function bindActionCreators(actionCreators, dispatch) {
 }
 
 module.exports = exports['default'];
-},{"../utils/mapValues":52}],49:[function(require,module,exports){
+},{"../utils/mapValues":116}],113:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -28254,7 +29535,7 @@ function combineReducers(reducers) {
 
 module.exports = exports['default'];
 }).call(this,require("IrXUsu"))
-},{"../createStore":45,"../utils/isPlainObject":51,"../utils/mapValues":52,"../utils/pick":53,"IrXUsu":40}],50:[function(require,module,exports){
+},{"../createStore":109,"../utils/isPlainObject":115,"../utils/mapValues":116,"../utils/pick":117,"IrXUsu":104}],114:[function(require,module,exports){
 /**
  * Composes single-argument functions from right to left.
  *
@@ -28280,7 +29561,7 @@ function compose() {
 }
 
 module.exports = exports["default"];
-},{}],51:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -28311,7 +29592,7 @@ function isPlainObject(obj) {
 }
 
 module.exports = exports['default'];
-},{}],52:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 /**
  * Applies a function to every key-value pair inside an object.
  *
@@ -28332,7 +29613,7 @@ function mapValues(obj, fn) {
 }
 
 module.exports = exports["default"];
-},{}],53:[function(require,module,exports){
+},{}],117:[function(require,module,exports){
 /**
  * Picks key-value pairs from an object where values satisfy a predicate.
  *
@@ -28355,7 +29636,7 @@ function pick(obj, fn) {
 }
 
 module.exports = exports["default"];
-},{}],54:[function(require,module,exports){
+},{}],118:[function(require,module,exports){
 /**
  * Copyright (c) 2011-2014 Felix Gnass
  * Licensed under the MIT license
@@ -28734,7 +30015,7 @@ module.exports = exports["default"];
 
 }));
 
-},{}],55:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
 /**
  * Super simple wysiwyg editor on Bootstrap v0.6.16
  * http://summernote.org/
@@ -36036,7 +37317,7 @@ module.exports = exports["default"];
   });
 }));
 
-},{}],56:[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -37195,7 +38476,7 @@ request.put = function(url, data, fn){
 
 module.exports = request;
 
-},{"emitter":57,"reduce":58}],57:[function(require,module,exports){
+},{"emitter":121,"reduce":122}],121:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -37361,7 +38642,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],58:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
 
 /**
  * Reduce `arr` with `fn`.
@@ -37386,7 +38667,7 @@ module.exports = function(arr, fn, initial){
   
   return curr;
 };
-},{}],59:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 var Vue // late bind
 var map = Object.create(null)
 var shimmed = false
@@ -37624,7 +38905,7 @@ function format (id) {
   return id.match(/[^\/]+\.vue$/)[0]
 }
 
-},{}],60:[function(require,module,exports){
+},{}],124:[function(require,module,exports){
 'use strict';
 
 var babelHelpers = {};
@@ -40148,7 +41429,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 module.exports = Router;
-},{}],61:[function(require,module,exports){
+},{}],125:[function(require,module,exports){
 var _ = require('../util')
 var Watcher = require('../watcher')
 var Path = require('../parsers/path')
@@ -40324,7 +41605,7 @@ function clean (obj) {
   return JSON.parse(JSON.stringify(obj))
 }
 
-},{"../parsers/directive":111,"../parsers/expression":112,"../parsers/path":113,"../parsers/text":115,"../util":123,"../watcher":127}],62:[function(require,module,exports){
+},{"../parsers/directive":175,"../parsers/expression":176,"../parsers/path":177,"../parsers/text":179,"../util":187,"../watcher":191}],126:[function(require,module,exports){
 var _ = require('../util')
 var transition = require('../transition')
 
@@ -40530,7 +41811,7 @@ function remove (el, vm, cb) {
   if (cb) cb()
 }
 
-},{"../transition":116,"../util":123}],63:[function(require,module,exports){
+},{"../transition":180,"../util":187}],127:[function(require,module,exports){
 var _ = require('../util')
 
 /**
@@ -40701,7 +41982,7 @@ function modifyListenerCount (vm, event, count) {
   }
 }
 
-},{"../util":123}],64:[function(require,module,exports){
+},{"../util":187}],128:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var config = require('../config')
@@ -40866,7 +42147,7 @@ config._assetTypes.forEach(function (type) {
 })
 
 }).call(this,require("IrXUsu"))
-},{"../compiler":70,"../config":72,"../directives/internal":79,"../fragment/factory":101,"../parsers/directive":111,"../parsers/expression":112,"../parsers/path":113,"../parsers/template":114,"../parsers/text":115,"../util":123,"IrXUsu":40}],65:[function(require,module,exports){
+},{"../compiler":134,"../config":136,"../directives/internal":143,"../fragment/factory":165,"../parsers/directive":175,"../parsers/expression":176,"../parsers/path":177,"../parsers/template":178,"../parsers/text":179,"../util":187,"IrXUsu":104}],129:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var compiler = require('../compiler')
@@ -40938,7 +42219,7 @@ exports.$compile = function (el, host, scope, frag) {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../compiler":70,"../util":123,"IrXUsu":40}],66:[function(require,module,exports){
+},{"../compiler":134,"../util":187,"IrXUsu":104}],130:[function(require,module,exports){
 (function (process){
 var _ = require('./util')
 var config = require('./config')
@@ -41047,7 +42328,7 @@ exports.push = function (watcher) {
 }
 
 }).call(this,require("IrXUsu"))
-},{"./config":72,"./util":123,"IrXUsu":40}],67:[function(require,module,exports){
+},{"./config":136,"./util":187,"IrXUsu":104}],131:[function(require,module,exports){
 /**
  * A doubly linked list-based Least Recently Used (LRU)
  * cache. Will keep most recently used items while
@@ -41161,7 +42442,7 @@ p.get = function (key, returnEntry) {
 
 module.exports = Cache
 
-},{}],68:[function(require,module,exports){
+},{}],132:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var dirParser = require('../parsers/directive')
@@ -41372,7 +42653,7 @@ function getDefault (vm, options) {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../config":72,"../directives/internal/prop":80,"../parsers/directive":111,"../parsers/path":113,"../util":123,"IrXUsu":40}],69:[function(require,module,exports){
+},{"../config":136,"../directives/internal/prop":144,"../parsers/directive":175,"../parsers/path":177,"../util":187,"IrXUsu":104}],133:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var publicDirectives = require('../directives/public')
@@ -42147,13 +43428,13 @@ function makeNodeLinkFn (directives) {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../directives/internal":79,"../directives/public":89,"../parsers/directive":111,"../parsers/template":114,"../parsers/text":115,"../util":123,"./compile-props":68,"IrXUsu":40}],70:[function(require,module,exports){
+},{"../directives/internal":143,"../directives/public":153,"../parsers/directive":175,"../parsers/template":178,"../parsers/text":179,"../util":187,"./compile-props":132,"IrXUsu":104}],134:[function(require,module,exports){
 var _ = require('../util')
 
 _.extend(exports, require('./compile'))
 _.extend(exports, require('./transclude'))
 
-},{"../util":123,"./compile":69,"./transclude":71}],71:[function(require,module,exports){
+},{"../util":187,"./compile":133,"./transclude":135}],135:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var templateParser = require('../parsers/template')
@@ -42305,7 +43586,7 @@ function mergeAttrs (from, to) {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../parsers/template":114,"../util":123,"IrXUsu":40}],72:[function(require,module,exports){
+},{"../parsers/template":178,"../util":187,"IrXUsu":104}],136:[function(require,module,exports){
 module.exports = {
 
   /**
@@ -42419,7 +43700,7 @@ Object.defineProperty(module.exports, 'unsafeDelimiters', {
   }
 })
 
-},{"./parsers/text":115}],73:[function(require,module,exports){
+},{"./parsers/text":179}],137:[function(require,module,exports){
 (function (process){
 var _ = require('./util')
 var Watcher = require('./watcher')
@@ -42745,11 +44026,11 @@ Directive.prototype._teardown = function () {
 module.exports = Directive
 
 }).call(this,require("IrXUsu"))
-},{"./parsers/expression":112,"./util":123,"./watcher":127,"IrXUsu":40}],74:[function(require,module,exports){
+},{"./parsers/expression":176,"./util":187,"./watcher":191,"IrXUsu":104}],138:[function(require,module,exports){
 exports.slot = require('./slot')
 exports.partial = require('./partial')
 
-},{"./partial":75,"./slot":76}],75:[function(require,module,exports){
+},{"./partial":139,"./slot":140}],139:[function(require,module,exports){
 (function (process){
 var _ = require('../../util')
 var vIf = require('../public/if')
@@ -42796,7 +44077,7 @@ module.exports = {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../../fragment/factory":101,"../../util":123,"../public/if":88,"IrXUsu":40}],76:[function(require,module,exports){
+},{"../../fragment/factory":165,"../../util":187,"../public/if":152,"IrXUsu":104}],140:[function(require,module,exports){
 var _ = require('../../util')
 var templateParser = require('../../parsers/template')
 
@@ -42922,7 +44203,7 @@ function extractFragment (nodes, parent, main) {
   }
 }
 
-},{"../../parsers/template":114,"../../util":123}],77:[function(require,module,exports){
+},{"../../parsers/template":178,"../../util":187}],141:[function(require,module,exports){
 var _ = require('../../util')
 var addClass = _.addClass
 var removeClass = _.removeClass
@@ -42995,7 +44276,7 @@ function contains (value, key) {
     : value.hasOwnProperty(key)
 }
 
-},{"../../util":123}],78:[function(require,module,exports){
+},{"../../util":187}],142:[function(require,module,exports){
 (function (process){
 var _ = require('../../util')
 var templateParser = require('../../parsers/template')
@@ -43347,14 +44628,14 @@ module.exports = {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../../parsers/template":114,"../../util":123,"IrXUsu":40}],79:[function(require,module,exports){
+},{"../../parsers/template":178,"../../util":187,"IrXUsu":104}],143:[function(require,module,exports){
 exports.style = require('./style')
 exports['class'] = require('./class')
 exports.component = require('./component')
 exports.prop = require('./prop')
 exports.transition = require('./transition')
 
-},{"./class":77,"./component":78,"./prop":80,"./style":81,"./transition":82}],80:[function(require,module,exports){
+},{"./class":141,"./component":142,"./prop":144,"./style":145,"./transition":146}],144:[function(require,module,exports){
 // NOTE: the prop internal directive is compiled and linked
 // during _initScope(), before the created hook is called.
 // The purpose is to make the initial prop values available
@@ -43425,7 +44706,7 @@ module.exports = {
   }
 }
 
-},{"../../config":72,"../../util":123,"../../watcher":127}],81:[function(require,module,exports){
+},{"../../config":136,"../../util":187,"../../watcher":191}],145:[function(require,module,exports){
 var _ = require('../../util')
 var prefixes = ['-webkit-', '-moz-', '-ms-']
 var camelPrefixes = ['Webkit', 'Moz', 'ms']
@@ -43534,7 +44815,7 @@ function prefix (prop) {
   }
 }
 
-},{"../../util":123}],82:[function(require,module,exports){
+},{"../../util":187}],146:[function(require,module,exports){
 var _ = require('../../util')
 var Transition = require('../../transition/transition')
 
@@ -43556,7 +44837,7 @@ module.exports = {
   }
 }
 
-},{"../../transition/transition":118,"../../util":123}],83:[function(require,module,exports){
+},{"../../transition/transition":182,"../../util":187}],147:[function(require,module,exports){
 (function (process){
 var _ = require('../../util')
 
@@ -43683,7 +44964,7 @@ module.exports = {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../../util":123,"../internal/style":81,"IrXUsu":40}],84:[function(require,module,exports){
+},{"../../util":187,"../internal/style":145,"IrXUsu":104}],148:[function(require,module,exports){
 module.exports = {
   bind: function () {
     var el = this.el
@@ -43693,7 +44974,7 @@ module.exports = {
   }
 }
 
-},{}],85:[function(require,module,exports){
+},{}],149:[function(require,module,exports){
 var _ = require('../../util')
 
 module.exports = {
@@ -43722,7 +45003,7 @@ module.exports = {
   }
 }
 
-},{"../../util":123}],86:[function(require,module,exports){
+},{"../../util":187}],150:[function(require,module,exports){
 (function (process){
 var _ = require('../../util')
 var FragmentFactory = require('../../fragment/factory')
@@ -44315,7 +45596,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../../fragment/factory":101,"../../util":123,"IrXUsu":40}],87:[function(require,module,exports){
+},{"../../fragment/factory":165,"../../util":187,"IrXUsu":104}],151:[function(require,module,exports){
 var _ = require('../../util')
 var templateParser = require('../../parsers/template')
 
@@ -44357,7 +45638,7 @@ module.exports = {
   }
 }
 
-},{"../../parsers/template":114,"../../util":123}],88:[function(require,module,exports){
+},{"../../parsers/template":178,"../../util":187}],152:[function(require,module,exports){
 (function (process){
 var _ = require('../../util')
 var FragmentFactory = require('../../fragment/factory')
@@ -44427,7 +45708,7 @@ module.exports = {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../../fragment/factory":101,"../../util":123,"IrXUsu":40}],89:[function(require,module,exports){
+},{"../../fragment/factory":165,"../../util":187,"IrXUsu":104}],153:[function(require,module,exports){
 // text & html
 exports.text = require('./text')
 exports.html = require('./html')
@@ -44453,7 +45734,7 @@ exports.ref = require('./ref')
 // cloak
 exports.cloak = require('./cloak')
 
-},{"./bind":83,"./cloak":84,"./el":85,"./for":86,"./html":87,"./if":88,"./model":91,"./on":95,"./ref":96,"./show":97,"./text":98}],90:[function(require,module,exports){
+},{"./bind":147,"./cloak":148,"./el":149,"./for":150,"./html":151,"./if":152,"./model":155,"./on":159,"./ref":160,"./show":161,"./text":162}],154:[function(require,module,exports){
 var _ = require('../../../util')
 
 module.exports = {
@@ -44517,7 +45798,7 @@ module.exports = {
   }
 }
 
-},{"../../../util":123}],91:[function(require,module,exports){
+},{"../../../util":187}],155:[function(require,module,exports){
 (function (process){
 var _ = require('../../../util')
 
@@ -44603,7 +45884,7 @@ module.exports = {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../../../util":123,"./checkbox":90,"./radio":92,"./select":93,"./text":94,"IrXUsu":40}],92:[function(require,module,exports){
+},{"../../../util":187,"./checkbox":154,"./radio":156,"./select":157,"./text":158,"IrXUsu":104}],156:[function(require,module,exports){
 var _ = require('../../../util')
 
 module.exports = {
@@ -44639,7 +45920,7 @@ module.exports = {
   }
 }
 
-},{"../../../util":123}],93:[function(require,module,exports){
+},{"../../../util":187}],157:[function(require,module,exports){
 var _ = require('../../../util')
 
 module.exports = {
@@ -44759,7 +46040,7 @@ function indexOf (arr, val) {
   return -1
 }
 
-},{"../../../util":123}],94:[function(require,module,exports){
+},{"../../../util":187}],158:[function(require,module,exports){
 var _ = require('../../../util')
 
 module.exports = {
@@ -44888,7 +46169,7 @@ module.exports = {
   }
 }
 
-},{"../../../util":123}],95:[function(require,module,exports){
+},{"../../../util":187}],159:[function(require,module,exports){
 (function (process){
 var _ = require('../../util')
 
@@ -45016,7 +46297,7 @@ module.exports = {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../../util":123,"IrXUsu":40}],96:[function(require,module,exports){
+},{"../../util":187,"IrXUsu":104}],160:[function(require,module,exports){
 (function (process){
 if (process.env.NODE_ENV !== 'production') {
   module.exports = {
@@ -45030,7 +46311,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../../util":123,"IrXUsu":40}],97:[function(require,module,exports){
+},{"../../util":187,"IrXUsu":104}],161:[function(require,module,exports){
 var _ = require('../../util')
 var transition = require('../../transition')
 
@@ -45058,7 +46339,7 @@ module.exports = {
   }
 }
 
-},{"../../transition":116,"../../util":123}],98:[function(require,module,exports){
+},{"../../transition":180,"../../util":187}],162:[function(require,module,exports){
 var _ = require('../../util')
 
 module.exports = {
@@ -45074,7 +46355,7 @@ module.exports = {
   }
 }
 
-},{"../../util":123}],99:[function(require,module,exports){
+},{"../../util":187}],163:[function(require,module,exports){
 var _ = require('../util')
 var Path = require('../parsers/path')
 var toArray = require('../directives/public/for')._postProcess
@@ -45194,7 +46475,7 @@ function contains (val, search) {
   }
 }
 
-},{"../directives/public/for":86,"../parsers/path":113,"../util":123}],100:[function(require,module,exports){
+},{"../directives/public/for":150,"../parsers/path":177,"../util":187}],164:[function(require,module,exports){
 var _ = require('../util')
 
 /**
@@ -45314,7 +46595,7 @@ exports.debounce = function (handler, delay) {
 
 _.extend(exports, require('./array-filters'))
 
-},{"../util":123,"./array-filters":99}],101:[function(require,module,exports){
+},{"../util":187,"./array-filters":163}],165:[function(require,module,exports){
 var _ = require('../util')
 var compiler = require('../compiler')
 var templateParser = require('../parsers/template')
@@ -45372,7 +46653,7 @@ FragmentFactory.prototype.create = function (host, scope, parentFrag) {
 
 module.exports = FragmentFactory
 
-},{"../cache":67,"../compiler":70,"../parsers/template":114,"../util":123,"./fragment":102}],102:[function(require,module,exports){
+},{"../cache":131,"../compiler":134,"../parsers/template":178,"../util":187,"./fragment":166}],166:[function(require,module,exports){
 var _ = require('../util')
 var transition = require('../transition')
 
@@ -45560,7 +46841,7 @@ function detach (child) {
 
 module.exports = Fragment
 
-},{"../transition":116,"../util":123}],103:[function(require,module,exports){
+},{"../transition":180,"../util":187}],167:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var inDoc = _.inDoc
@@ -45727,7 +47008,7 @@ exports._callHook = function (hook) {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../util":123,"IrXUsu":40}],104:[function(require,module,exports){
+},{"../util":187,"IrXUsu":104}],168:[function(require,module,exports){
 var mergeOptions = require('../util').mergeOptions
 var uid = 0
 
@@ -45841,7 +47122,7 @@ exports._init = function (options) {
   }
 }
 
-},{"../util":123}],105:[function(require,module,exports){
+},{"../util":187}],169:[function(require,module,exports){
 var _ = require('../util')
 var Directive = require('../directive')
 var compiler = require('../compiler')
@@ -46080,7 +47361,7 @@ exports._cleanup = function () {
   this.$off()
 }
 
-},{"../compiler":70,"../directive":73,"../util":123}],106:[function(require,module,exports){
+},{"../compiler":134,"../directive":137,"../util":187}],170:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 
@@ -46177,7 +47458,7 @@ exports._resolveComponent = function (id, cb) {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../util":123,"IrXUsu":40}],107:[function(require,module,exports){
+},{"../util":187,"IrXUsu":104}],171:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var compiler = require('../compiler')
@@ -46422,7 +47703,7 @@ exports._initMeta = function () {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../compiler":70,"../observer":110,"../observer/dep":109,"../util":123,"../watcher":127,"IrXUsu":40}],108:[function(require,module,exports){
+},{"../compiler":134,"../observer":174,"../observer/dep":173,"../util":187,"../watcher":191,"IrXUsu":104}],172:[function(require,module,exports){
 var _ = require('../util')
 var arrayProto = Array.prototype
 var arrayMethods = Object.create(arrayProto)
@@ -46514,7 +47795,7 @@ _.define(
 
 module.exports = arrayMethods
 
-},{"../util":123}],109:[function(require,module,exports){
+},{"../util":187}],173:[function(require,module,exports){
 var _ = require('../util')
 var uid = 0
 
@@ -46577,7 +47858,7 @@ Dep.prototype.notify = function () {
 
 module.exports = Dep
 
-},{"../util":123}],110:[function(require,module,exports){
+},{"../util":187}],174:[function(require,module,exports){
 var _ = require('../util')
 var config = require('../config')
 var Dep = require('./dep')
@@ -46806,7 +48087,7 @@ _.defineReactive = defineReactive
 
 module.exports = Observer
 
-},{"../config":72,"../util":123,"./array":108,"./dep":109}],111:[function(require,module,exports){
+},{"../config":136,"../util":187,"./array":172,"./dep":173}],175:[function(require,module,exports){
 var _ = require('../util')
 var Cache = require('../cache')
 var cache = new Cache(1000)
@@ -46942,7 +48223,7 @@ exports.parse = function (s) {
   return dir
 }
 
-},{"../cache":67,"../util":123}],112:[function(require,module,exports){
+},{"../cache":131,"../util":187}],176:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var Path = require('./path')
@@ -47210,7 +48491,7 @@ exports.isSimplePath = function (exp) {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../cache":67,"../util":123,"./path":113,"IrXUsu":40}],113:[function(require,module,exports){
+},{"../cache":131,"../util":187,"./path":177,"IrXUsu":104}],177:[function(require,module,exports){
 (function (process){
 var _ = require('../util')
 var Cache = require('../cache')
@@ -47572,7 +48853,7 @@ exports.set = function (obj, path, val) {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../cache":67,"../util":123,"IrXUsu":40}],114:[function(require,module,exports){
+},{"../cache":131,"../util":187,"IrXUsu":104}],178:[function(require,module,exports){
 var _ = require('../util')
 var Cache = require('../cache')
 var templateCache = new Cache(1000)
@@ -47862,7 +49143,7 @@ exports.parse = function (template, clone, noSelector) {
     : frag
 }
 
-},{"../cache":67,"../util":123}],115:[function(require,module,exports){
+},{"../cache":131,"../util":187}],179:[function(require,module,exports){
 var Cache = require('../cache')
 var config = require('../config')
 var dirParser = require('./directive')
@@ -48024,7 +49305,7 @@ function inlineFilters (exp, single) {
   }
 }
 
-},{"../cache":67,"../config":72,"./directive":111}],116:[function(require,module,exports){
+},{"../cache":131,"../config":136,"./directive":175}],180:[function(require,module,exports){
 var _ = require('../util')
 
 /**
@@ -48105,7 +49386,7 @@ var apply = exports.apply = function (el, direction, op, vm, cb) {
   transition[action](op, cb)
 }
 
-},{"../util":123}],117:[function(require,module,exports){
+},{"../util":187}],181:[function(require,module,exports){
 var _ = require('../util')
 var queue = []
 var queued = false
@@ -48142,7 +49423,7 @@ function flush () {
   return f
 }
 
-},{"../util":123}],118:[function(require,module,exports){
+},{"../util":187}],182:[function(require,module,exports){
 var _ = require('../util')
 var queue = require('./queue')
 var addClass = _.addClass
@@ -48511,7 +49792,7 @@ function isHidden (el) {
 
 module.exports = Transition
 
-},{"../util":123,"./queue":117}],119:[function(require,module,exports){
+},{"../util":187,"./queue":181}],183:[function(require,module,exports){
 (function (process){
 var _ = require('./index')
 
@@ -48665,7 +49946,7 @@ function formatValue (val) {
 }
 
 }).call(this,require("IrXUsu"))
-},{"./index":123,"IrXUsu":40}],120:[function(require,module,exports){
+},{"./index":187,"IrXUsu":104}],184:[function(require,module,exports){
 (function (process){
 /**
  * Enable debug utilities.
@@ -48716,7 +49997,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../config":72,"IrXUsu":40}],121:[function(require,module,exports){
+},{"../config":136,"IrXUsu":104}],185:[function(require,module,exports){
 (function (process){
 var _ = require('./index')
 var config = require('../config')
@@ -49083,7 +50364,7 @@ exports.removeNodeRange = function (start, end, vm, frag, cb) {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../config":72,"../transition":116,"./index":123,"IrXUsu":40}],122:[function(require,module,exports){
+},{"../config":136,"../transition":180,"./index":187,"IrXUsu":104}],186:[function(require,module,exports){
 // can we use __proto__?
 exports.hasProto = '__proto__' in {}
 
@@ -49170,7 +50451,7 @@ exports.nextTick = (function () {
   }
 })()
 
-},{}],123:[function(require,module,exports){
+},{}],187:[function(require,module,exports){
 var lang = require('./lang')
 var extend = lang.extend
 
@@ -49181,7 +50462,7 @@ extend(exports, require('./options'))
 extend(exports, require('./component'))
 extend(exports, require('./debug'))
 
-},{"./component":119,"./debug":120,"./dom":121,"./env":122,"./lang":124,"./options":125}],124:[function(require,module,exports){
+},{"./component":183,"./debug":184,"./dom":185,"./env":186,"./lang":188,"./options":189}],188:[function(require,module,exports){
 /**
  * Set a property on an object. Adds the new property and
  * triggers change notification if the property doesn't
@@ -49573,7 +50854,7 @@ exports.looseEqual = function (a, b) {
   /* eslint-enable eqeqeq */
 }
 
-},{}],125:[function(require,module,exports){
+},{}],189:[function(require,module,exports){
 (function (process){
 var _ = require('./index')
 var config = require('../config')
@@ -49936,7 +51217,7 @@ exports.resolveAsset = function resolve (options, type, id) {
 }
 
 }).call(this,require("IrXUsu"))
-},{"../config":72,"./index":123,"IrXUsu":40}],126:[function(require,module,exports){
+},{"../config":136,"./index":187,"IrXUsu":104}],190:[function(require,module,exports){
 (function (process){
 var _ = require('./util')
 var extend = _.extend
@@ -50036,7 +51317,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 }).call(this,require("IrXUsu"))
-},{"./api/data":61,"./api/dom":62,"./api/events":63,"./api/global":64,"./api/lifecycle":65,"./directives/element":74,"./directives/public":89,"./filters":100,"./instance/events":103,"./instance/init":104,"./instance/lifecycle":105,"./instance/misc":106,"./instance/state":107,"./util":123,"IrXUsu":40}],127:[function(require,module,exports){
+},{"./api/data":125,"./api/dom":126,"./api/events":127,"./api/global":128,"./api/lifecycle":129,"./directives/element":138,"./directives/public":153,"./filters":164,"./instance/events":167,"./instance/init":168,"./instance/lifecycle":169,"./instance/misc":170,"./instance/state":171,"./util":187,"IrXUsu":104}],191:[function(require,module,exports){
 (function (process){
 var _ = require('./util')
 var config = require('./config')
@@ -50376,7 +51657,7 @@ function traverse (val) {
 module.exports = Watcher
 
 }).call(this,require("IrXUsu"))
-},{"./batcher":66,"./config":72,"./observer/dep":109,"./parsers/expression":112,"./util":123,"IrXUsu":40}],128:[function(require,module,exports){
+},{"./batcher":130,"./config":136,"./observer/dep":173,"./parsers/expression":176,"./util":187,"IrXUsu":104}],192:[function(require,module,exports){
 var inserted = exports.cache = {}
 
 exports.insert = function (css) {

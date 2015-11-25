@@ -1,9 +1,0 @@
-'use strict';
-
-var AUTH_LOGIN = 'AUTH_LOGIN';
-var AUTH_LOGOUT = 'AUTH_LOGOUT';
-var AUTH_UPDATE = 'AUTH_UPDATE';
-
-exports.AUTH_LOGIN = AUTH_LOGIN;
-exports.AUTH_LOGOUT = AUTH_LOGOUT;
-exports.AUTH_UPDATE = AUTH_UPDATE;
