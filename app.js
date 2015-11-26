@@ -1,3 +1,5 @@
+var CONFIG = require('./app/config.vue');
+
 // this makes sure "non-npm" jquery packages play well with jquery
 global.jQuery = require('jquery');
 
@@ -82,9 +84,9 @@ router.beforeEach(function(transition) {
     var _state = store.getState();
 
     if(_state.auth && _state.auth.jwt) { // redirect to default auth page
-      transition.redirect({name: 'one'});
+      transition.redirect({name: CONFIG.DEFAULT_AUTH_PATH_NAME});
     } else { // redirect to default non-auth page
-      transition.redirect({name: 'landing'});
+      transition.redirect({name: CONFIG.DEFAULT_NON_AUTH_PATH_NAME});
     }
   } else {
     if(transition.to.auth === true) { // authorization is required
@@ -94,13 +96,13 @@ router.beforeEach(function(transition) {
         transition.next();
       } else {
         notie.alert(2, 'Please login first', 2);
-        transition.redirect({name: 'login'});
+        transition.redirect({name: CONFIG.LOGIN_PATH_NAME});
       }
     } else if(transition.to.auth === false) { // authorized view is NOT allowed
       var _state = store.getState();
 
       if(_state.auth && _state.auth.jwt) { // redirect to default auth-ed view
-        transition.redirect({name: 'one'});
+        transition.redirect({name: CONFIG.DEFAULT_AUTH_PATH_NAME});
       } else {
         transition.next();
       }

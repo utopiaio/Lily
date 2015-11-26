@@ -14,6 +14,7 @@
   import notie from 'notie';
   import reduxMixin from './../mixins/redux.vue';
   import {logout} from './../redux/actions/auth.vue';
+  import {DEFAULT_NON_AUTH_PATH_NAME} from './../config.vue';
   import navbar from './navbar.vue';
 
   export default {
@@ -27,7 +28,7 @@
     methods: {
       logout() {
         notie.confirm('Are you sure you want to logout?', 'Yes', 'Cancel', () => {
-          logout().then(() => this.$route.router.go({name: 'landing'}));
+          logout().then(() => this.$route.router.go({name: DEFAULT_NON_AUTH_PATH_NAME}));
         });
       }
     },

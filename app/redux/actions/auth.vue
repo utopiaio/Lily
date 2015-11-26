@@ -2,30 +2,30 @@
   import localforage from 'localforage';
   import request from 'superagent';
   import store from './../store.vue';
+  import {API_AUTH_URL, AUTH_STORE_KEY} from './../../config.vue';
   import {AUTH_LOGIN, AUTH_LOGOUT, AUTH_UPDATE} from './../constants/constants.vue';
   import {show, hide} from './../../components/backdrop.vue';
 
   /**
    * authenticates with given credentials
    *
-   * @param {String} path - URL to send the request to
    * @credentials {Object}
-   * @credentials.username {String}
-   * @credentials.password {String}
+   * @credentials.username {String} username
+   * @credentials.password {String} raw password
    * @return {Promise}
    */
-  function login(path = 'http://rock.io/authenticate', credentials = {}) {
+  function login(credentials = {}) {
     return new Promise((resolve, reject) => {
       show();
 
       request
-        .post(path)
+        .post(API_AUTH_URL)
         .send(credentials)
         .end((error, response) => {
           hide();
 
           if(response && response.ok === true) {
-            localforage.setItem('auth', response.body, (_error, value) => {
+            localforage.setItem(AUTH_STORE_KEY, response.body, (_error, value) => {
               if(error === null) {
                 store.dispatch({type: AUTH_LOGIN, auth: response.body});
                 resolve(value);
@@ -52,9 +52,27 @@
    */
   function logout() {
     return new Promise((resolve, reject) => {
-      localforage.removeItem('auth', (error) => {
+      localforage.removeItem(AUTH_STORE_KEY, (error) => {
         store.dispatch({type: AUTH_LOGOUT});
         resolve();
+      });
+    });
+  }
+
+  /**
+   * updates Auth info
+   *
+   * @return {Promise}
+   */
+  function update(auth) {
+    return new Promise((resolve, reject) => {
+      localforage.setItem(AUTH_STORE_KEY, Object.assign({}, auth), (error, value) => {
+        if(error === null) {
+          store.dispatch({type: AUTH_UPDATE, auth: Object.assign({}, value)});
+          resolve(Object.assign({}, value));
+        } else {
+          reject(error);
+        }
       });
     });
   }
@@ -66,7 +84,7 @@
    */
   function init() {
     return new Promise((resolve, reject) => {
-      localforage.getItem('auth').then((value) => {
+      localforage.getItem(AUTH_STORE_KEY).then((value) => {
         if(value === null) {
           reject('no auth');
         } else {
@@ -79,5 +97,6 @@
 
   exports.login = login;
   exports.logout = logout;
+  exports.update = update;
   exports.init = init;
 </script>
