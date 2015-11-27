@@ -63,7 +63,7 @@
 <script>
   import notie from 'notie';
   import reduxMixin from './../mixins/redux.vue';
-  import {DEFAULT_AUTH_PATH_NAME} from './../config.vue';
+  import {DEFAULT_AUTH_PATH_NAME, NOTY_INFO} from './../config.vue';
   import {login} from './../redux/actions/auth.vue';
 
   export default {
@@ -90,7 +90,7 @@
       login() {
         login(this.credentials)
           .then((authInfo) => {
-            notie.alert(1, `Welcome back ${authInfo.user.user_full_name}`, 2);
+            notie.alert(4, `Welcome back ${authInfo.user.user_full_name}`, NOTY_INFO);
             this.$route.router.replace({name: DEFAULT_AUTH_PATH_NAME});
           })
           .catch((error) => {

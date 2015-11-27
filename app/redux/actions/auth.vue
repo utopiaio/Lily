@@ -62,11 +62,12 @@
   /**
    * updates Auth info
    *
+   * @param {Object} updatedAuth - new object containing the updated auth info
    * @return {Promise}
    */
-  function update(auth) {
+  function update(updatedAuth) {
     return new Promise((resolve, reject) => {
-      localforage.setItem(AUTH_STORE_KEY, Object.assign({}, auth), (error, value) => {
+      localforage.setItem(AUTH_STORE_KEY, Object.assign({}, updatedAuth), (error, value) => {
         if(error === null) {
           store.dispatch({type: AUTH_UPDATE, auth: Object.assign({}, value)});
           resolve(Object.assign({}, value));
