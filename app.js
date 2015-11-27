@@ -83,30 +83,38 @@ router.beforeEach(function(transition) {
     // redirect to appropriate component
     var _state = store.getState();
 
-    if(_state.auth && _state.auth.jwt) { // redirect to default auth page
+    if(_state.auth && _state.auth.jwt) {
+      // redirect to default auth page
       transition.redirect({name: CONFIG.DEFAULT_AUTH_PATH_NAME});
-    } else { // redirect to default non-auth page
+    } else {
+      // redirect to default non-auth page
       transition.redirect({name: CONFIG.DEFAULT_NON_AUTH_PATH_NAME});
     }
   } else {
-    if(transition.to.auth === true) { // authorization is required
+    if(transition.to.auth === true) {
+      // authorization is required
       var _state = store.getState();
 
       if(_state.auth && _state.auth.jwt) {
+        // all checks out, proceed to next path
         transition.next();
       } else {
-        notie.alert(2, 'Please login first', 2);
+        // no auth found, redirecting to login page
+        notie.alert(2, 'Please login first', CONFIG.NOTY_WARN);
         transition.redirect({name: CONFIG.LOGIN_PATH_NAME});
       }
-    } else if(transition.to.auth === false) { // authorized view is NOT allowed
+    } else if(transition.to.auth === false) {
+      // authorized view is NOT allowed
       var _state = store.getState();
 
-      if(_state.auth && _state.auth.jwt) { // redirect to default auth-ed view
+      if(_state.auth && _state.auth.jwt) {
+        // redirect to default auth-ed view
         transition.redirect({name: CONFIG.DEFAULT_AUTH_PATH_NAME});
       } else {
         transition.next();
       }
-    } else { // no preconditions, moving along...
+    } else {
+      // no preconditions, moving along...
       transition.next();
     }
   }
