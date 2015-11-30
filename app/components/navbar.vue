@@ -80,7 +80,7 @@
 
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-              <a href="info" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account</span>&nbsp;&nbsp;<span class="ion-chevron-down"></span></a>
+              <a href="info" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account</span>&nbsp;&nbsp;<span class="fa fa-chevron-down"></span></a>
               <ul class="dropdown-menu">
                 <li>
                   <div class="info">
@@ -90,7 +90,7 @@
                   </div>
                 </li>
                 <li role="separator" class="divider"></li>
-                <li><a @click.prevent="logout" href="logout">logout&nbsp;&nbsp;<i class="ion-log-out"></i></a></li>
+                <li><a @click.prevent="logout" href="logout">logout&nbsp;&nbsp;<i class="fa fa-sign-out"></i></a></li>
               </ul>
             </li>
           </ul>

@@ -8,6 +8,7 @@
     "chartist": "^0.9.5",
     "cropper": "^2.0.0",
     "eonasdan-bootstrap-datetimepicker": "^4.15.35",
+    "font-awesome": "^4.4.0",
     "gulp": "^3.9.0",
     "gulp-babel": "^6.1.0",
     "gulp-browserify": "^0.5.1",
@@ -32,6 +33,8 @@
     "vueify-insert-css": "^1.0.0"
   },
   "babel": {
-    "presets": ["es2015"]
+    "presets": [
+      "es2015"
+    ]
   }
 }
