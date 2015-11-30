@@ -6,9 +6,15 @@
    */
 
   // path / name
-  const DEFAULT_NON_AUTH_PATH_NAME = 'one'; // default path (router-view) for a non-auth page
+  const DEFAULT_NON_AUTH_PATH_NAME = 'landing'; // default path (router-view) for a non-auth page
   const DEFAULT_AUTH_PATH_NAME = 'one'; // default path/name (router-view) for a auth-ed page
   const LOGIN_PATH_NAME = 'login'; // path name for login
+
+  // Noty notification timeout (in seconds)
+  const NOTY_SUCCESS = 1.5;
+  const NOTY_INFO = 1.5;
+  const NOTY_WARN = 3;
+  const NOTY_ERROR = 3;
 
   // API
   const API_AUTH_URL = 'http://rock.io/authenticate'; // authentication url
@@ -44,4 +50,8 @@
   exports.AUTH_STORE_KEY = AUTH_STORE_KEY;
   exports.API_QUERY_LIMIT = API_QUERY_LIMIT;
   exports.API_TABLES = API_TABLES;
+  exports.NOTY_SUCCESS = NOTY_SUCCESS;
+  exports.NOTY_INFO = NOTY_INFO;
+  exports.NOTY_WARN = NOTY_WARN;
+  exports.NOTY_ERROR = NOTY_ERROR;
 </script>
