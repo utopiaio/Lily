@@ -38,6 +38,12 @@
         },
         beforeDestroy() {
           this.__summernote.destroy();
+        },
+        watch: {
+          // watching for external changes
+          model(newVal, oldVal) {
+            this.__summernote.code(newVal);
+          }
         }
       });
     }
