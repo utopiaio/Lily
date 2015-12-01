@@ -1,5 +1,5 @@
 <style lang="less" scoped>
-  @import "app/less/variables.less";
+  @import "./../less/variables.less";
 
   .login-form {
     margin-top: 72px;
@@ -37,7 +37,7 @@
           <div class="row">
             <form class="login-form col-lg-offset-3 col-md-offset-3 col-lg-6 col-md-6" @submit.prevent="login" novalidate>
               <div class="form-group text-center">
-                <img class="img-responsive" alt="logo" src="static/images/condor.png" />
+                <img class="img-responsive" alt="logo" src="./../../static/images/condor.png" />
               </div>
 
               <div class="form-group">

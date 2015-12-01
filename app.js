@@ -1,18 +1,24 @@
-var CONFIG = require('./app/config.vue');
+require('font-awesome/css/font-awesome.min.css');
+require('bootstrap/dist/css/bootstrap.min.css');
+require('eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css');
+require('cropper/dist/cropper.min.css');
 
 // this makes sure "non-npm" jquery packages play well with jquery
-global.jQuery = require('jquery');
+window.jQuery = window.$ = require('jquery');
+window.moment = require('moment');
+var datetimepicker = require('eonasdan-bootstrap-datetimepicker');
 
+var CONFIG = require('./app/config.vue');
 var Vue = require('vue');
 var VueRouter = require('vue-router');
 var notie = require('notie');
 
 var disabled = require('./app/directives/disabled.vue');
-var dateTime = require('./app/components/dateTime.vue');
+var dateTime = require('./app/components/dateTime.babel');
 var documentUpload = require('./app/components/documentUpload.vue');
 var documentInfo = require('./app/components/documentInfo.vue');
 var documentList = require('./app/components/documentList.vue');
-var summernote = require('./app/components/summernote.vue');
+// var summernote = require('./app/components/summernote.vue');
 var imageCrop = require('./app/components/imageCrop.vue');
 
 var app = require('./app/components/app.vue');
@@ -32,7 +38,7 @@ Vue.use(dateTime);
 Vue.use(documentUpload);
 Vue.use(documentInfo);
 Vue.use(documentList);
-Vue.use(summernote);
+// Vue.use(summernote);
 Vue.use(imageCrop);
 
 var router = new VueRouter({
@@ -75,50 +81,50 @@ router.map({
   }
 });
 
-router.beforeEach(function(transition) {
-  // which will call the appropriate Auth function and redirect if necessary.
-  // either way, the default page is `landing` component
-  if(transition.to.matched === null) {
-    // unmatched url has been entered, instead of having a "blank" page we'll
-    // redirect to appropriate component
-    var _state = store.getState();
+// router.beforeEach(function(transition) {
+//   // which will call the appropriate Auth function and redirect if necessary.
+//   // either way, the default page is `landing` component
+//   if(transition.to.matched === null) {
+//     // unmatched url has been entered, instead of having a "blank" page we'll
+//     // redirect to appropriate component
+//     var _state = store.getState();
 
-    if(_state.auth && _state.auth.jwt) {
-      // redirect to default auth page
-      transition.redirect({name: CONFIG.DEFAULT_AUTH_PATH_NAME});
-    } else {
-      // redirect to default non-auth page
-      transition.redirect({name: CONFIG.DEFAULT_NON_AUTH_PATH_NAME});
-    }
-  } else {
-    if(transition.to.auth === true) {
-      // authorization is required
-      var _state = store.getState();
+//     if(_state.auth && _state.auth.jwt) {
+//       // redirect to default auth page
+//       transition.redirect({name: CONFIG.DEFAULT_AUTH_PATH_NAME});
+//     } else {
+//       // redirect to default non-auth page
+//       transition.redirect({name: CONFIG.DEFAULT_NON_AUTH_PATH_NAME});
+//     }
+//   } else {
+//     if(transition.to.auth === true) {
+//       // authorization is required
+//       var _state = store.getState();
 
-      if(_state.auth && _state.auth.jwt) {
-        // all checks out, proceed to next path
-        transition.next();
-      } else {
-        // no auth found, redirecting to login page
-        notie.alert(2, 'Please login first', CONFIG.NOTY_WARN);
-        transition.redirect({name: CONFIG.LOGIN_PATH_NAME});
-      }
-    } else if(transition.to.auth === false) {
-      // authorized view is NOT allowed
-      var _state = store.getState();
+//       if(_state.auth && _state.auth.jwt) {
+//         // all checks out, proceed to next path
+//         transition.next();
+//       } else {
+//         // no auth found, redirecting to login page
+//         notie.alert(2, 'Please login first', CONFIG.NOTY_WARN);
+//         transition.redirect({name: CONFIG.LOGIN_PATH_NAME});
+//       }
+//     } else if(transition.to.auth === false) {
+//       // authorized view is NOT allowed
+//       var _state = store.getState();
 
-      if(_state.auth && _state.auth.jwt) {
-        // redirect to default auth-ed view
-        transition.redirect({name: CONFIG.DEFAULT_AUTH_PATH_NAME});
-      } else {
-        transition.next();
-      }
-    } else {
-      // no preconditions, moving along...
-      transition.next();
-    }
-  }
-});
+//       if(_state.auth && _state.auth.jwt) {
+//         // redirect to default auth-ed view
+//         transition.redirect({name: CONFIG.DEFAULT_AUTH_PATH_NAME});
+//       } else {
+//         transition.next();
+//       }
+//     } else {
+//       // no preconditions, moving along...
+//       transition.next();
+//     }
+//   }
+// });
 
 // initiating auth before we start the router
 auth.init().then(function() {
