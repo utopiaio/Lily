@@ -52,6 +52,7 @@ module.exports = {
         // giving some time for `trix-editor` to initiate...
         setTimeout(() => {
           this.__trix = document.querySelector(`trix-editor[input="input-${this.id}"]`);
+          this.__trix.editor.loadHTML(this.model);
           this.__input = document.querySelector(`#input-${this.id}`);
           this.__fileInput = document.querySelector(`#file-${this.id}`);
 
