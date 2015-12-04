@@ -25,49 +25,36 @@
 
     <h3>document upload</h3>
     <div class="row">
-      <div class="col-lg-3">
-        <document-upload class="btn btn-default btn-block" :model.sync="documentMultiple" :multiple="true" accept="image/*" url="http://rock.io/S3"></document-upload>
-      </div>
-
-      <div class="col-lg-3">
-        <document-upload class="btn btn-default btn-block" :model.sync="documentSingle" accept="image/*" url="http://rock.io/S3"></document-upload>
-      </div>
-    </div>
-
-    <h3>document list</h3>
-    <div class="row">
       <div class="col-lg-6">
-        <document-list :src.sync="documentMultiple"></document-info>
+        <document-upload class="btn btn-default btn-block" :model.sync="image" url="http://rock.io/S3" accept="image/*" :auth-key="authKey" :jwt="store.auth.jwt"></document-upload>
       </div>
 
       <div class="col-lg-6">
-        <document-list :src.sync="documentSingle"></document-info>
-      </div>
-    </div>
-
-    <h3>summernote</h3>
-    <div class="row">
-      <div class="col-lg-6">
-        <summernote :model.sync="summernoteOne"></summernote>
-      </div>
-
-      <div class="col-lg-6">
-        <summernote :model.sync="summernoteTwo" :options="{height: 300, toolbar: [['style', ['style']],['font', ['bold', 'italic', 'underline']],['fontsize', ['fontsize']],['color', ['color']],['para', ['ul', 'ol', 'paragraph']],['height', ['height']],['table', ['table']],['insert', ['link', 'picture', 'hr']]]}"></summernote>
+        <document-upload class="btn btn-default btn-block" :model.sync="images" url="http://rock.io/S3" :multiple="true" :auth-key="authKey" :jwt="store.auth.jwt"></document-upload>
       </div>
     </div>
 
     <h3>Image Crop</h3>
     <div class="row">
-      <div class="col-lg-3">
-        <document-upload class="btn btn-default btn-block" :model.sync="image" accept="image/*" url="http://rock.io/S3"></document-upload>
-      </div>
-
-      <div class="col-lg-3">
-        <img class="img-responsive" :src="image.url">
+      <div class="col-lg-6">
+        <image-crop :src.sync="image" :x="16" :y="9" type="image/jpeg" :quality="0.6" url="http://rock.io/S3" :auth-key="authKey" :jwt="store.auth.jwt"></image-crop>
       </div>
 
       <div class="col-lg-6">
-        <image-crop :src.sync="image" :x="16" :y="9" type="image/jpeg" :quality="0.6" url="http://rock.io/S3"></image-crop>
+        <div v-for="i in images" track-by="$index">
+          <document-info :src="images[$index]" :auth-key="authKey" :jwt="store.auth.jwt" @deleted="deleted"></document-info>
+        </div>
+      </div>
+    </div>
+
+    <h3>Trix</h3>
+    <div class="row">
+      <div class="col-lg-6">
+        <trix :model.sync="trixOne"></trix>
+      </div>
+
+      <div class="col-lg-6">
+        <trix :model.sync="trixTwo"></trix>
       </div>
     </div>
 
@@ -76,19 +63,30 @@
 </template>
 
 <script>
-  export default {
+  import reduxMixin from './../mixins/redux.babel';
+  import { API_AUTH_HEADER } from './../config.babel';
+
+  module.exports = {
     name: 'components',
+    mixins: [reduxMixin],
     data() {
       return {
+        authKey: API_AUTH_HEADER,
         date: '1991-08-09',
         time: '18:00',
         dateTime: '',
         documentMultiple: [],
         documentSingle: {},
-        summernoteOne: '<b>hello</b>',
-        summernoteTwo: '',
-        image: {}
+        trixOne: '<b>hello</b>',
+        trixTwo: '',
+        image: {},
+        images: []
       };
+    },
+    methods: {
+      deleted(deletedFile) {
+        console.log(deletedFile);
+      }
     }
   };
 </script>

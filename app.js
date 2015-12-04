@@ -1,25 +1,24 @@
 require('font-awesome/css/font-awesome.min.css');
 require('bootstrap/dist/css/bootstrap.min.css');
 require('eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css');
-require('cropper/dist/cropper.min.css');
+require('cropperjs/dist/cropper.min.css');
+require('trix/dist/trix.css');
+require('./app/less/app.less');
 
 // this makes sure "non-npm" jquery packages play well with jquery
-window.jQuery = window.$ = require('jquery');
-window.moment = require('moment');
-var datetimepicker = require('eonasdan-bootstrap-datetimepicker');
+// window.jQuery = window.$ = require('jquery');
 
-var CONFIG = require('./app/config.vue');
+var CONFIG = require('./app/config.babel');
 var Vue = require('vue');
 var VueRouter = require('vue-router');
 var notie = require('notie');
 
-var disabled = require('./app/directives/disabled.vue');
+var disabled = require('./app/directives/disabled.babel');
 var dateTime = require('./app/components/dateTime.babel');
-var documentUpload = require('./app/components/documentUpload.vue');
-var documentInfo = require('./app/components/documentInfo.vue');
-var documentList = require('./app/components/documentList.vue');
-// var summernote = require('./app/components/summernote.vue');
-var imageCrop = require('./app/components/imageCrop.vue');
+var documentUpload = require('./app/components/documentUpload.babel');
+var documentInfo = require('./app/components/documentInfo.babel');
+var imageCrop = require('./app/components/imageCrop.babel');
+var trix = require('./app/components/trix.babel');
 
 var app = require('./app/components/app.vue');
 var one = require('./app/components/one.vue');
@@ -28,8 +27,8 @@ var landing = require('./app/components/landing.vue');
 var login = require('./app/components/login.vue');
 var components = require('./app/components/components.vue');
 
-var auth = require('./app/redux/actions/auth.vue');
-var store = require('./app/redux/store.vue');
+var auth = require('./app/redux/actions/auth.babel');
+var store = require('./app/redux/store.babel');
 
 Vue.config.debug = true;
 Vue.use(VueRouter);
@@ -37,13 +36,14 @@ Vue.use(disabled);
 Vue.use(dateTime);
 Vue.use(documentUpload);
 Vue.use(documentInfo);
-Vue.use(documentList);
-// Vue.use(summernote);
 Vue.use(imageCrop);
+Vue.use(trix);
 
 var router = new VueRouter({
-  hashbang: false,
-  history: true,
+  // hashbang: false,
+  // history: true,
+  hashbang: true,
+  history: false,
   linkActiveClass: 'v-link-active',
   saveScrollPosition: false,
   transitionOnLoad: false

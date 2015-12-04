@@ -62,9 +62,9 @@
 
 <script>
   import notie from 'notie';
-  import reduxMixin from './../mixins/redux.vue';
-  import {DEFAULT_AUTH_PATH_NAME, NOTY_INFO} from './../config.vue';
-  import {login} from './../redux/actions/auth.vue';
+  import reduxMixin from './../mixins/redux.babel';
+  import {DEFAULT_AUTH_PATH_NAME, NOTY_INFO} from './../config.babel';
+  import {login} from './../redux/actions/auth.babel';
 
   export default {
     name: 'login',
