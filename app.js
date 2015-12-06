@@ -5,9 +5,6 @@ require('cropperjs/dist/cropper.min.css');
 require('trix/dist/trix.css');
 require('./app/less/app.less');
 
-// this makes sure "non-npm" jquery packages play well with jquery
-// window.jQuery = window.$ = require('jquery');
-
 var CONFIG = require('./app/config.babel');
 var Vue = require('vue');
 var VueRouter = require('vue-router');
