@@ -21,11 +21,12 @@ function GET(table, id, force = false, limit = API_QUERY_LIMIT) {
   return new Promise((resolve, reject) => {
     let rows = store.getState().API[table.name];
     let auth = store.getState().auth;
-    show();
 
     // first time table initiation
     // store should should be initiated with `API_SET`
     if(rows === undefined || force === true) {
+      show();
+
       if(id === undefined) {
         // query
         request
@@ -90,6 +91,8 @@ function GET(table, id, force = false, limit = API_QUERY_LIMIT) {
         };
 
         if(found === false) {
+          show();
+
           // fetching from server...
           request
             .get(`${API_BASE_URL}/${table.name}/${id}`)
