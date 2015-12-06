@@ -22,7 +22,6 @@ module.exports = {
       { test: /(trix)\.js$/, loader: 'script-loader'},
 
       // fonts
-      // { test: /bootstrap\/js\//, loader: 'imports-loader?jQuery=jquery' },
       { test: /\.(woff(2)?|ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file-loader?name=assets/[name].[ext]' },
 
       // vue
@@ -31,30 +30,37 @@ module.exports = {
       // babel
       { test: /\.babel$/, loader: 'babel', query: { presets: ['es2015'] } }
     ]
-  },
-  plugins: [
+  }
+};
+
+// I'm missing something, NODE_ENV=procution throws error. So I'm working around
+// it; for now, to issue a production webpack bundle
+// $ node_modules/.bin/webpack --production
+if(process.argv.indexOf('--production') > -1) {
+  module.exports.devtool = '#source-map';
+  module.exports.plugins = [
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
       'window.jQuery': 'jquery'
-    })
-  ]
-};
-
-if(process.env.NODE_ENV === 'production') {
-  module.exports.plugins = [
+    }),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: 'production'
+        NODE_ENV: '"production"'
       }
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false
       }
-    }),
-    new webpack.optimize.OccurrenceOrderPlugin()
+    })
   ];
 } else {
-  module.exports.devtool = '#source-map';
+  module.exports.plugins = [
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery'
+    })
+  ];
 }
