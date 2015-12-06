@@ -66,7 +66,7 @@
           </button>
 
           <div class="navbar-brand">
-            <img alt="condor" class="img-responsive" src="static/images/condor.png">
+            <img alt="condor" class="img-responsive" src="./../../static/images/condor.png">
           </div>
         </div>
 

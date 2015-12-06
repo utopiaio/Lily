@@ -11,9 +11,9 @@
 </template>
 
 <script>
-  import reduxMixin from './../mixins/redux.vue';
-  import {API_TABLES} from './../config.vue';
-  import {GET, POST, PUT, DELETE} from './../redux/actions/api.vue';
+  import reduxMixin from './../mixins/redux.babel';
+  import {API_TABLES} from './../config.babel';
+  import {GET, POST, PUT, DELETE} from './../redux/actions/api.babel';
 
   module.exports = {
     name: 'one',

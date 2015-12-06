@@ -12,10 +12,10 @@
 
 <script>
   import notie from 'notie';
-  import reduxMixin from './../mixins/redux.vue';
-  import {logout} from './../redux/actions/auth.vue';
-  import {PURGE} from './../redux/actions/api.vue';
-  import {DEFAULT_NON_AUTH_PATH_NAME} from './../config.vue';
+  import reduxMixin from './../mixins/redux.babel';
+  import {logout} from './../redux/actions/auth.babel';
+  import {PURGE} from './../redux/actions/api.babel';
+  import {DEFAULT_NON_AUTH_PATH_NAME} from './../config.babel';
   import navbar from './navbar.vue';
 
   export default {

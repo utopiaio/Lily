@@ -1,5 +1,5 @@
 <style lang="less" scoped>
-  @import "app/less/variables.less";
+  @import "./../less/variables.less";
 
   .login-form {
     margin-top: 72px;
@@ -37,7 +37,7 @@
           <div class="row">
             <form class="login-form col-lg-offset-3 col-md-offset-3 col-lg-6 col-md-6" @submit.prevent="login" novalidate>
               <div class="form-group text-center">
-                <img class="img-responsive" alt="logo" src="static/images/condor.png" />
+                <img class="img-responsive" alt="logo" src="./../../static/images/condor.png" />
               </div>
 
               <div class="form-group">
@@ -62,9 +62,9 @@
 
 <script>
   import notie from 'notie';
-  import reduxMixin from './../mixins/redux.vue';
-  import {DEFAULT_AUTH_PATH_NAME, NOTY_INFO} from './../config.vue';
-  import {login} from './../redux/actions/auth.vue';
+  import reduxMixin from './../mixins/redux.babel';
+  import {DEFAULT_AUTH_PATH_NAME, NOTY_INFO} from './../config.babel';
+  import {login} from './../redux/actions/auth.babel';
 
   export default {
     name: 'login',
