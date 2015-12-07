@@ -1,8 +1,9 @@
-import {createStore, combineReducers} from 'redux';
+import { createStore, combineReducers } from 'redux';
 import auth from './reducers/auth.babel';
 import API from './reducers/api.babel';
+import connection from './reducers/connection.babel';
 
-module.exports = createStore(combineReducers({auth, API}));
+module.exports = createStore(combineReducers({auth, API, connection}));
 
 
 

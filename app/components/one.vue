@@ -12,8 +12,8 @@
 
 <script>
   import reduxMixin from './../mixins/redux.babel';
-  import {API_TABLES} from './../config.babel';
-  import {GET, POST, PUT, DELETE} from './../redux/actions/api.babel';
+  import { API_TABLES } from './../config.babel';
+  import { GET, POST, PUT, DELETE } from './../redux/actions/api.babel';
 
   module.exports = {
     name: 'one',

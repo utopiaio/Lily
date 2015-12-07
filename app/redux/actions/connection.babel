@@ -1,0 +1,11 @@
+import store from './../store.babel';
+import { ONLINE, OFFLINE } from './../constants/constants.babel';
+
+function connectionListener() {
+  store.dispatch({type: window.navigator.onLine ? ONLINE : OFFLINE});
+}
+
+window.addEventListener('online', connectionListener);
+window.addEventListener('offline', connectionListener);
+
+module.exports = connectionListener;

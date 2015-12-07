@@ -25,6 +25,7 @@ var login = require('./app/components/login.vue');
 var components = require('./app/components/components.vue');
 
 var auth = require('./app/redux/actions/auth.babel');
+var connection = require('./app/redux/actions/connection.babel');
 var store = require('./app/redux/store.babel');
 
 Vue.config.debug = true;

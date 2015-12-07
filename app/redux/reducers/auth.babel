@@ -1,6 +1,6 @@
-import {AUTH_LOGIN, AUTH_LOGOUT, AUTH_UPDATE} from './../constants/constants.babel';
+import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_UPDATE } from './../constants/constants.babel';
 
-function Auth(state = {}, action) {
+function auth(state = {}, action) {
   switch(action.type) {
     case AUTH_LOGIN:
       return action.auth;
@@ -20,4 +20,4 @@ function Auth(state = {}, action) {
   }
 }
 
-module.exports = Auth;
+module.exports = auth;
