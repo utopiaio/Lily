@@ -3,7 +3,7 @@ import request from 'superagent';
 import store from './../store.babel';
 import {API_AUTH_URL, AUTH_STORE_KEY} from './../../config.babel';
 import {AUTH_LOGIN, AUTH_LOGOUT, AUTH_UPDATE} from './../constants/constants.babel';
-import {show, hide} from './../../components/backdrop.babel';
+import {show, hide} from './../../lily/backdrop.babel';
 
 /**
  * authenticates with given credentials

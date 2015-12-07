@@ -10,12 +10,12 @@ var Vue = require('vue');
 var VueRouter = require('vue-router');
 var notie = require('notie');
 
-var disabled = require('./app/directives/disabled.babel');
-var dateTime = require('./app/components/dateTime.babel');
-var documentUpload = require('./app/components/documentUpload.babel');
-var documentInfo = require('./app/components/documentInfo.babel');
-var imageCrop = require('./app/components/imageCrop.babel');
-var trix = require('./app/components/trix.babel');
+var disabled = require('./app/lily/disabled.babel');
+var dateTime = require('./app/lily/dateTime.babel');
+var documentUpload = require('./app/lily/documentUpload.babel');
+var documentInfo = require('./app/lily/documentInfo.babel');
+var imageCrop = require('./app/lily/imageCrop.babel');
+var trix = require('./app/lily/trix.babel');
 
 var app = require('./app/components/app.vue');
 var one = require('./app/components/one.vue');
