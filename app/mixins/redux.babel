@@ -4,7 +4,7 @@ import store from './../redux/store.babel';
  * a mixin that subscribes to redux store and updates our data
  * so that Vue can do its magic
  */
-module.exports = {
+const data = {
   data() {
     return {
       store: store.getState()
@@ -19,3 +19,20 @@ module.exports = {
     this.unsubscribe();
   }
 };
+
+/*
+ * props mixin that gets the store from parent
+ */
+const props = {
+  props: {
+    store: {
+      type: Object,
+      required: true,
+      twoWay: false,
+      default() {return {};}
+    }
+  }
+};
+
+exports.data = data;
+exports.props = props;

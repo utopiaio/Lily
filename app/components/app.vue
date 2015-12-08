@@ -4,7 +4,7 @@
       <navbar :show="show" :auth="store.auth" :connection="store.connection" @logout="logout"></navbar>
 
       <div class="row">
-        <router-view></router-view>
+        <router-view :store="store"></router-view>
       </div>
     </div>
   </div>
@@ -12,15 +12,15 @@
 
 <script>
   import notie from 'notie';
-  import reduxMixin from './../mixins/redux.babel';
+  import { data } from './../mixins/redux.babel';
   import { logout } from './../redux/actions/auth.babel';
   import { PURGE } from './../redux/actions/api.babel';
   import { DEFAULT_NON_AUTH_PATH_NAME } from './../config.babel';
   import navbar from './navbar.vue';
 
   export default {
-    mixins: [reduxMixin],
     name: 'app',
+    mixins: [data],
     computed: {
       show() {
         return (this.store && this.store.auth && this.store.auth.jwt) === undefined ? false : true;

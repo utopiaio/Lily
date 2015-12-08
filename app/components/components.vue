@@ -63,12 +63,12 @@
 </template>
 
 <script>
-  import reduxMixin from './../mixins/redux.babel';
   import { API_AUTH_HEADER } from './../config.babel';
+  import { props } from './../mixins/redux.babel';
 
   module.exports = {
     name: 'components',
-    mixins: [reduxMixin],
+    mixins: [props],
     data() {
       return {
         authKey: API_AUTH_HEADER,

@@ -11,13 +11,13 @@
 </template>
 
 <script>
-  import reduxMixin from './../mixins/redux.babel';
+  import { props } from './../mixins/redux.babel';
   import { API_TABLES } from './../config.babel';
   import { GET, POST, PUT, DELETE } from './../redux/actions/api.babel';
 
   module.exports = {
     name: 'one',
-    mixins: [reduxMixin],
+    mixins: [props],
     methods: {
       get() {
         GET(API_TABLES.TAGS, 73, true); // force GET fetch from server
