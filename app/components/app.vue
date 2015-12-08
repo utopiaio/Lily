@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col-lg-12">
-      <navbar :show="show" :auth="store.auth" @logout="logout"></navbar>
+      <navbar :show="show" :auth="store.auth" :connection="store.connection" @logout="logout"></navbar>
 
       <div class="row">
         <router-view></router-view>

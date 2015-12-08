@@ -1,7 +1,10 @@
-import store from './../store.babel';
+import notie from 'notie';
+import { NOTY_INFO } from './../../config.babel';
 import { ONLINE, OFFLINE } from './../constants/constants.babel';
+import store from './../store.babel';
 
 function connectionListener() {
+  notie.alert(4, `You are now ${window.navigator.onLine ? 'online' : 'offline'}`, NOTY_INFO);
   store.dispatch({type: window.navigator.onLine ? ONLINE : OFFLINE});
 }
 
