@@ -11,9 +11,9 @@
 </template>
 
 <script>
-  import { props } from './../mixins/redux.babel';
-  import { API_TABLES } from './../config.babel';
-  import { GET, POST, PUT, DELETE } from './../redux/actions/api.babel';
+  import { props } from './../mixins/redux';
+  import { API_TABLES } from './../config';
+  import { GET, POST, PUT, DELETE } from './../redux/actions/api';
 
   module.exports = {
     name: 'one',

@@ -1,4 +1,4 @@
-import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_UPDATE } from './../constants/constants.babel';
+import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_UPDATE } from './../constants/constants';
 
 function auth(state = {}, action) {
   switch(action.type) {

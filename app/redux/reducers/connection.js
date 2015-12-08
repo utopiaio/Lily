@@ -1,4 +1,4 @@
-import { ONLINE, OFFLINE } from './../constants/constants.babel';
+import { ONLINE, OFFLINE } from './../constants/constants';
 
 function connection(state = window.navigator.onLine, action) {
   switch(action.type) {

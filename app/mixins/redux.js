@@ -1,4 +1,4 @@
-import store from './../redux/store.babel';
+import store from './../redux/store';
 
 /**
  * a mixin that subscribes to redux store and updates our data

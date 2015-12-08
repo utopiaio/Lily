@@ -63,8 +63,8 @@
 </template>
 
 <script>
-  import { API_AUTH_HEADER } from './../config.babel';
-  import { props } from './../mixins/redux.babel';
+  import { API_AUTH_HEADER } from './../config';
+  import { props } from './../mixins/redux';
 
   module.exports = {
     name: 'components',

@@ -19,16 +19,17 @@ module.exports = {
       { test: /\.(jpg|png|gif)$/, loader: 'file-loader?name=assets/[name].[ext]'},
 
       // this is where all non web-pack / global stuff are loaded
-      { test: /(trix)\.js$/, loader: 'script-loader'},
+      { test: /(trix)\.js$/, exclude: /app/, loader: 'script-loader'},
 
       // fonts
       { test: /\.(woff(2)?|ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file-loader?name=assets/[name].[ext]' },
 
-      // vue
-      { test: /\.vue$/, loader: 'vue-loader' },
-
       // babel
-      { test: /\.babel$/, loader: 'babel', query: { presets: ['es2015'] } }
+      { test: /\.js$/, loader: 'babel', exclude: /node_modules/ },
+
+      // vue
+      { test: /\.vue$/, loader: 'vue-loader' }
+
     ]
   }
 };

@@ -1,9 +1,9 @@
 import localforage from 'localforage';
 import request from 'superagent';
-import store from './../store.babel';
-import { API_AUTH_URL, AUTH_STORE_KEY } from './../../config.babel';
-import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_UPDATE } from './../constants/constants.babel';
-import { show, hide } from './../../lily/backdrop.babel';
+import store from './../store';
+import { API_AUTH_URL, AUTH_STORE_KEY } from './../../config';
+import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_UPDATE } from './../constants/constants';
+import { show, hide } from './../../lily/backdrop';
 
 /**
  * authenticates with given credentials

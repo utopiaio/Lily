@@ -62,8 +62,8 @@
 
 <script>
   import notie from 'notie';
-  import { DEFAULT_AUTH_PATH_NAME, NOTY_INFO } from './../config.babel';
-  import { login } from './../redux/actions/auth.babel';
+  import { DEFAULT_AUTH_PATH_NAME, NOTY_INFO } from './../config';
+  import { login } from './../redux/actions/auth';
 
   module.exports = {
     name: 'login',
