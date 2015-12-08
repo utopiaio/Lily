@@ -4,7 +4,8 @@ var path = require('path');
 module.exports = {
   entry: './app.js',
   output: {
-    path: __dirname,
+    path: path.join(__dirname, 'build'),
+    publicPath: 'build/',
     filename: 'bundle.js'
   },
   module: {
@@ -16,13 +17,13 @@ module.exports = {
       { test: /\.less$/, loader: 'style-loader!css-loader!less-loader' },
 
       // image
-      { test: /\.(jpg|png|gif)$/, loader: 'file-loader?name=assets/[name].[ext]'},
+      { test: /\.(jpg|png|gif)$/, loader: 'file-loader?name=static/[name].[ext]'},
 
       // this is where all non web-pack / global stuff are loaded
       { test: /(trix)\.js$/, exclude: /app/, loader: 'script-loader'},
 
       // fonts
-      { test: /\.(woff(2)?|ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file-loader?name=assets/[name].[ext]' },
+      { test: /\.(woff(2)?|ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file-loader?name=static/[name].[ext]' },
 
       // babel
       { test: /\.js$/, loader: 'babel', exclude: /node_modules/ },
