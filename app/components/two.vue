@@ -5,10 +5,7 @@
 </template>
 
 <script>
-  import reduxMixin from './../mixins/redux.babel';
-
   module.exports = {
-    name: 'two',
-    mixins: [reduxMixin]
+    name: 'two'
   };
 </script>

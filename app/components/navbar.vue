@@ -29,13 +29,28 @@
         }
       }
 
-      a[href="logout"] {
+      a.logout {
         font-weight: bold;
         color: #ff3366;
       }
 
       a[href="info"] {
         text-transform: capitalize;
+      }
+
+      i.connection-status {
+        -webkit-transition: color 500ms linear;
+        -moz-transition: color 500ms linear;
+        -o-transition: color 500ms linear;
+        transition: color 500ms linear;
+
+        &.online {
+          color: #1abc9c;
+        }
+
+        &.offline {
+          color: #e74c3c;
+        }
       }
     }
 
@@ -80,7 +95,7 @@
 
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-              <a href="info" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account</span>&nbsp;&nbsp;<span class="fa fa-chevron-down"></span></a>
+              <a href="info" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i :class="{'online': connection === true, 'offline': connection === false}" class="fa fa-circle connection-status"></i>&nbsp;&nbsp;Account</span>&nbsp;&nbsp;<span class="fa fa-chevron-down"></span></a>
               <ul class="dropdown-menu">
                 <li>
                   <div class="info">
@@ -90,7 +105,7 @@
                   </div>
                 </li>
                 <li role="separator" class="divider"></li>
-                <li><a @click.prevent="logout" href="logout">logout&nbsp;&nbsp;<i class="fa fa-sign-out"></i></a></li>
+                <li><a @click.prevent="logout" class="logout" v-link="{name: 'landing'}">logout&nbsp;&nbsp;<i class="fa fa-sign-out"></i></a></li>
               </ul>
             </li>
           </ul>
@@ -108,6 +123,12 @@
     name: 'navbar',
     props: {
       show: {
+        type: Boolean,
+        required: true,
+        twoWay: false,
+        default: false
+      },
+      connection: {
         type: Boolean,
         required: true,
         twoWay: false,

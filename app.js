@@ -5,17 +5,17 @@ require('cropperjs/dist/cropper.min.css');
 require('trix/dist/trix.css');
 require('./app/less/app.less');
 
-var CONFIG = require('./app/config.babel');
 var Vue = require('vue');
 var VueRouter = require('vue-router');
 var notie = require('notie');
 
-var disabled = require('./app/directives/disabled.babel');
-var dateTime = require('./app/components/dateTime.babel');
-var documentUpload = require('./app/components/documentUpload.babel');
-var documentInfo = require('./app/components/documentInfo.babel');
-var imageCrop = require('./app/components/imageCrop.babel');
-var trix = require('./app/components/trix.babel');
+var CONFIG = require('./app/config');
+var disabled = require('./app/lily/disabled');
+var dateTime = require('./app/lily/dateTime');
+var documentUpload = require('./app/lily/documentUpload');
+var documentInfo = require('./app/lily/documentInfo');
+var imageCrop = require('./app/lily/imageCrop');
+var trix = require('./app/lily/trix');
 
 var app = require('./app/components/app.vue');
 var one = require('./app/components/one.vue');
@@ -24,8 +24,9 @@ var landing = require('./app/components/landing.vue');
 var login = require('./app/components/login.vue');
 var components = require('./app/components/components.vue');
 
-var auth = require('./app/redux/actions/auth.babel');
-var store = require('./app/redux/store.babel');
+var auth = require('./app/redux/actions/auth');
+var connection = require('./app/redux/actions/connection');
+var store = require('./app/redux/store');
 
 Vue.config.debug = true;
 Vue.use(VueRouter);
