@@ -1,7 +1,7 @@
 import localforage from 'localforage';
 import request from 'superagent';
 import store from './../store';
-import { API_AUTH_URL, AUTH_STORE_KEY } from './../../config';
+import { API_AUTH_URL, API_AUTH_HEADER, AUTH_STORE_KEY } from './../../config';
 import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_UPDATE } from './../constants/constants';
 import { show, hide } from './../../lily/backdrop';
 
@@ -61,19 +61,28 @@ function logout() {
 /**
  * updates Auth info
  *
- * @param {Object} updatedAuth - new object containing the updated auth info
  * @return {Promise}
  */
-function update(updatedAuth) {
+function update() {
   return new Promise((resolve, reject) => {
-    localforage.setItem(AUTH_STORE_KEY, Object.assign({}, updatedAuth), (error, value) => {
-      if(error === null) {
-        store.dispatch({type: AUTH_UPDATE, auth: Object.assign({}, value)});
-        resolve(Object.assign({}, value));
-      } else {
-        reject(error);
-      }
-    });
+    let auth = store.getState().auth;
+
+    request
+      .get(API_AUTH_URL)
+      .set(API_AUTH_HEADER, auth.jwt)
+      .end((error, response) => {
+        if(response && response.ok === true) {
+          localforage.setItem(AUTH_STORE_KEY, Object.assign({}, response.body), (error, value) => {
+            if(error === null) {
+              store.dispatch({type: AUTH_UPDATE, auth: Object.assign({}, value)});
+            } else {
+              reject(error);
+            }
+          });
+        } else {
+          reject(error);
+        }
+      });
   });
 }
 

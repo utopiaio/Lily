@@ -101,7 +101,7 @@
                   <div class="info">
                     <p v-text="auth.user.user_full_name"></p>
                     <p v-text="auth.user.user_username"></p>
-                    <p v-text="auth.user.user_type"></p>
+                    <p>{{ auth.user.user_group.user_group_name }}&nbsp;&nbsp;<i :class="{'online': auth.user.user_group.user_group_status === true, 'offline': auth.user.user_group.user_group_status === false}" class="fa fa-circle connection-status"></i></p>
                   </div>
                 </li>
                 <li role="separator" class="divider"></li>

@@ -6,7 +6,8 @@
     <button class="btn btn-default" @click="post">post</button>
     <button class="btn btn-default" @click="put">put</button>
     <button class="btn btn-default" @click="delete">delete</button>
-    <pre>{{ $data.store.API | json }}</pre>
+    <button class="btn btn-default" @click="update">update auth</button>
+    <pre>{{ $data.store | json }}</pre>
   </div>
 </template>
 
@@ -14,6 +15,7 @@
   import { props } from './../mixins/redux';
   import { API_TABLES } from './../config';
   import { GET, POST, PUT, DELETE } from './../redux/actions/api';
+  import { update } from './../redux/actions/auth';
 
   module.exports = {
     name: 'one',
@@ -34,6 +36,9 @@
       },
       delete() {
         DELETE(API_TABLES.TAGS, {id: 157});
+      },
+      update() {
+        update();
       }
     }
   };
