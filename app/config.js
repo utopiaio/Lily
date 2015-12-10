@@ -16,7 +16,7 @@ const NOTY_WARN = 3;
 const NOTY_ERROR = 3;
 
 // API
-const API_AUTH_URL = 'http://rock.io/authenticate'; // authentication url
+const API_AUTH_URL = 'http://rock.io/auth'; // authentication url
 const S3_URL = 'http://rock.io/S3'; // url for file uploading
 const API_BASE_URL = 'http://rock.io'; // base url for API calls <METHOD> <API_BASE_URL>/<tableName>[/<tableId>]
 const API_AUTH_HEADER = 'X-Access-Token'; // header so send the JWT
