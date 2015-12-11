@@ -78,6 +78,17 @@ router.map({
   }
 });
 
+/**
+ * this is what's happening on each beforeEach call
+ *
+ * - next transition to is not available
+ *   > if auth is existent, transition is redirected to default auth page
+ *   > if auth doesn't exist, transition is redirected to default non-auth page
+ * - next transition has auth property, auth key is checked and is set to TRUE
+ *   > if existent, you shall pass
+ *   > if auth doesn't exist, you shall not pass
+ * - no auth required, just pass through
+ */
 router.beforeEach(function(transition) {
   // which will call the appropriate Auth function and redirect if necessary.
   // either way, the default page is `landing` component
