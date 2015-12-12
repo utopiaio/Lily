@@ -22,6 +22,7 @@ const API_BASE_URL = 'http://rock.io'; // base url for API calls <METHOD> <API_B
 const API_AUTH_HEADER = 'X-Access-Token'; // header so send the JWT
 const AUTH_STORE_KEY = 'auth'; // key used to store (localforage) the auth info
 const API_QUERY_LIMIT = 100; // default limit for number of results to return
+const API_CACHE_LIMIT = 3; // number of cache requests before a cache request is considered
 const API_TABLES = {
   ABOUT: {name: 'about', id: 'id'},
   S3: {name: 's3', id: 'id'},
@@ -48,6 +49,7 @@ exports.API_BASE_URL = API_BASE_URL;
 exports.API_AUTH_HEADER = API_AUTH_HEADER;
 exports.AUTH_STORE_KEY = AUTH_STORE_KEY;
 exports.API_QUERY_LIMIT = API_QUERY_LIMIT;
+exports.API_CACHE_LIMIT = API_CACHE_LIMIT;
 exports.API_TABLES = API_TABLES;
 exports.NOTY_SUCCESS = NOTY_SUCCESS;
 exports.NOTY_INFO = NOTY_INFO;

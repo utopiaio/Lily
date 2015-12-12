@@ -1,9 +1,22 @@
 import request from 'superagent';
 import notie from 'notie';
-import { API_BASE_URL, API_AUTH_HEADER, API_QUERY_LIMIT, API_TABLES, NOTY_SUCCESS, NOTY_ERROR } from './../../config';
+import { API_BASE_URL, API_AUTH_HEADER, API_QUERY_LIMIT, API_CACHE_LIMIT, API_TABLES, NOTY_SUCCESS, NOTY_ERROR } from './../../config';
 import { API_SET, API_POST, API_PUT, API_DELETE, PURGE_STORE } from './../constants/constants';
 import { show, hide } from './../../lily/backdrop';
 import store from './../store';
+
+
+
+// TODO: make the caching to be time aware, not just # of requests
+const cacheCount = {
+  Q: {}, // Q for query
+  G: {} // G for GET
+};
+
+Object.keys(API_TABLES).forEach((table, index) => {
+  cacheCount.Q[API_TABLES[table].name] = 0;
+  cacheCount.G[API_TABLES[table].name] = 0;
+});
 
 
 
@@ -24,11 +37,13 @@ function GET(table, id, force = false, limit = API_QUERY_LIMIT) {
 
     // first time table initiation
     // store should should be initiated with `API_SET`
-    if(rows === undefined || force === true) {
+    // the *extra* logic on `API_CACHE_LIMIT` is intentional so it acts accordingly
+    if(rows === undefined || force === true || cacheCount.G[table.name] === (API_CACHE_LIMIT - 1) || cacheCount.Q[table.name] === (API_CACHE_LIMIT - 1)) {
       show();
 
       if(id === undefined) {
         // query
+        cacheCount.Q[table.name] = 0;
         request
           .get(`${API_BASE_URL}/${table.name}`)
           .set(API_AUTH_HEADER, auth.jwt)
@@ -46,6 +61,7 @@ function GET(table, id, force = false, limit = API_QUERY_LIMIT) {
           });
       } else {
         // id is set, fetching entry
+        cacheCount.G[table.name] = 0;
         request
           .get(`${API_BASE_URL}/${table.name}/${id}`)
           .set(API_AUTH_HEADER, auth.jwt)
@@ -78,6 +94,7 @@ function GET(table, id, force = false, limit = API_QUERY_LIMIT) {
       // table initiated in the API store, we're going to try to return from the store
       if(id === undefined) {
         // query, return from store
+        cacheCount.Q[table.name]++;
         resolve(rows);
       } else {
         // GET, look for it in the store & if not found, fetch it from server
@@ -85,6 +102,7 @@ function GET(table, id, force = false, limit = API_QUERY_LIMIT) {
         for(let i = rows.length - 1; i >= 0; i--) {
           if(rows[i][table.id] === id) {
             resolve(Object.assign({}, rows[i]));
+            cacheCount.G[table.name]++;
             found = true;
             break;
           }
