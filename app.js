@@ -16,6 +16,7 @@ var documentUpload = require('./app/lily/documentUpload');
 var documentInfo = require('./app/lily/documentInfo');
 var imageCrop = require('./app/lily/imageCrop');
 var trix = require('./app/lily/trix');
+var tooltip = require('./app/lily/tooltip');
 
 var app = require('./app/components/app.vue');
 var one = require('./app/components/one.vue');
@@ -36,6 +37,7 @@ Vue.use(documentUpload);
 Vue.use(documentInfo);
 Vue.use(imageCrop);
 Vue.use(trix);
+Vue.use(tooltip);
 
 var router = new VueRouter({
   // history: true,
