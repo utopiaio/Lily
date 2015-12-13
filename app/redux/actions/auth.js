@@ -75,6 +75,7 @@ function update() {
           localforage.setItem(AUTH_STORE_KEY, Object.assign({}, response.body), (error, value) => {
             if(error === null) {
               store.dispatch({type: AUTH_UPDATE, auth: Object.assign({}, value)});
+              resolve();
             } else {
               reject(error);
             }
