@@ -138,6 +138,9 @@ router.beforeEach(function(transition) {
 
 // initiating auth before we start the router
 auth.init().then(function() {
+  auth.update().catch((error) => {
+    console.warn(error)
+  });
   router.start(Vue.extend({}), '#app');
 }).catch(function(error) {
   console.info('router started with no Auth');
