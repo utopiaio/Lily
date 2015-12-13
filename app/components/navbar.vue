@@ -105,7 +105,7 @@
                   </div>
                 </li>
                 <li role="separator" class="divider"></li>
-                <li><a @click.prevent="logout" class="logout" v-link="{name: 'landing'}">logout&nbsp;&nbsp;<i class="fa fa-sign-out"></i></a></li>
+                <li><a @click.prevent="logout" class="logout">logout&nbsp;&nbsp;<i class="fa fa-sign-out"></i></a></li>
               </ul>
             </li>
           </ul>
