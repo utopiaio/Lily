@@ -21,6 +21,40 @@ Object.keys(API_TABLES).forEach((table, index) => {
 
 
 /**
+ * even if this does NOT affect the store, it's added here for ONLY convince purpose
+ *
+ * @param {Object} table
+ * @param {String} q - query search string
+ * @param {Number} limit - limit on query return
+ */
+function SEARCH(table, q, limit = API_QUERY_LIMIT) {
+  return new Promise((resolve, reject) => {
+    let auth = store.getState().auth;
+
+    // setting to limit so next request replaces from server
+    cacheCount.Q[table.name] = API_CACHE_LIMIT;
+    show();
+
+    request
+      .get(`${API_BASE_URL}/${table.name}`)
+      .set(API_AUTH_HEADER, auth.jwt)
+      .query({limit, q})
+      .end((error, response) => {
+        hide();
+
+        if(response && response.ok === true) {
+          resolve(Object.assign([], response.body));
+        } else {
+          notie.alert(3, response.body.error, NOTY_ERROR);
+          reject(error);
+        }
+      });
+  });
+}
+
+
+
+/**
  * GET
  *
  * @param {Object} table - table in question
@@ -313,4 +347,5 @@ exports.GET = GET;
 exports.POST = POST;
 exports.PUT = PUT;
 exports.DELETE = DELETE;
+exports.SEARCH = SEARCH;
 exports.PURGE = PURGE;
