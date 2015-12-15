@@ -26,6 +26,7 @@ var login = require('./app/components/login.vue');
 var components = require('./app/components/components.vue');
 
 var auth = require('./app/redux/actions/auth');
+var API = require('./app/redux/actions/api');
 var connection = require('./app/redux/actions/connection');
 var store = require('./app/redux/store');
 
@@ -137,12 +138,14 @@ router.beforeEach(function(transition) {
 });
 
 // initiating auth before we start the router
-auth.init().then(function() {
-  auth.update().catch((error) => {
-    console.warn(error)
+API.init().then(() => {
+  auth.init().then(function() {
+    auth.update().catch((error) => {
+      console.warn(error);
+    });
+    router.start(Vue.extend({}), '#app');
+  }).catch(function(error) {
+    console.info('router started with no Auth');
+    router.start(Vue.extend({}), '#app');
   });
-  router.start(Vue.extend({}), '#app');
-}).catch(function(error) {
-  console.info('router started with no Auth');
-  router.start(Vue.extend({}), '#app');
 });

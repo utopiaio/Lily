@@ -13,11 +13,6 @@ const cacheCount = {
   G: {} // G for GET
 };
 
-Object.keys(API_TABLES).forEach((table, index) => {
-  cacheCount.Q[API_TABLES[table].name] = 0;
-  cacheCount.G[API_TABLES[table].name] = 0;
-});
-
 
 
 /**
@@ -72,7 +67,7 @@ function GET(table, id, force = false, limit = API_QUERY_LIMIT) {
     // first time table initiation
     // store should should be initiated with `API_SET`
     // the *extra* logic on `API_CACHE_LIMIT` is intentional so it acts accordingly
-    if(rows === undefined || force === true || cacheCount.G[table.name] === (API_CACHE_LIMIT - 1) || cacheCount.Q[table.name] === (API_CACHE_LIMIT - 1)) {
+    if(rows === undefined || force === true || cacheCount.G[table.name] === (API_CACHE_LIMIT - 1) || cacheCount.Q[table.name] >= (API_CACHE_LIMIT - 1)) {
       show();
 
       if(id === undefined) {
@@ -89,7 +84,7 @@ function GET(table, id, force = false, limit = API_QUERY_LIMIT) {
               store.dispatch({type: API_SET, table: table.name, rows: Object.assign([], response.body)});
               resolve(Object.assign([], response.body));
             } else {
-              notie.alert(3, `Error fetching query`, NOTY_ERROR);
+              notie.alert(3, response.body.error, NOTY_ERROR);
               reject(error);
             }
           });
@@ -119,7 +114,7 @@ function GET(table, id, force = false, limit = API_QUERY_LIMIT) {
 
               resolve(Object.assign({}, response.body));
             } else {
-              notie.alert(3, `Unable to fetch entery`, NOTY_ERROR);
+              notie.alert(3, response.body.error, NOTY_ERROR);
               reject(error);
             }
           });
@@ -157,7 +152,7 @@ function GET(table, id, force = false, limit = API_QUERY_LIMIT) {
                 store.dispatch({type: API_POST, table: table.name, row: Object.assign({}, response.body)});
                 resolve(Object.assign({}, response.body));
               } else {
-                notie.alert(3, `Unable to fetch entery`, NOTY_ERROR);
+                notie.alert(3, response.body.error, NOTY_ERROR);
                 reject(error);
               }
             });
@@ -192,7 +187,7 @@ function POST(table, data) {
         hide();
 
         if(response && response.ok === true) {
-          notie.alert(1, `Entery successfully saved to '${table.name}'`, NOTY_SUCCESS);
+          notie.alert(1, `Entery successfully saved to '${table.human}'`, NOTY_SUCCESS);
 
           if(rows === undefined) {
             store.dispatch({type: API_SET, table: table.name, rows: Object.assign([], [Object.assign({}, response.body)])});
@@ -239,7 +234,7 @@ function PUT(table, data) {
         hide();
 
         if(response && response.ok === true) {
-          notie.alert(1, `Entery successfully updated to '${table.name}'`, NOTY_SUCCESS);
+          notie.alert(1, `Entery successfully updated to '${table.human}'`, NOTY_SUCCESS);
 
           if(rows === undefined) {
             store.dispatch({type: API_SET, table: table.name, rows: Object.assign([], [Object.assign({}, response.body)])});
@@ -293,7 +288,7 @@ function DELETE(table, data) {
         hide();
 
         if(response && response.ok === true) {
-          notie.alert(1, `Entery successfully deleted from '${table.name}'`, NOTY_SUCCESS);
+          notie.alert(1, `Entery successfully deleted from '${table.human}'`, NOTY_SUCCESS);
 
           if(rows === undefined) {
             // store isn't affected by the entry delete
@@ -343,9 +338,31 @@ function PURGE() {
 
 
 
+/**
+ * initiates
+ * > store with an empty array for each table
+ * > cache count to API_CACHE_LIMIT
+ *
+ * @return {Promise}
+ */
+function init() {
+  return new Promise((resolve, reject) => {
+    Object.keys(API_TABLES).forEach((table, index) => {
+      store.dispatch({type: API_SET, table: API_TABLES[table].name, rows: []});
+      cacheCount.Q[API_TABLES[table].name] = API_CACHE_LIMIT;
+      cacheCount.G[API_TABLES[table].name] = API_CACHE_LIMIT;
+    });
+
+    resolve();
+  });
+}
+
+
+
 exports.GET = GET;
 exports.POST = POST;
 exports.PUT = PUT;
 exports.DELETE = DELETE;
 exports.SEARCH = SEARCH;
 exports.PURGE = PURGE;
+exports.init = init;

@@ -23,14 +23,14 @@ const API_AUTH_HEADER = 'X-Access-Token'; // header so send the JWT
 const AUTH_STORE_KEY = 'auth'; // key used to store (localforage) the auth info
 const API_QUERY_LIMIT = 100; // default limit for number of results to return
 const API_CACHE_LIMIT = 3; // number of cache requests before a cache request is considered
-const API_TABLES = {
-  ABOUT: {name: 'about', id: 'id'},
-  S3: {name: 's3', id: 'id'},
-  SOCIAL: {name: 'social', id: 'id'},
-  STORY: {name: 'story', id: 'id'},
-  TAGS: {name: 'tags', id: 'id'},
-  USERS: {name: 'users', id: 'user_id'}
-};
+const API_TABLES = Object.freeze({
+  ABOUT: {name: 'about', human: 'About', id: 'id'},
+  S3: {name: 's3', human: 'S3', id: 'id'},
+  SOCIAL: {name: 'social', human: 'Social', id: 'id'},
+  STORY: {name: 'story', human: 'Story', id: 'id'},
+  TAGS: {name: 'tags', human: 'Tags', id: 'id'},
+  USERS: {name: 'users', human: 'Users', id: 'user_id'}
+});
 
 /**
  * I've learned an import lesson on ECMASCript from module = {exports: {}}
