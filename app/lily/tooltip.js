@@ -15,7 +15,6 @@ import bootsrap from 'bootstrap';
 module.exports = {
   install(Vue, options) {
     Vue.directive('tooltip', {
-      twoWay: false,
       acceptStatement: true,
       params: ['data-placement', 'title'],
       bind() {
