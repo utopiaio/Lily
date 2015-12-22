@@ -3,6 +3,7 @@ require('bootstrap/dist/css/bootstrap.min.css');
 require('eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css');
 require('cropperjs/dist/cropper.min.css');
 require('trix/dist/trix.css');
+require('select2/dist/css/select2.min.css');
 require('./app/less/app.less');
 
 var Vue = require('vue');
@@ -17,6 +18,7 @@ var documentInfo = require('./app/lily/documentInfo');
 var imageCrop = require('./app/lily/imageCrop');
 var trix = require('./app/lily/trix');
 var tooltip = require('./app/lily/tooltip');
+var select2 = require('./app/lily/select2');
 
 var app = require('./app/components/app.vue');
 var one = require('./app/components/one.vue');
@@ -39,6 +41,7 @@ Vue.use(documentInfo);
 Vue.use(imageCrop);
 Vue.use(trix);
 Vue.use(tooltip);
+Vue.use(select2);
 
 var router = new VueRouter({
   // history: true,

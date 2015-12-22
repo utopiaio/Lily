@@ -23,6 +23,7 @@
     "notie": "^2.1.0",
     "redux": "^3.0.4",
     "script-loader": "^0.6.1",
+    "select2": "^4.0.1",
     "spin.js": "^2.3.2",
     "style-loader": "^0.13.0",
     "superagent": "^1.4.0",
