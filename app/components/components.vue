@@ -61,13 +61,13 @@
     <h3>Select 2</h3>
     <div class="row">
       <div class="col-lg-6">
-        <select2 :model.sync="select" multiple>
+        <select2 class="form-control input-lg" :model.sync="select" multiple>
           <option v-for="option in select2Data" track-by="$index" value="{{ option.id }}" v-text="option.text"></option>
         </select2>
       </div>
 
       <div class="col-lg-6">
-        <select2 :model.sync="select" multiple>
+        <select2 class="form-control input-lg" :model.sync="select" multiple>
           <option v-for="option in select2Data" track-by="$index" value="{{ option.id }}" v-text="option.text"></option>
         </select2>
       </div>
