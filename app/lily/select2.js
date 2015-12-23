@@ -28,12 +28,38 @@ module.exports = {
           <style type="text/css">
             .select2.select2-container {
               width: 100% !important;
+              outline: 0;
+              -webkit-box-shadow: none;
+              -moz-box-shadow: none;
+              box-shadow: none;
+            }
+
+            .select2.select2-container .select2-selection {
+              outline: 0;
+              -webkit-box-shadow: none;
+              -moz-box-shadow: none;
+              box-shadow: none;
             }
 
             .select2.select2-container .select2-selection {
               height: 46px;
               padding: 8px 0;
               font-size: 18px;
+            }
+
+            .select2-container--default .select2-search--dropdown .select2-search__field {
+              outline: 0;
+              -webkit-box-shadow: none;
+              -moz-box-shadow: none;
+              box-shadow: none;
+            }
+
+            .select2-container--default .select2-search--dropdown .select2-search__field:focus {
+              border-color: #66afe9;
+              outline: 0;
+              -webkit-box-shadow: none;
+              -moz-box-shadow: none;
+              box-shadow: none;
             }
 
             .select2.select2-container .select2-selection__arrow {

@@ -19,6 +19,7 @@ var imageCrop = require('./app/lily/imageCrop');
 var trix = require('./app/lily/trix');
 var tooltip = require('./app/lily/tooltip');
 var select2 = require('./app/lily/select2');
+var checkbox = require('./app/lily/checkbox');
 
 var app = require('./app/components/app.vue');
 var one = require('./app/components/one.vue');
@@ -42,6 +43,7 @@ Vue.use(imageCrop);
 Vue.use(trix);
 Vue.use(tooltip);
 Vue.use(select2);
+Vue.use(checkbox);
 
 var router = new VueRouter({
   // history: true,
