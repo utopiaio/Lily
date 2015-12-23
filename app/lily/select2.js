@@ -46,9 +46,8 @@ module.exports = {
 
         setTimeout(() => {
           select.innerHTML = $('div', this.$el)[0].innerHTML;
-          this.__select2 = $(select).select2({
-            placeholder: this.placeholder
-          });
+          this.__select2 = $(select).select2({ placeholder: this.placeholder });
+          $('.select2.select2-container .select2-selection').animate({opacity: 1}, 250);
           this.__select2.val(this.model).trigger('change');
           // we're using `select2:select` and `select2:unselect` instead of `change`
           // so we don't run into infinite loop when triggering `change` inside watch
