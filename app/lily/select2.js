@@ -14,6 +14,11 @@ module.exports = {
           type: String,
           required: false,
           default: ''
+        },
+        class: {
+          type: String,
+          required: false,
+          default: 'form-control input-lg'
         }
       },
       // directly putting slot inside select tag doesn't render options inside
@@ -25,18 +30,18 @@ module.exports = {
               width: 100% !important;
             }
 
-            .select-lg .select2.select2-container .select2-selection {
+            .select2.select2-container .select2-selection {
               height: 46px;
               padding: 8px 0;
               font-size: 18px;
             }
 
-            .select-lg .select2.select2-container .select2-selection__arrow {
+            .select2.select2-container .select2-selection__arrow {
               height: 46px;
             }
           </style>
           <div style="display: none;"><slot></slot></div>
-          <select style="display: none;"></select>
+          <select :class="class"></select>
         </span>`,
       ready() {
         let select = $('select', this.$el)[0];
@@ -47,7 +52,6 @@ module.exports = {
         setTimeout(() => {
           select.innerHTML = $('div', this.$el)[0].innerHTML;
           this.__select2 = $(select).select2({ placeholder: this.placeholder });
-          $('.select2.select2-container .select2-selection').animate({opacity: 1}, 250);
           this.__select2.val(this.model).trigger('change');
           // we're using `select2:select` and `select2:unselect` instead of `change`
           // so we don't run into infinite loop when triggering `change` inside watch
