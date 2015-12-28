@@ -5,6 +5,8 @@ import { API_AUTH_URL, API_AUTH_HEADER, AUTH_STORE_KEY } from './../../config';
 import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_UPDATE } from './../constants/constants';
 import { show, hide } from './../../lily/backdrop';
 
+
+
 /**
  * authenticates with given credentials
  *
@@ -43,6 +45,8 @@ function login(credentials = {}) {
   });
 }
 
+
+
 /**
  * will clear the auth info inside `auth`
  * this function will always resolve
@@ -57,6 +61,8 @@ function logout() {
     });
   });
 }
+
+
 
 /**
  * updates Auth info
@@ -75,6 +81,7 @@ function update() {
           localforage.setItem(AUTH_STORE_KEY, Object.assign({}, response.body), (error, value) => {
             if(error === null) {
               store.dispatch({type: AUTH_UPDATE, auth: Object.assign({}, value)});
+              resolve(value);
             } else {
               reject(error);
             }
@@ -85,6 +92,8 @@ function update() {
       });
   });
 }
+
+
 
 /**
  * this should be called before the app is "initiated"
@@ -103,6 +112,8 @@ function init() {
     });
   });
 }
+
+
 
 exports.login = login;
 exports.logout = logout;

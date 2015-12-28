@@ -22,14 +22,14 @@ const API_BASE_URL = 'http://rock.io'; // base url for API calls <METHOD> <API_B
 const API_AUTH_HEADER = 'X-Access-Token'; // header so send the JWT
 const AUTH_STORE_KEY = 'auth'; // key used to store (localforage) the auth info
 const API_QUERY_LIMIT = 100; // default limit for number of results to return
-const API_TABLES = {
-  ABOUT: {name: 'about', id: 'id'},
-  S3: {name: 's3', id: 'id'},
-  SOCIAL: {name: 'social', id: 'id'},
-  STORY: {name: 'story', id: 'id'},
-  TAGS: {name: 'tags', id: 'id'},
-  USERS: {name: 'users', id: 'user_id'}
-};
+const API_TABLES = Object.freeze({
+  ABOUT: {name: 'about', human: 'About', id: 'id', age: '30 minutes'},
+  S3: {name: 's3', human: 'S3', id: 'id', age: '30 minutes'},
+  SOCIAL: {name: 'social', human: 'Social', id: 'id', age: '30 minutes'},
+  STORY: {name: 'story', human: 'Story', id: 'id', age: '30 minutes'},
+  TAGS: {name: 'tags', human: 'Tags', id: 'id', age: '30 minutes'},
+  USERS: {name: 'users', human: 'Users', id: 'user_id', age: '30 minutes'}
+});
 
 /**
  * I've learned an import lesson on ECMASCript from module = {exports: {}}

@@ -3,6 +3,7 @@ require('bootstrap/dist/css/bootstrap.min.css');
 require('eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css');
 require('cropperjs/dist/cropper.min.css');
 require('trix/dist/trix.css');
+require('select2/dist/css/select2.min.css');
 require('./app/less/app.less');
 
 var Vue = require('vue');
@@ -16,6 +17,9 @@ var documentUpload = require('./app/lily/documentUpload');
 var documentInfo = require('./app/lily/documentInfo');
 var imageCrop = require('./app/lily/imageCrop');
 var trix = require('./app/lily/trix');
+var tooltip = require('./app/lily/tooltip');
+var select2 = require('./app/lily/select2');
+var checkbox = require('./app/lily/checkbox');
 
 var app = require('./app/components/app.vue');
 var one = require('./app/components/one.vue');
@@ -25,6 +29,7 @@ var login = require('./app/components/login.vue');
 var components = require('./app/components/components.vue');
 
 var auth = require('./app/redux/actions/auth');
+var API = require('./app/redux/actions/api');
 var connection = require('./app/redux/actions/connection');
 var store = require('./app/redux/store');
 
@@ -36,6 +41,9 @@ Vue.use(documentUpload);
 Vue.use(documentInfo);
 Vue.use(imageCrop);
 Vue.use(trix);
+Vue.use(tooltip);
+Vue.use(select2);
+Vue.use(checkbox);
 
 var router = new VueRouter({
   // history: true,
@@ -78,6 +86,17 @@ router.map({
   }
 });
 
+/**
+ * this is what's happening on each beforeEach call
+ *
+ * - next transition to is not available
+ *   > if auth is existent, transition is redirected to default auth page
+ *   > if auth doesn't exist, transition is redirected to default non-auth page
+ * - next transition has auth property, auth key is checked and is set to TRUE
+ *   > if existent, you shall pass
+ *   > if auth doesn't exist, you shall not pass
+ * - no auth required, just pass through
+ */
 router.beforeEach(function(transition) {
   // which will call the appropriate Auth function and redirect if necessary.
   // either way, the default page is `landing` component
@@ -124,9 +143,14 @@ router.beforeEach(function(transition) {
 });
 
 // initiating auth before we start the router
-auth.init().then(function() {
-  router.start(Vue.extend({}), '#app');
-}).catch(function(error) {
-  console.info('router started with no Auth');
-  router.start(Vue.extend({}), '#app');
+API.init().then(() => {
+  auth.init().then(function() {
+    auth.update().catch((error) => {
+      console.warn(error);
+    });
+    router.start(Vue.extend({}), '#app');
+  }).catch(function(error) {
+    console.info('router started with no Auth');
+    router.start(Vue.extend({}), '#app');
+  });
 });

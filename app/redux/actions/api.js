@@ -1,9 +1,44 @@
 import request from 'superagent';
 import notie from 'notie';
-import { API_BASE_URL, API_AUTH_HEADER, API_QUERY_LIMIT, API_TABLES, NOTY_SUCCESS, NOTY_ERROR } from './../../config';
+import moment from 'moment';
+import { API_BASE_URL, API_AUTH_HEADER, API_QUERY_LIMIT, API_CACHE_LIMIT, API_TABLES, NOTY_SUCCESS, NOTY_ERROR } from './../../config';
 import { API_SET, API_POST, API_PUT, API_DELETE, PURGE_STORE } from './../constants/constants';
 import { show, hide } from './../../lily/backdrop';
 import store from './../store';
+let lastReqested = {};
+
+
+
+/**
+ * even if this does NOT affect the store, it's added here for ONLY convince purpose
+ *
+ * @param {Object} table
+ * @param {String} q - query search string
+ * @param {Number} limit - limit on query return
+ */
+function SEARCH(table, q, limit = API_QUERY_LIMIT) {
+  return new Promise((resolve, reject) => {
+    let auth = store.getState().auth;
+
+    // setting to limit so next request replaces from server
+    show();
+
+    request
+      .get(`${API_BASE_URL}/${table.name}`)
+      .set(API_AUTH_HEADER, auth.jwt)
+      .query({limit, q})
+      .end((error, response) => {
+        hide();
+
+        if(response && response.ok === true) {
+          resolve(Object.assign([], response.body));
+        } else {
+          notie.alert(3, response.body.error, NOTY_ERROR);
+          reject(error);
+        }
+      });
+  });
+}
 
 
 
@@ -17,18 +52,21 @@ import store from './../store';
  * @param {Number} id - id (serial) used to fetch from store / server
  * @return {Promise}
  */
-function GET(table, id, force = false, limit = API_QUERY_LIMIT) {
+function GET(table, id = -1, force = false, limit = API_QUERY_LIMIT) {
   return new Promise((resolve, reject) => {
     let rows = store.getState().API[table.name];
     let auth = store.getState().auth;
+    const age = table.age.match(/[0-9]+|[a-z]+/gi);
+    let clone = lastReqested[table.name].clone(); // otherwise we'll be mutating lastReqested itself
 
     // first time table initiation
     // store should should be initiated with `API_SET`
-    if(rows === undefined || force === true) {
+    if(force === true || clone.add(Number(age[0]), age[1]).isAfter(moment()) === false) {
       show();
 
-      if(id === undefined) {
+      if(id === -1) {
         // query
+        lastReqested[table.name] = moment();
         request
           .get(`${API_BASE_URL}/${table.name}`)
           .set(API_AUTH_HEADER, auth.jwt)
@@ -40,7 +78,7 @@ function GET(table, id, force = false, limit = API_QUERY_LIMIT) {
               store.dispatch({type: API_SET, table: table.name, rows: Object.assign([], response.body)});
               resolve(Object.assign([], response.body));
             } else {
-              notie.alert(3, `Error fetching query`, NOTY_ERROR);
+              notie.alert(3, response.body.error, NOTY_ERROR);
               reject(error);
             }
           });
@@ -53,30 +91,24 @@ function GET(table, id, force = false, limit = API_QUERY_LIMIT) {
             hide();
 
             if(response && response.ok === true) {
-              if(rows === undefined) {
-                // making sure we're not clearing the store on force GET requests
-                store.dispatch({type: API_SET, table: table.name, rows: Object.assign([], [Object.assign({}, response.body)])});
-              } else {
-                let index = -1;
-                for(let i = rows.length - 1; i >= 0; i--) {
-                  if(rows[i][table.id] === response.body[table.id]) {
-                    index = i;
-                  }
-                };
-
-                store.dispatch({type: index === -1 ? API_POST : API_PUT, table: table.name, index, row: Object.assign({}, response.body)});
+              let index = -1;
+              for(let i = rows.length - 1; i >= 0; i--) {
+                if(rows[i][table.id] === response.body[table.id]) {
+                  index = i;
+                }
               }
 
+              store.dispatch({type: index === -1 ? API_POST : API_PUT, table: table.name, index, row: Object.assign({}, response.body)});
               resolve(Object.assign({}, response.body));
             } else {
-              notie.alert(3, `Unable to fetch entery`, NOTY_ERROR);
+              notie.alert(3, response.body.error, NOTY_ERROR);
               reject(error);
             }
           });
       }
     } else {
       // table initiated in the API store, we're going to try to return from the store
-      if(id === undefined) {
+      if(id === -1) {
         // query, return from store
         resolve(rows);
       } else {
@@ -88,7 +120,7 @@ function GET(table, id, force = false, limit = API_QUERY_LIMIT) {
             found = true;
             break;
           }
-        };
+        }
 
         if(found === false) {
           show();
@@ -105,7 +137,7 @@ function GET(table, id, force = false, limit = API_QUERY_LIMIT) {
                 store.dispatch({type: API_POST, table: table.name, row: Object.assign({}, response.body)});
                 resolve(Object.assign({}, response.body));
               } else {
-                notie.alert(3, `Unable to fetch entery`, NOTY_ERROR);
+                notie.alert(3, response.body.error, NOTY_ERROR);
                 reject(error);
               }
             });
@@ -140,14 +172,8 @@ function POST(table, data) {
         hide();
 
         if(response && response.ok === true) {
-          notie.alert(1, `Entery successfully saved to '${table.name}'`, NOTY_SUCCESS);
-
-          if(rows === undefined) {
-            store.dispatch({type: API_SET, table: table.name, rows: Object.assign([], [Object.assign({}, response.body)])});
-          } else {
-            store.dispatch({type: API_POST, table: table.name, row: Object.assign({}, response.body)});
-          }
-
+          notie.alert(1, `Entery successfully saved to '${table.human}'`, NOTY_SUCCESS);
+          store.dispatch({type: API_POST, table: table.name, row: Object.assign({}, response.body)});
           resolve(Object.assign({}, response.body));
         } else {
           if(response && response.body && response.body.error) {
@@ -187,22 +213,17 @@ function PUT(table, data) {
         hide();
 
         if(response && response.ok === true) {
-          notie.alert(1, `Entery successfully updated to '${table.name}'`, NOTY_SUCCESS);
+          notie.alert(1, `Entery successfully updated to '${table.human}'`, NOTY_SUCCESS);
 
-          if(rows === undefined) {
-            store.dispatch({type: API_SET, table: table.name, rows: Object.assign([], [Object.assign({}, response.body)])});
-          } else {
-            let index = -1;
-            for(let i = rows.length - 1; i >= 0; i--) {
-              if(rows[i][table.id] === data[table.id]) {
-                index = i;
-                break;
-              }
-            };
-
-            store.dispatch({type: index === -1 ? API_POST : API_PUT, table: table.name, index, row: Object.assign({}, response.body)});
+          let index = -1;
+          for(let i = rows.length - 1; i >= 0; i--) {
+            if(rows[i][table.id] === data[table.id]) {
+              index = i;
+              break;
+            }
           }
 
+          store.dispatch({type: index === -1 ? API_POST : API_PUT, table: table.name, index, row: Object.assign({}, response.body)});
           resolve(Object.assign({}, response.body));
         } else {
           if(response && response.body && response.body.error) {
@@ -241,23 +262,19 @@ function DELETE(table, data) {
         hide();
 
         if(response && response.ok === true) {
-          notie.alert(1, `Entery successfully deleted from '${table.name}'`, NOTY_SUCCESS);
+          notie.alert(1, `Entery successfully deleted from '${table.human}'`, NOTY_SUCCESS);
 
-          if(rows === undefined) {
-            // store isn't affected by the entry delete
-          } else {
-            let index = -1;
-            for(let i = rows.length - 1; i >= 0; i--) {
-              if(rows[i][table.id] === data[table.id]) {
-                index = i;
-                break;
-              }
-            };
-
-            if(index > -1) {
-              // entry exists on the store, removing...
-              store.dispatch({type: API_DELETE, table: table.name, index});
+          let index = -1;
+          for(let i = rows.length - 1; i >= 0; i--) {
+            if(rows[i][table.id] === data[table.id]) {
+              index = i;
+              break;
             }
+          }
+
+          if(index > -1) {
+            // entry exists on the store, removing...
+            store.dispatch({type: API_DELETE, table: table.name, index});
           }
 
           resolve(Object.assign({}, response.body));
@@ -291,8 +308,30 @@ function PURGE() {
 
 
 
+/**
+ * initiates
+ * > store with an empty array for each table
+ * > cache count to API_CACHE_LIMIT
+ *
+ * @return {Promise}
+ */
+function init() {
+  return new Promise((resolve, reject) => {
+    Object.keys(API_TABLES).forEach((table, index) => {
+      store.dispatch({type: API_SET, table: API_TABLES[table].name, rows: []});
+      lastReqested[API_TABLES[table].name] = moment().subtract(7, 'days');
+    });
+
+    resolve();
+  });
+}
+
+
+
 exports.GET = GET;
 exports.POST = POST;
 exports.PUT = PUT;
 exports.DELETE = DELETE;
+exports.SEARCH = SEARCH;
 exports.PURGE = PURGE;
+exports.init = init;

@@ -58,6 +58,21 @@
       </div>
     </div>
 
+    <h3>Select 2</h3>
+    <div class="row">
+      <div class="col-lg-6">
+        <select2 class="form-control input-lg" :model.sync="select" multiple>
+          <option v-for="option in select2Data" track-by="$index" value="{{ option.id }}" v-text="option.text"></option>
+        </select2>
+      </div>
+
+      <div class="col-lg-6">
+        <select2 class="form-control input-lg" :model.sync="select" multiple>
+          <option v-for="option in select2Data" track-by="$index" value="{{ option.id }}" v-text="option.text"></option>
+        </select2>
+      </div>
+    </div>
+
     <pre>{{ $data | json }}</pre>
   </div>
 </template>
@@ -71,6 +86,8 @@
     mixins: [props],
     data() {
       return {
+        select: [0, 1],
+        select2Data: [{ id: 0, text: 'enhancement' }, { id: 1, text: 'bug' }, { id: 2, text: 'duplicate' }, { id: 3, text: 'invalid' }, { id: 4, text: 'wontfix' }],
         authKey: API_AUTH_HEADER,
         date: '1991-08-09',
         time: '18:00',
