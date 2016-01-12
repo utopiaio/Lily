@@ -1,7 +1,7 @@
 import notie from 'notie';
 import { NOTY_INFO } from './../../config';
 import { ONLINE, OFFLINE } from './../constants/constants';
-import store from './../store';
+import { store } from './../store';
 
 function connectionListener() {
   notie.alert(4, `You are now ${window.navigator.onLine ? 'online' : 'offline'}`, NOTY_INFO);

@@ -1,5 +1,4 @@
 import request from 'superagent';
-import store from './../store';
 import { API_SET, API_POST, API_PUT, API_DELETE, PURGE_STORE } from './../constants/constants';
 
 function API(state = {}, action) {

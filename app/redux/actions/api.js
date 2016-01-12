@@ -4,7 +4,7 @@ import moment from 'moment';
 import { API_BASE_URL, API_AUTH_HEADER, API_QUERY_LIMIT, API_CACHE_LIMIT, API_TABLES, NOTY_SUCCESS, NOTY_ERROR } from './../../config';
 import { API_SET, API_POST, API_PUT, API_DELETE, PURGE_STORE } from './../constants/constants';
 import { show, hide } from './../../lily/backdrop';
-import store from './../store';
+import { store } from './../store';
 let lastReqested = {};
 
 
