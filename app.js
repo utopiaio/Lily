@@ -31,7 +31,7 @@ var components = require('./app/components/components.vue');
 var auth = require('./app/redux/actions/auth');
 var API = require('./app/redux/actions/api');
 var connection = require('./app/redux/actions/connection');
-var store = require('./app/redux/store');
+var store = require('./app/redux/store').store;
 
 Vue.config.debug = true;
 Vue.use(VueRouter);

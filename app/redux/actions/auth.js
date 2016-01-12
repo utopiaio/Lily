@@ -1,6 +1,6 @@
 import localforage from 'localforage';
 import request from 'superagent';
-import store from './../store';
+import { store } from './../store';
 import { API_AUTH_URL, API_AUTH_HEADER, AUTH_STORE_KEY } from './../../config';
 import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_UPDATE } from './../constants/constants';
 import { show, hide } from './../../lily/backdrop';
