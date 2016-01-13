@@ -142,15 +142,18 @@ router.beforeEach(function(transition) {
   }
 });
 
-// initiating auth before we start the router
-API.init().then(() => {
-  auth.init().then(function() {
-    auth.update().catch((error) => {
-      console.warn(error);
-    });
+
+// initiating auth and API before we start the router
+Promise.all([API.init(), auth.init()])
+  .then(() => {
+    auth.update()
+      .catch((error) => {
+        console.warn(error);
+      });
+
     router.start(Vue.extend({}), '#app');
-  }).catch(function(error) {
+  })
+  .catch((error) => {
     console.info('router started with no Auth');
     router.start(Vue.extend({}), '#app');
   });
-});
