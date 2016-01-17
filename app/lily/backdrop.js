@@ -39,7 +39,7 @@ let _options = {
 let _backdrop = document.createElement('div');
 _backdrop.setAttribute('style', `position: fixed;top: 0;right: 0;bottom: 0;left: 0;z-index: 9999;background-color: rgba(255, 255, 255, 0.5);`);
 
-let hide = function() {
+let hide = () => {
   if(_timeoutHandler !== null && _spinner !== null) {
     _spinner.stop();
     _spinner = null;
@@ -50,7 +50,7 @@ let hide = function() {
   }
 };
 
-let show = function() {
+let show = () => {
   hide();
   document.body.appendChild(_backdrop);
   document.body.style.overflowY = 'hidden';

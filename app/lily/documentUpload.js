@@ -71,13 +71,13 @@ module.exports = {
         }
         this.$el.appendChild(this.__fileInput);
 
-        this.__clickListener = function(e) {
+        this.__clickListener = (e) => {
           let clickEvent = new MouseEvent('click');
           this.__fileInput.dispatchEvent(clickEvent);
-        }.bind(this);
+        };
         this.$el.addEventListener('click', this.__clickListener);
 
-        this.__changeListener = function(e) {
+        this.__changeListener = (e) => {
           let formData = new FormData();
 
           for(let i = 0; i < e.target.files.length; i++) {
@@ -105,7 +105,7 @@ module.exports = {
                 this.__span.innerHTML = `<span class="text-danger">Error uploading file${this.multiple === true ? 's' : ''}</span>`;
               }
             });
-        }.bind(this);
+        };
         this.__fileInput.addEventListener('change', this.__changeListener);
       },
       beforeDestroy() {

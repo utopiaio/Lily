@@ -92,13 +92,13 @@ module.exports = {
 
 
         // we'll be setting to an empty array instead of null on multiple mode
-        this.__setModel = function() {
+        this.__setModel = () => {
           if(this.__select2.val() === null && this.$el.hasAttribute('multiple') === true) {
             this.model = [];
           } else {
             this.model = this.__select2.val();
           }
-        }.bind(this);
+        };
       },
       beforeDestroy() {
         $(this.__select2).select2('destroy');
