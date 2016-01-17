@@ -67,49 +67,49 @@ module.exports = {
           document.querySelector(`#${this.id} .button_group.block_tools`).appendChild(this.__button);
 
           // button triggering click on our file input
-          this.__buttonClick = function(event) {
+          this.__buttonClick = (event) => {
             let clickEvent = new MouseEvent('click');
             this.__fileInput.dispatchEvent(clickEvent);
-          }.bind(this);
+          };
           this.__button.addEventListener('click', this.__buttonClick);
 
           // watching file input for change
-          this.__fileInputChange = function(event) {
+          this.__fileInputChange = (event) => {
             // we have 512ms before the `trix-selection-change` is triggered
             doNotListen = true;
             let FR = new FileReader();
 
-            FR.onload = function(e) {
+            FR.onload = (e) => {
               this.__trix.editor.setSelectedRange(lastCursorIndex);
               this.__trix.editor.insertHTML(`<img src="${e.target.result}">`);
               this.__fileInput.value = '';
               doNotListen = false;
-            }.bind(this);
+            };
 
             FR.readAsDataURL(event.target.files[0]);
-          }.bind(this);
+          };
           this.__fileInput.addEventListener('change', this.__fileInputChange);
 
           // on focus we'll "repopulate" the content of trix to make
           // sure outside changes are reflected
-          this.__trixFocus = function(event) {
+          this.__trixFocus = (event) => {
             this.__trix.editor.loadHTML(this.model);
-          }.bind(this);
+          };
           this.__trix.addEventListener('focus', this.__trixFocus);
 
           // disabling dropped or pasted files
-          this.__trixFileAccept = function(event) {
+          this.__trixFileAccept = (event) => {
             event.preventDefault();
           };
           this.__trix.addEventListener('trix-file-accept', this.__trixFileAccept);
 
           // watching for trix change and reflecting the change back to the model
-          this.__trixChange = function(event) {
+          this.__trixChange = (event) => {
             this.model = this.__input.value;
-          }.bind(this);
+          };
           this.__trix.addEventListener('trix-change', this.__trixChange);
 
-          this.__trixSelectionChange = function(e) {
+          this.__trixSelectionChange = (event) => {
             // this makes sure that when file is uploaded it's added
             // at the last cursor position instead of the beginning
             clearTimeout(timer);
@@ -120,12 +120,12 @@ module.exports = {
                 lastCursorIndex = _lastCursorIndex;
               }
             }, 512);
-          }.bind(this);
+          };
           this.__trix.addEventListener('trix-selection-change', this.__trixSelectionChange);
 
           // on blur we're going to be reformatting the content and remove
           // figure with it's double base64 encoding
-          this.__trixBlur = function(event) {
+          this.__trixBlur = (event) => {
             let div = document.createElement('div');
             div.innerHTML = this.__input.value;
 
@@ -143,7 +143,7 @@ module.exports = {
             });
 
             this.model = $(div).html();
-          }.bind(this);
+          };
           this.__trix.addEventListener('blur', this.__trixBlur);
         }, 128);
       },
