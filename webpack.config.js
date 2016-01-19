@@ -1,4 +1,6 @@
 var webpack = require('webpack');
+var autoprefixer = require('autoprefixer');
+var precss = require('precss');
 var path = require('path');
 
 module.exports = {
@@ -8,13 +10,16 @@ module.exports = {
     publicPath: 'build/',
     filename: 'bundle.js'
   },
+  postcss: function() {
+    return [autoprefixer, precss];
+  },
   module: {
     loaders: [
       // css
-      { test: /\.css$/, loader: 'style-loader!css' },
+      { test: /\.css$/, loader: 'style-loader!css-loader' },
 
       // less
-      { test: /\.less$/, loader: 'style-loader!css-loader!less-loader' },
+      { test: /\.less$/, loader: 'style-loader!css-loader!postcss-loader!less-loader' },
 
       // image
       { test: /\.(jpg|png|gif)$/, loader: 'file-loader?name=static/[name].[ext]'},

@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "autoprefixer": "^6.3.1",
     "babel-core": "^6.3.15",
     "babel-loader": "^6.2.0",
     "babel-plugin-transform-runtime": "^6.3.13",
@@ -21,6 +22,8 @@
     "moment": "^2.10.6",
     "moment-timezone": "^0.4.1",
     "notie": "^2.1.0",
+    "postcss-loader": "^0.8.0",
+    "precss": "^1.4.0",
     "redux": "^3.0.4",
     "script-loader": "^0.6.1",
     "select2": "^4.0.1",
@@ -29,7 +32,7 @@
     "superagent": "^1.4.0",
     "trix": "^0.9.4",
     "url-loader": "^0.5.7",
-    "vue": "^1.0.13",
+    "vue": "^1.0.15",
     "vue-hot-reload-api": "^1.2.2",
     "vue-html-loader": "^1.0.0",
     "vue-loader": "^7.3.0",
