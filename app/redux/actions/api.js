@@ -46,7 +46,7 @@ function SEARCH(table, q, limit = API_QUERY_LIMIT) {
 
     request
       .get(`${API_BASE_URL}/${table.name}`)
-      .set(API_AUTH_HEADER, store.getState().jwt)
+      .set(API_AUTH_HEADER, store.getState().auth.jwt)
       .query({limit, q})
       .end((error, response) => {
         hide();
