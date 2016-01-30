@@ -5,7 +5,6 @@ const API_SET = 'API_SET';
 const API_POST = 'API_POST';
 const API_PUT = 'API_PUT';
 const API_DELETE = 'API_DELETE';
-const PURGE_STORE = 'PURGE_STORE';
 const ONLINE = 'ONLINE';
 const OFFLINE = 'OFFLINE';
 
@@ -16,6 +15,5 @@ exports.API_SET = API_SET;
 exports.API_POST = API_POST;
 exports.API_PUT = API_PUT;
 exports.API_DELETE = API_DELETE;
-exports.PURGE_STORE = PURGE_STORE;
 exports.ONLINE = ONLINE;
 exports.OFFLINE = OFFLINE;

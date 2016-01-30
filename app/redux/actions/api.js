@@ -1,11 +1,35 @@
 import request from 'superagent';
 import notie from 'notie';
 import moment from 'moment';
-import { API_BASE_URL, API_AUTH_HEADER, API_QUERY_LIMIT, API_CACHE_LIMIT, API_TABLES, NOTY_SUCCESS, NOTY_ERROR } from './../../config';
-import { API_SET, API_POST, API_PUT, API_DELETE, PURGE_STORE } from './../constants/constants';
+import { API_BASE_URL, API_AUTH_HEADER, API_QUERY_LIMIT, API_TABLES, NOTY_SUCCESS, NOTY_ERROR } from './../../config';
+import { API_SET, API_POST, API_PUT, API_DELETE } from './../constants/constants';
 import { show, hide } from './../../lily/backdrop';
 import { store } from './../store';
+// object to be used for making sure a cache doesn't abuse its welcome
+// structure:
+// {[API_TABLES.TABLE.name]: moment()}
 let lastReqested = {};
+
+
+
+/**
+ * a utility function that turns an array of entries into an object
+ * of structure:
+ * {[id]: entry}
+ *
+ * @param {Object} table
+ * @param {Array} entries
+ * @return {Object}
+ */
+function buildEntryObject(table, entries = []) {
+  let entriesBuild = {};
+
+  entries.forEach((entry, index) => {
+    entriesBuild[entry[table.id]] = entry;
+  });
+
+  return entriesBuild;
+};
 
 
 
@@ -18,20 +42,17 @@ let lastReqested = {};
  */
 function SEARCH(table, q, limit = API_QUERY_LIMIT) {
   return new Promise((resolve, reject) => {
-    let auth = store.getState().auth;
-
-    // setting to limit so next request replaces from server
     show();
 
     request
       .get(`${API_BASE_URL}/${table.name}`)
-      .set(API_AUTH_HEADER, auth.jwt)
+      .set(API_AUTH_HEADER, store.getState().jwt)
       .query({limit, q})
       .end((error, response) => {
         hide();
 
         if(response && response.ok === true) {
-          resolve(Object.assign([], response.body));
+          resolve(Object.assign({}, buildEntryObject(table, response.body)));
         } else {
           notie.alert(3, response.body.error, NOTY_ERROR);
           reject(error);
@@ -54,10 +75,10 @@ function SEARCH(table, q, limit = API_QUERY_LIMIT) {
  */
 function GET(table, id = -1, force = false, limit = API_QUERY_LIMIT) {
   return new Promise((resolve, reject) => {
-    let rows = store.getState().API[table.name];
+    let entries = store.getState().API[table.name];
     let auth = store.getState().auth;
-    const age = table.age.match(/[0-9]+|[a-z]+/gi);
     let clone = lastReqested[table.name].clone(); // otherwise we'll be mutating lastReqested itself
+    const age = table.age.match(/[0-9]+|[a-z]+/gi);
 
     // first time table initiation
     // store should should be initiated with `API_SET`
@@ -75,15 +96,16 @@ function GET(table, id = -1, force = false, limit = API_QUERY_LIMIT) {
             hide();
 
             if(response && response.ok === true) {
-              store.dispatch({type: API_SET, table: table.name, rows: Object.assign([], response.body)});
-              resolve(Object.assign([], response.body));
+              let built = buildEntryObject(table, response.body);
+              store.dispatch({type: API_SET, table, entries: Object.assign({}, built)});
+              resolve(Object.assign({}, built));
             } else {
               notie.alert(3, response.body.error, NOTY_ERROR);
               reject(error);
             }
           });
       } else {
-        // id is set, fetching entry
+        // id is set, fetching entry...
         request
           .get(`${API_BASE_URL}/${table.name}/${id}`)
           .set(API_AUTH_HEADER, auth.jwt)
@@ -91,14 +113,7 @@ function GET(table, id = -1, force = false, limit = API_QUERY_LIMIT) {
             hide();
 
             if(response && response.ok === true) {
-              let index = -1;
-              for(let i = rows.length - 1; i >= 0; i--) {
-                if(rows[i][table.id] === response.body[table.id]) {
-                  index = i;
-                }
-              }
-
-              store.dispatch({type: index === -1 ? API_POST : API_PUT, table: table.name, index, row: Object.assign({}, response.body)});
+              store.dispatch({type: API_POST, table, entry: Object.assign({}, response.body)});
               resolve(Object.assign({}, response.body));
             } else {
               notie.alert(3, response.body.error, NOTY_ERROR);
@@ -109,20 +124,10 @@ function GET(table, id = -1, force = false, limit = API_QUERY_LIMIT) {
     } else {
       // table initiated in the API store, we're going to try to return from the store
       if(id === -1) {
-        // query, return from store
-        resolve(rows);
+        // query, return from store...
+        resolve(entries);
       } else {
-        // GET, look for it in the store & if not found, fetch it from server
-        let found = false;
-        for(let i = rows.length - 1; i >= 0; i--) {
-          if(rows[i][table.id] === id) {
-            resolve(Object.assign({}, rows[i]));
-            found = true;
-            break;
-          }
-        }
-
-        if(found === false) {
+        if(entries.hasOwnProperty(id) === false) {
           show();
 
           // fetching from server...
@@ -134,13 +139,16 @@ function GET(table, id = -1, force = false, limit = API_QUERY_LIMIT) {
 
               if(response && response.ok === true) {
                 // adding the *newly* fetched item into the store...
-                store.dispatch({type: API_POST, table: table.name, row: Object.assign({}, response.body)});
+                store.dispatch({type: API_POST, table, entry: Object.assign({}, response.body)});
                 resolve(Object.assign({}, response.body));
               } else {
                 notie.alert(3, response.body.error, NOTY_ERROR);
                 reject(error);
               }
             });
+        } else {
+          // we have it in our entry list
+          resolve(Object.assign({}, entries[id]));
         }
       }
     }
@@ -155,25 +163,23 @@ function GET(table, id = -1, force = false, limit = API_QUERY_LIMIT) {
  * @param {Object} table - table name data is to be inserted into
  * @param {String} table.id - table key used to identify an entry
  * @param {String} table.name - table name that's mapped to the API
- * @param {Object} data - new data to be inserted
+ * @param {Object} entry - new entry to be inserted
  * @return {Promise}
  */
-function POST(table, data) {
+function POST(table, entry) {
   return new Promise((resolve, reject) => {
-    let auth = store.getState().auth;
-    let rows = store.getState().API[table.name];
     show();
 
     request
       .post(`${API_BASE_URL}/${table.name}`)
-      .set(API_AUTH_HEADER, auth.jwt)
-      .send(data)
+      .set(API_AUTH_HEADER, store.getState().auth.jwt)
+      .send(entry)
       .end((error, response) => {
         hide();
 
         if(response && response.ok === true) {
-          notie.alert(1, `Entery successfully saved to '${table.human}'`, NOTY_SUCCESS);
-          store.dispatch({type: API_POST, table: table.name, row: Object.assign({}, response.body)});
+          notie.alert(1, `Entry successfully saved to '${table.human}'`, NOTY_SUCCESS);
+          store.dispatch({type: API_POST, table, entry: Object.assign({}, response.body)});
           resolve(Object.assign({}, response.body));
         } else {
           if(response && response.body && response.body.error) {
@@ -196,41 +202,30 @@ function POST(table, data) {
  * @param {Object} table
  * @param {String} table.id - table key used to identify an entry
  * @param {String} table.name - table name that's mapped to the API
- * @param {String} data - updated info of an entry
+ * @param {Object} entry - updated info of an entry
  * @return {Promise}
  */
-function PUT(table, data) {
+function PUT(table, entry) {
   return new Promise((resolve, reject) => {
-    let auth = store.getState().auth;
-    let rows = store.getState().API[table.name];
     show();
 
     request
-      .put(`${API_BASE_URL}/${table.name}/${data[table.id]}`)
-      .set(API_AUTH_HEADER, auth.jwt)
-      .send(data)
+      .put(`${API_BASE_URL}/${table.name}/${entry[table.id]}`)
+      .set(API_AUTH_HEADER, store.getState().auth.jwt)
+      .send(entry)
       .end((error, response) => {
         hide();
 
         if(response && response.ok === true) {
-          notie.alert(1, `Entery successfully updated to '${table.human}'`, NOTY_SUCCESS);
-
-          let index = -1;
-          for(let i = rows.length - 1; i >= 0; i--) {
-            if(rows[i][table.id] === data[table.id]) {
-              index = i;
-              break;
-            }
-          }
-
-          store.dispatch({type: index === -1 ? API_POST : API_PUT, table: table.name, index, row: Object.assign({}, response.body)});
+          notie.alert(1, `Entry successfully updated to '${table.human}'`, NOTY_SUCCESS);
+          store.dispatch({type: API_PUT, table, entry: Object.assign({}, response.body)});
           resolve(Object.assign({}, response.body));
         } else {
           if(response && response.body && response.body.error) {
             notie.alert(3, response.body.error, NOTY_ERROR);
             reject(response.body.error);
           } else {
-            notie.alert(3, `Error updating entery`, NOTY_ERROR);
+            notie.alert(3, `Error updating entry`, NOTY_ERROR);
             reject(error);
           }
         }
@@ -246,44 +241,29 @@ function PUT(table, data) {
  * @param {Object} table
  * @param {String} table.id - table key used to identify an entry
  * @param {String} table.name - table name that's mapped to the API
- * @param {Object} data - entry to be deleted
+ * @param {Object} entry - entry to be deleted
  * @return {Promise}
  */
-function DELETE(table, data) {
+function DELETE(table, entry) {
   return new Promise((resolve, reject) => {
-    let auth = store.getState().auth;
-    let rows = store.getState().API[table.name];
     show();
 
     request
-      .del(`${API_BASE_URL}/${table.name}/${data[table.id]}`)
-      .set(API_AUTH_HEADER, auth.jwt)
+      .del(`${API_BASE_URL}/${table.name}/${entry[table.id]}`)
+      .set(API_AUTH_HEADER, store.getState().auth.jwt)
       .end((error, response) => {
         hide();
 
         if(response && response.ok === true) {
-          notie.alert(1, `Entery successfully deleted from '${table.human}'`, NOTY_SUCCESS);
-
-          let index = -1;
-          for(let i = rows.length - 1; i >= 0; i--) {
-            if(rows[i][table.id] === data[table.id]) {
-              index = i;
-              break;
-            }
-          }
-
-          if(index > -1) {
-            // entry exists on the store, removing...
-            store.dispatch({type: API_DELETE, table: table.name, index});
-          }
-
+          notie.alert(1, `Entry successfully deleted from '${table.human}'`, NOTY_SUCCESS);
+          store.dispatch({type: API_DELETE, table, entry: response.body});
           resolve(Object.assign({}, response.body));
         } else {
           if(response && response.body && response.body.error) {
             notie.alert(3, response.body.error, NOTY_ERROR);
             reject(response.body.error);
           } else {
-            notie.alert(3, `Error updating entery`, NOTY_ERROR);
+            notie.alert(3, `Error deleting entry`, NOTY_ERROR);
             reject(error);
           }
         }
@@ -294,33 +274,17 @@ function DELETE(table, data) {
 
 
 /**
- * Clears the API store
- * no API call is made, it simply *clears* the redux store
- *
- * @return {Promise}
- */
-function PURGE() {
-  return new Promise((resolve, reject) => {
-    store.dispatch({type: PURGE_STORE});
-    resolve();
-  });
-}
-
-
-
-/**
  * initiates
- * > store with an empty array for each table
- * > cache count to API_CACHE_LIMIT
+ * > store with an empty object for each table
  *
  * @return {Promise}
  */
 function init() {
   return new Promise((resolve, reject) => {
-    Object.keys(API_TABLES).forEach((table, index) => {
-      store.dispatch({type: API_SET, table: API_TABLES[table].name, rows: []});
-      lastReqested[API_TABLES[table].name] = moment().subtract(7, 'days');
-    });
+    for(let TABLE in API_TABLES) {
+      lastReqested[API_TABLES[TABLE].name] = moment().subtract(7, 'days');
+      store.dispatch({type: API_SET, table: API_TABLES[TABLE], entries: {}});
+    }
 
     resolve();
   });
@@ -333,5 +297,4 @@ exports.POST = POST;
 exports.PUT = PUT;
 exports.DELETE = DELETE;
 exports.SEARCH = SEARCH;
-exports.PURGE = PURGE;
 exports.init = init;

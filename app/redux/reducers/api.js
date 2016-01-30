@@ -1,32 +1,24 @@
 import request from 'superagent';
-import { API_SET, API_POST, API_PUT, API_DELETE, PURGE_STORE } from './../constants/constants';
+import { API_SET, API_POST, API_PUT, API_DELETE } from './../constants/constants';
 
 function API(state = {}, action) {
   switch(action.type) {
-    // {table: String, rows: Array}
+    // action: {table: Object, entries: Object}
     case API_SET:
-      return Object.assign({}, state, {[action.table]: action.rows});
+      return Object.assign({}, state, {[action.table.name]: action.entries});
     break;
 
-    // {table: String, row: Object}
+    // action: {table: Object, entry: Object}
     case API_POST:
-      return Object.assign({}, state, {[action.table]: [...state[action.table], action.row]});
-    break;
-
-    // {table: String, index: Number, row: Object}
     case API_PUT:
-      return Object.assign({}, state, {
-        [action.table]: [...state[action.table].slice(0, action.index), Object.assign({}, state[action.table][action.index], action.row), ...state[action.table].slice(action.index + 1)]});
+      return Object.assign({}, state, {[action.table.name]: Object.assign({}, state[action.table.name], {[action.entry[action.table.id]]: action.entry})});
     break;
 
-    // {table: String, index: Number}
+    // action: {table: Object, entry: Object}
     case API_DELETE:
-      return Object.assign({}, state, {[action.table]: [...state[action.table].slice(0, action.index), ...state[action.table].slice(action.index + 1)]});
-    break;
-
-    // *clears* the store
-    case PURGE_STORE:
-      return Object.assign({});
+      let stateCopy = Object.assign({}, state);
+      delete stateCopy[action.table.name][action.entry[action.table.id]];
+      return stateCopy;
     break;
 
     default:

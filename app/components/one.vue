@@ -26,13 +26,12 @@
       },
       query() {
         GET(API_TABLES.TAGS, undefined, true); // force query fetch from server
-        GET(API_TABLES.TAGS, undefined, false); // fetch only if store is empty (default)
       },
       post() {
-        POST(API_TABLES.TAGS, {tag: 'that shit cray'});
+        POST(API_TABLES.TAGS, {tag: String(new Date().getTime())});
       },
       put() {
-        PUT(API_TABLES.TAGS, {id: 157, tag: '_BOOM!_XXX'});
+        PUT(API_TABLES.TAGS, {id: 186, tag: '_BOOM!_XXX'});
       },
       delete() {
         DELETE(API_TABLES.TAGS, {id: 157});
