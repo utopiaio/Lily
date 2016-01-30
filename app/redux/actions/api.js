@@ -29,7 +29,7 @@ function buildEntryObject(table, entries = []) {
   });
 
   return entriesBuild;
-};
+}
 
 
 
