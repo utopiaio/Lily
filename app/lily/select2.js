@@ -47,6 +47,10 @@ module.exports = {
               font-size: 18px;
             }
 
+            .select2.select2-container .select2-selection--multiple {
+              padding: 4px 0;
+            }
+
             .select2-container--default .select2-search--dropdown .select2-search__field {
               outline: 0;
               -webkit-box-shadow: none;
