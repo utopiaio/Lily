@@ -30,7 +30,7 @@ var components = require('./app/components/components.vue');
 
 var auth = require('./app/redux/actions/auth');
 var API = require('./app/redux/actions/api');
-var connection = require('./app/redux/actions/connection');
+require('./app/redux/actions/connection');
 var store = require('./app/redux/store').store;
 
 Vue.config.debug = true;
@@ -98,12 +98,13 @@ router.map({
  * - no auth required, just pass through
  */
 router.beforeEach(function(transition) {
+  var _state = store.getState();
+
   // which will call the appropriate Auth function and redirect if necessary.
   // either way, the default page is `landing` component
   if(transition.to.matched === null) {
     // unmatched url has been entered, instead of having a "blank" page we'll
     // redirect to appropriate component
-    var _state = store.getState();
 
     if(_state.auth && _state.auth.jwt) {
       // redirect to default auth page
@@ -115,7 +116,6 @@ router.beforeEach(function(transition) {
   } else {
     if(transition.to.auth === true) {
       // authorization is required
-      var _state = store.getState();
 
       if(_state.auth && _state.auth.jwt) {
         // all checks out, proceed to next path
@@ -127,7 +127,6 @@ router.beforeEach(function(transition) {
       }
     } else if(transition.to.auth === false) {
       // authorized view is NOT allowed
-      var _state = store.getState();
 
       if(_state.auth && _state.auth.jwt) {
         // redirect to default auth-ed view
@@ -147,13 +146,10 @@ router.beforeEach(function(transition) {
 Promise.all([API.init(), auth.init()])
   .then(() => {
     auth.update()
-      .catch((error) => {
-        console.warn(error);
-      });
+      .catch(() => {});
 
     router.start(Vue.extend({}), '#app');
   })
-  .catch((error) => {
-    console.info('router started with no Auth');
+  .catch(() => {
     router.start(Vue.extend({}), '#app');
   });
