@@ -33,7 +33,8 @@ let Redux = {
 };
 
 // our state object becomes reactive --- in-short, Vue magic
-let _vm = new Vue({
+// let _vm = new Vue({
+new Vue({
   data: {state}
 });
 
