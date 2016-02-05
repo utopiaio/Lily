@@ -5,6 +5,7 @@ require('cropperjs/dist/cropper.min.css');
 require('trix/dist/trix.css');
 require('select2/dist/css/select2.min.css');
 require('./app/less/app.less');
+require('./app/less/bs4.less');
 
 var Vue = require('vue');
 var VueRouter = require('vue-router');

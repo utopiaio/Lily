@@ -1,12 +1,12 @@
 <template>
   <div>
     <h1>one</h1>
-    <button class="btn btn-default" @click="get">get</button>
-    <button class="btn btn-default" @click="query">query</button>
-    <button class="btn btn-default" @click="post">post</button>
-    <button class="btn btn-default" @click="put">put</button>
-    <button class="btn btn-default" @click="delete">delete</button>
-    <button class="btn btn-default" @click="update">update auth</button>
+    <button class="btn btn-secondary" @click="get">get</button>
+    <button class="btn btn-secondary" @click="query">query</button>
+    <button class="btn btn-secondary" @click="post">post</button>
+    <button class="btn btn-secondary" @click="put">put</button>
+    <button class="btn btn-secondary" @click="delete">delete</button>
+    <button class="btn btn-secondary" @click="update">update auth</button>
     <pre>{{ $data.store | json }}</pre>
   </div>
 </template>
