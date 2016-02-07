@@ -37,21 +37,6 @@
       a[href="info"] {
         text-transform: capitalize;
       }
-
-      i.connection-status {
-        -webkit-transition: color 500ms linear;
-        -moz-transition: color 500ms linear;
-        -o-transition: color 500ms linear;
-        transition: color 500ms linear;
-
-        &.online {
-          color: #1abc9c;
-        }
-
-        &.offline {
-          color: #e74c3c;
-        }
-      }
     }
 
     .info {
@@ -95,13 +80,19 @@
 
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-              <a href="info" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i :class="{'online': connection === true, 'offline': connection === false}" class="fa fa-circle connection-status"></i>&nbsp;&nbsp;Account</span>&nbsp;&nbsp;<span class="fa fa-chevron-down"></span></a>
+              <a
+                href="info"
+                class="dropdown-toggle"
+                data-toggle="dropdown"
+                role="button"
+                aria-haspopup="true"
+                aria-expanded="false"><bool-circle :bool="connection" size="18px"></bool-circle>&nbsp;&nbsp;Account</span>&nbsp;&nbsp;<span class="fa fa-chevron-down"></span></a>
               <ul class="dropdown-menu">
                 <li>
                   <div class="info">
                     <p v-text="auth.user.user_full_name"></p>
                     <p v-text="auth.user.user_username"></p>
-                    <p>{{ auth.user.user_group.user_group_name }}&nbsp;&nbsp;<i :class="{'online': auth.user.user_group.user_group_status === true, 'offline': auth.user.user_group.user_group_status === false}" class="fa fa-circle connection-status"></i></p>
+                    <p>{{ auth.user.user_group.user_group_name }}&nbsp;&nbsp;<bool-circle :bool="auth.user.user_group.user_group_status" size="14px"></bool-circle></p>
                   </div>
                 </li>
                 <li role="separator" class="divider"></li>
