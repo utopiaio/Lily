@@ -22,6 +22,7 @@ var tooltip = require('./app/lily/tooltip');
 var select2 = require('./app/lily/select2');
 var checkbox = require('./app/lily/checkbox');
 var boolCircle = require('./app/lily/boolCircle');
+var divider = require('./app/lily/divider');
 
 var app = require('./app/components/app.vue');
 var one = require('./app/components/one.vue');
@@ -47,6 +48,7 @@ Vue.use(tooltip);
 Vue.use(select2);
 Vue.use(checkbox);
 Vue.use(boolCircle);
+Vue.use(divider);
 
 var router = new VueRouter({
   // history: true,
