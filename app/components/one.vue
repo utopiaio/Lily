@@ -4,7 +4,7 @@
     <button class="btn btn-secondary" @click="get">get</button>
     <button class="btn btn-secondary" @click="query">query</button>
     <button class="btn btn-secondary" @click="post">post</button>
-    <button class="btn btn-secondary" @click="put">put</button>
+    <button class="btn btn-secondary" @click="patch">patch</button>
     <button class="btn btn-secondary" @click="delete">delete</button>
     <button class="btn btn-secondary" @click="update">update auth</button>
     <pre>{{ $data.store | json }}</pre>
@@ -14,7 +14,7 @@
 <script>
   import { props } from './../mixins/redux';
   import { API_TABLES } from './../config';
-  import { GET, POST, PUT, DELETE } from './../redux/actions/api';
+  import { GET, POST, PATCH, DELETE } from './../redux/actions/api';
   import { update } from './../redux/actions/auth';
 
   module.exports = {
@@ -30,8 +30,8 @@
       post() {
         POST(API_TABLES.TAGS, {tag: String(new Date().getTime())});
       },
-      put() {
-        PUT(API_TABLES.TAGS, {id: 186, tag: '_BOOM!_XXX'});
+      patch() {
+        PATCH(API_TABLES.TAGS, {id: 186, tag: '_BOOM!_XXX'});
       },
       delete() {
         DELETE(API_TABLES.TAGS, {id: 157});

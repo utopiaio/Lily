@@ -2,7 +2,7 @@ import request from 'superagent';
 import notie from 'notie';
 import moment from 'moment';
 import { API_BASE_URL, API_AUTH_HEADER, API_QUERY_LIMIT, API_TABLES, NOTY_SUCCESS, NOTY_ERROR } from './../../config';
-import { API_SET, API_POST, API_PUT, API_DELETE } from './../constants/constants';
+import { API_SET, API_POST, API_PATCH, API_DELETE } from './../constants/constants';
 import { show, hide } from './../../lily/backdrop';
 import { store } from './../store';
 // object to be used for making sure a cache doesn't abuse its welcome
@@ -197,7 +197,7 @@ function POST(table, entry) {
 
 
 /**
- * PUT
+ * PATCH
  *
  * @param {Object} table
  * @param {String} table.id - table key used to identify an entry
@@ -205,12 +205,12 @@ function POST(table, entry) {
  * @param {Object} entry - updated info of an entry
  * @return {Promise}
  */
-function PUT(table, entry) {
+function PATCH(table, entry) {
   return new Promise((resolve, reject) => {
     show();
 
     request
-      .put(`${API_BASE_URL}/${table.name}/${entry[table.id]}`)
+      .patch(`${API_BASE_URL}/${table.name}/${entry[table.id]}`)
       .set(API_AUTH_HEADER, store.getState().auth.jwt)
       .send(entry)
       .end((error, response) => {
@@ -218,7 +218,7 @@ function PUT(table, entry) {
 
         if(response && response.ok === true) {
           notie.alert(1, `Entry successfully updated to '${table.human}'`, NOTY_SUCCESS);
-          store.dispatch({type: API_PUT, table, entry: Object.assign({}, response.body)});
+          store.dispatch({type: API_PATCH, table, entry: Object.assign({}, response.body)});
           resolve(Object.assign({}, response.body));
         } else {
           if(response && response.body && response.body.error) {
@@ -294,7 +294,7 @@ function init() {
 
 exports.GET = GET;
 exports.POST = POST;
-exports.PUT = PUT;
+exports.PATCH = PATCH;
 exports.DELETE = DELETE;
 exports.SEARCH = SEARCH;
 exports.init = init;

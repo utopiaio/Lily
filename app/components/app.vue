@@ -13,8 +13,6 @@
 <script>
   import notie from 'notie';
   import { redux } from './../redux/store';
-  import { API_TABLES } from './../config';
-  import { GET, POST, PUT, DELETE } from './../redux/actions/api';
   import { logout } from './../redux/actions/auth';
   import { DEFAULT_NON_AUTH_PATH_NAME } from './../config';
   import navbar from './navbar.vue';

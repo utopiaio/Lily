@@ -1,5 +1,5 @@
 import request from 'superagent';
-import { API_SET, API_POST, API_PUT, API_DELETE } from './../constants/constants';
+import { API_SET, API_POST, API_PATCH, API_DELETE } from './../constants/constants';
 
 function API(state = {}, action) {
   switch(action.type) {
@@ -10,7 +10,7 @@ function API(state = {}, action) {
 
     // action: {table: Object, entry: Object}
     case API_POST:
-    case API_PUT:
+    case API_PATCH:
       return Object.assign({}, state, {[action.table.name]: Object.assign({}, state[action.table.name], {[action.entry[action.table.id]]: action.entry})});
     break;
 
