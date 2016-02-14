@@ -11,6 +11,12 @@ module.exports = {
           twoWay: true,
           required: true,
           default: ''
+        },
+        picture: {
+          type: Boolean,
+          twoWay: false,
+          required: false,
+          default: false
         }
       },
       template: `
@@ -64,7 +70,9 @@ module.exports = {
           this.__button.setAttribute('title', 'attach');
           this.__button.innerHTML = 'Attach';
 
-          document.querySelector(`#${this.id} .button_group.block_tools`).appendChild(this.__button);
+          if(this.picture === true) {
+            document.querySelector(`#${this.id} .button_group.block_tools`).appendChild(this.__button);
+          }
 
           // button triggering click on our file input
           this.__buttonClick = (event) => {
