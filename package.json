@@ -30,7 +30,7 @@
     "spin.js": "^2.3.2",
     "style-loader": "^0.13.0",
     "superagent": "^1.4.0",
-    "trix": "^0.9.4",
+    "trix": "^0.9.5",
     "url-loader": "^0.5.7",
     "vue": "^1.0.15",
     "vue-hot-reload-api": "^1.2.2",

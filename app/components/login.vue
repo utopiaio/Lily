@@ -43,7 +43,7 @@
       background-color: #ecf0f1;
 
       img.logo {
-        max-height: 75px;
+        height: 75px;
         width: auto;
         margin-bottom: 16px;
       }
