@@ -12,7 +12,6 @@
     "eonasdan-bootstrap-datetimepicker": "https://github.com/Eonasdan/bootstrap-datetimepicker/archive/4.17.37.tar.gz",
     "file-loader": "^0.8.5",
     "font-awesome": "^4.4.0",
-    "html-loader": "^0.4.0",
     "jquery": "^2.1.4",
     "less": "^2.5.3",
     "less-loader": "^2.2.2",
@@ -48,12 +47,26 @@
   },
   "eslintConfig": {
     "parser": "babel-eslint",
-    "plugins": ["html"],
+    "plugins": [
+      "html"
+    ],
     "rules": {
-      "indent": [2, 2],
-      "quotes": [2, "single"],
-      "linebreak-style": [2, "unix"],
-      "semi": [2, "always"]
+      "indent": [
+        2,
+        2
+      ],
+      "quotes": [
+        2,
+        "single"
+      ],
+      "linebreak-style": [
+        2,
+        "unix"
+      ],
+      "semi": [
+        2,
+        "always"
+      ]
     },
     "env": {
       "es6": true,
