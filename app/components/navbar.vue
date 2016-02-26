@@ -108,7 +108,9 @@
 
 <script>
   import $ from 'jquery';
-  import bootsrap from 'bootstrap';
+  import collapse from 'bootstrap/js/collapse';
+  import dropdown from 'bootstrap/js/dropdown';
+  import transition from 'bootstrap/js/transition';
 
   export default {
     name: 'navbar',
