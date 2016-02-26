@@ -1,3 +1,4 @@
+require('normalize.css/normalize.css');
 require('font-awesome/css/font-awesome.min.css');
 require('bootstrap/dist/css/bootstrap.min.css');
 require('eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css');
