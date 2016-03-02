@@ -142,7 +142,7 @@ module.exports = {
 
                     // deleting previous image...
                     request
-                      .del(this.__previousSrc.deleteUrl)
+                      .del(this.__previousSrc.url)
                       .set(this.authKey, this.jwt)
                       .end((error, response) => {
                         if(response && response.ok === true) {
