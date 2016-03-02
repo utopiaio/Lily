@@ -71,7 +71,7 @@ module.exports = {
           this.__deleteButton.innerHTML = 'Deleting...';
 
           request
-            .del(this.src.deleteUrl)
+            .del(this.src.url)
             .set(this.authKey, this.jwt)
             .end((error, response) => {
               if(response && response.ok === true) {

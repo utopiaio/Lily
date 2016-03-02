@@ -99,8 +99,8 @@ module.exports = {
               this.__fileInput.removeAttribute('disabled');
 
               if(response && response.ok === true) {
-                this.__span.innerHTML = `<span class="badge">${response.body.files.length}</span>&nbsp;&nbsp;<span class="text-success">File${this.multiple === true ? 's': ''} uploaded successfully</span>`;
-                this.model = this.multiple === true ? [...this.model, ...response.body.files] : response.body.files[0];
+                this.__span.innerHTML = `<span class="badge">${response.body.length}</span>&nbsp;&nbsp;<span class="text-success">File${this.multiple === true ? 's': ''} uploaded successfully</span>`;
+                this.model = this.multiple === true ? [...this.model, ...response.body] : response.body[0];
               } else {
                 this.__span.innerHTML = `<span class="text-danger">Error uploading file${this.multiple === true ? 's' : ''}</span>`;
               }

@@ -135,7 +135,7 @@ module.exports = {
                   if(response && response.ok === true) {
                     button.innerHTML = `<i class="fa fa-crop"></i>&nbsp;&nbsp;Cropped`;
                     this.setMutationFlag();
-                    this.src = response.body.files[0];
+                    this.src = response.body[0];
                     this.cropped = true;
                     this.__cropper.destroy();
                     this.cropperInitiated = false;
