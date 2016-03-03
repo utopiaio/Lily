@@ -22,19 +22,19 @@
     mixins: [props],
     methods: {
       get() {
-        GET(API_TABLES.TAGS, 73, true); // force GET fetch from server
+        GET(API_TABLES.TAG, 73, true); // force GET fetch from server
       },
       query() {
-        GET(API_TABLES.TAGS, undefined, true); // force query fetch from server
+        GET(API_TABLES.TAG, undefined, true); // force query fetch from server
       },
       post() {
-        POST(API_TABLES.TAGS, {tag: String(new Date().getTime())});
+        POST(API_TABLES.TAG, {tag: String(new Date().getTime())});
       },
       patch() {
-        PATCH(API_TABLES.TAGS, {id: 186, tag: '_BOOM!_XXX'});
+        PATCH(API_TABLES.TAG, {id: 186, tag: '_BOOM!_XXX'});
       },
       delete() {
-        DELETE(API_TABLES.TAGS, {id: 157});
+        DELETE(API_TABLES.TAG, {id: 157});
       },
       update() {
         update();

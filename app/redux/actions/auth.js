@@ -54,8 +54,8 @@ function login(credentials = {}) {
  * @return {Prmomise}
  */
 function logout() {
-  return new Promise((resolve, reject) => {
-    localforage.removeItem(AUTH_STORE_KEY, (error) => {
+  return new Promise((resolve) => {
+    localforage.removeItem(AUTH_STORE_KEY, () => {
       store.dispatch({type: AUTH_LOGOUT});
       resolve();
     });
@@ -115,7 +115,9 @@ function init() {
 
 
 
-exports.login = login;
-exports.logout = logout;
-exports.update = update;
-exports.init = init;
+export {
+  login,
+  logout,
+  update,
+  init
+};

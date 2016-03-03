@@ -8,7 +8,7 @@
 import request from 'superagent';
 
 module.exports = {
-  install(Vue, options) {
+  install(Vue) {
     Vue.component('documentUpload', {
       name: 'documentUpload',
       props: {
@@ -71,7 +71,7 @@ module.exports = {
         }
         this.$el.appendChild(this.__fileInput);
 
-        this.__clickListener = (e) => {
+        this.__clickListener = () => {
           let clickEvent = new MouseEvent('click');
           this.__fileInput.dispatchEvent(clickEvent);
         };

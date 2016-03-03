@@ -1,8 +1,8 @@
 import $ from 'jquery';
-import select2 from 'select2';
+require('select2');
 
 module.exports = {
-  install(Vue, options) {
+  install(Vue) {
     Vue.component('select2', {
       name: 'select2',
       props: {
@@ -85,11 +85,11 @@ module.exports = {
           this.__select2.val(this.model).trigger('change');
           // we're using `select2:select` and `select2:unselect` instead of `change`
           // so we don't run into infinite loop when triggering `change` inside watch
-          this.__select2.on('select2:select', (e) => {
+          this.__select2.on('select2:select', () => {
             this.__setModel();
           });
 
-          this.__select2.on('select2:unselect', (e) => {
+          this.__select2.on('select2:unselect', () => {
             this.__setModel();
           });
         }, 250);
@@ -108,7 +108,7 @@ module.exports = {
         $(this.__select2).select2('destroy');
       },
       watch: {
-        model(newVal, oldVal) {
+        model(newVal) {
           if(this.$el.hasAttribute('multiple') === true && newVal === null && this.__select2 !== undefined) {
             this.__select2.val([]).trigger('change');
           } else if(this.__select2 !== undefined) {

@@ -61,7 +61,7 @@ let show = () => {
       _spinner = null;
       document.body.removeChild(_backdrop);
       document.body.style.overflowY = 'scroll';
-    };
+    }
   }, _timeout);
 };
 

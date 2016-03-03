@@ -7,10 +7,10 @@
  */
 
 module.exports = {
-  install(Vue, options) {
+  install(Vue) {
     Vue.directive('disabled', {
       twoWay: false,
-      update(newVal, oldVal) {
+      update(newVal) {
         newVal === true ? this.el.setAttribute('disabled', true) : this.el.removeAttribute('disabled');
       }
     });

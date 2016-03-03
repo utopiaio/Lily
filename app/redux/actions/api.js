@@ -21,10 +21,10 @@ let lastReqested = {};
  * @param {Array} entries
  * @return {Object}
  */
-function buildEntryObject(table, entries = []) {
+function buildEntryObject (table, entries = []) {
   let entriesBuild = {};
 
-  entries.forEach((entry, index) => {
+  entries.forEach((entry) => {
     entriesBuild[entry[table.id]] = entry;
   });
 
@@ -280,7 +280,7 @@ function DELETE(table, entry) {
  * @return {Promise}
  */
 function init() {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     for(let TABLE in API_TABLES) {
       lastReqested[API_TABLES[TABLE].name] = moment().subtract(7, 'days');
       store.dispatch({type: API_SET, table: API_TABLES[TABLE], entries: {}});
@@ -292,9 +292,11 @@ function init() {
 
 
 
-exports.GET = GET;
-exports.POST = POST;
-exports.PATCH = PATCH;
-exports.DELETE = DELETE;
-exports.SEARCH = SEARCH;
-exports.init = init;
+export {
+  GET,
+  POST,
+  PATCH,
+  DELETE,
+  SEARCH,
+  init
+};

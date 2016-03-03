@@ -10,10 +10,10 @@
  */
 
 import $ from 'jquery';
-import bootsrap from 'bootstrap';
+require('bootstrap/js/tooltip');
 
 module.exports = {
-  install(Vue, options) {
+  install(Vue) {
     Vue.directive('tooltip', {
       acceptStatement: true,
       params: ['data-placement', 'title'],

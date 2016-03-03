@@ -1,7 +1,10 @@
 <template>
   <div class="row">
     <div class="col-lg-12">
-      <navbar :show="show" :auth="store.auth" :connection="store.connection" @logout="logout"></navbar>
+      <navbar :show="show"
+              :user="store.auth.user"
+              :connection="store.connection"
+              @logout="logout"></navbar>
 
       <div class="row">
         <router-view :store="store"></router-view>
@@ -32,7 +35,7 @@
       logout() {
         notie.confirm('Are you sure you want to logout?', 'Yes', 'Cancel', () => {
           logout().then(() => {
-              this.$route.router.go({name: DEFAULT_NON_AUTH_PATH_NAME});
+            this.$route.router.go({name: DEFAULT_NON_AUTH_PATH_NAME});
           });
         });
       }

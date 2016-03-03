@@ -27,8 +27,8 @@ const API_TABLES = Object.freeze({
   S3: {name: 's3', human: 'S3', id: 'id', age: '30 minutes'},
   SOCIAL: {name: 'social', human: 'Social', id: 'id', age: '30 minutes'},
   STORY: {name: 'story', human: 'Story', id: 'id', age: '30 minutes'},
-  TAGS: {name: 'tag', human: 'Tag', id: 'id', age: '30 minutes'},
-  USERS: {name: 'user', human: 'User', id: 'user_id', age: '30 minutes'}
+  TAG: {name: 'tag', human: 'Tag', id: 'id', age: '30 minutes'},
+  USER: {name: 'user', human: 'User', id: 'user_id', age: '30 minutes'}
 });
 
 /**

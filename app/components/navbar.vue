@@ -80,19 +80,18 @@
 
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-              <a
-                href="info"
-                class="dropdown-toggle"
-                data-toggle="dropdown"
-                role="button"
-                aria-haspopup="true"
-                aria-expanded="false"><bool-circle :bool="connection" size="18px"></bool-circle>&nbsp;&nbsp;Account</span>&nbsp;&nbsp;<span class="fa fa-chevron-down"></span></a>
+              <a href="info"
+                 class="dropdown-toggle"
+                 data-toggle="dropdown"
+                 role="button"
+                 aria-haspopup="true"
+                 aria-expanded="false"><bool-circle :bool="connection" size="18px"></bool-circle>&nbsp;&nbsp;Account</span>&nbsp;&nbsp;<span class="fa fa-chevron-down"></span></a>
               <ul class="dropdown-menu">
                 <li>
                   <div class="info">
-                    <p v-text="auth.user.user_full_name"></p>
-                    <p v-text="auth.user.user_username"></p>
-                    <p>{{ auth.user.user_group.user_group_name }}&nbsp;&nbsp;<bool-circle :bool="auth.user.user_group.user_group_status" size="14px"></bool-circle></p>
+                    <p v-text="user.user_full_name"></p>
+                    <p v-text="user.user_username"></p>
+                    <p>{{ user.user_group.user_group_name }}&nbsp;&nbsp;<bool-circle :bool="user.user_group.user_group_status" size="14px"></bool-circle></p>
                   </div>
                 </li>
                 <li role="separator" class="divider"></li>
@@ -108,9 +107,9 @@
 
 <script>
   import $ from 'jquery';
-  import collapse from 'bootstrap/js/collapse';
-  import dropdown from 'bootstrap/js/dropdown';
-  import transition from 'bootstrap/js/transition';
+  require('bootstrap/js/collapse');
+  require('bootstrap/js/dropdown');
+  require('bootstrap/js/transition');
 
   export default {
     name: 'navbar',
@@ -127,7 +126,7 @@
         twoWay: false,
         default: false
       },
-      auth: {
+      user: {
         type: Object,
         required: true,
         twoWay: false,

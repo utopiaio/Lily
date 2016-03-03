@@ -1,18 +1,15 @@
 import { ONLINE, OFFLINE } from './../constants/constants';
 
 function connection(state = window.navigator.onLine, action) {
-  switch(action.type) {
-    case ONLINE:
-      return true;
-    break;
+  switch (action.type) {
+  case ONLINE:
+    return true;
 
-    case OFFLINE:
-      return false;
-    break;
+  case OFFLINE:
+    return false;
 
-    default:
-      return state;
-    break;
+  default:
+    return state;
   }
 }
 

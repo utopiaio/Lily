@@ -1,8 +1,8 @@
-import trix from 'trix';
+require('trix');
 import $ from 'jquery';
 
 module.exports = {
-  install(Vue, options) {
+  install(Vue) {
     Vue.component('trix', {
       name: 'trix',
       props: {
@@ -75,7 +75,7 @@ module.exports = {
           }
 
           // button triggering click on our file input
-          this.__buttonClick = (event) => {
+          this.__buttonClick = () => {
             let clickEvent = new MouseEvent('click');
             this.__fileInput.dispatchEvent(clickEvent);
           };
@@ -100,7 +100,7 @@ module.exports = {
 
           // on focus we'll "repopulate" the content of trix to make
           // sure outside changes are reflected
-          this.__trixFocus = (event) => {
+          this.__trixFocus = () => {
             this.__trix.editor.loadHTML(this.model);
           };
           this.__trix.addEventListener('focus', this.__trixFocus);
@@ -112,12 +112,12 @@ module.exports = {
           this.__trix.addEventListener('trix-file-accept', this.__trixFileAccept);
 
           // watching for trix change and reflecting the change back to the model
-          this.__trixChange = (event) => {
+          this.__trixChange = () => {
             this.model = this.__input.value;
           };
           this.__trix.addEventListener('trix-change', this.__trixChange);
 
-          this.__trixSelectionChange = (event) => {
+          this.__trixSelectionChange = () => {
             // this makes sure that when file is uploaded it's added
             // at the last cursor position instead of the beginning
             clearTimeout(timer);
@@ -133,7 +133,7 @@ module.exports = {
 
           // on blur we're going to be reformatting the content and remove
           // figure with it's double base64 encoding
-          this.__trixBlur = (event) => {
+          this.__trixBlur = () => {
             let div = document.createElement('div');
             div.innerHTML = this.__input.value;
 

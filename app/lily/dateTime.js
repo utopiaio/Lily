@@ -1,9 +1,9 @@
 import $ from 'jquery';
 import moment from 'moment';
-import datetimepicker from 'eonasdan-bootstrap-datetimepicker';
+require('eonasdan-bootstrap-datetimepicker');
 
 module.exports = {
-  install(Vue, options) {
+  install(Vue) {
     Vue.component('dateTime', {
       name: 'date',
       props: {
@@ -62,7 +62,7 @@ module.exports = {
          * that's it! --- it won't trigger 'dp.change' or anything so it
          * wont lead us into infinite loop or anything
          */
-        model(newVal, oldVal) {
+        model(newVal) {
           this.$el.value = newVal;
         }
       }
