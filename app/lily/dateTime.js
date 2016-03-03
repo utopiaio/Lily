@@ -40,7 +40,9 @@ module.exports = {
         });
 
         this.__dateTimeInstance.on('dp.change', (value) => {
-          this.model = value.date.format(this.format);
+          if (moment(value.date, this.format).isValid() === true) {
+            this.model = value.date.format(this.format);
+          }
         });
       },
       beforeDestroy() {
