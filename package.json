@@ -79,6 +79,6 @@
   "scripts": {
     "wps": "node_modules/.bin/webpack-dev-server --progress --inline --hot",
     "wpd": "node_modules/.bin/webpack --progress --colors",
-    "wp": "node_modules/.bin/webpack --progress --colors --production"
+    "wp": "node_modules/.bin/webpack -p --progress --colors"
   }
 }
