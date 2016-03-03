@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>two</h1>
-    <pre>{{ tags | json }}</pre>
+    <pre>{{ tag | json }}</pre>
   </div>
 </template>
 
@@ -11,8 +11,8 @@
   module.exports = {
     name: 'two',
     computed: {
-      tags() {
-        return redux.state.API.tags;
+      tag() {
+        return redux.state.API.tag;
       }
     }
   };

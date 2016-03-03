@@ -1,62 +1,102 @@
 <style lang="less" scoped>
   @import "./../less/variables.less";
 
-  .login-form {
-    margin-top: 72px;
-    margin-bottom: 64px;
-    padding: 24px 24px 32px 24px;
-    border-radius: 4px;
-    background-color: #ecf0f1;
-    border: 1px solid #95a5a6;
-    -webkit-box-shadow: 0 2px 4px rgba(51, 51, 51, 0.5);
-    -moz-box-shadow: 0 2px 4px rgba(51, 51, 51, 0.5);
-    box-shadow: 0 2px 4px rgba(51, 51, 51, 0.5);
+  .login-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    min-height: 100vh;
 
-    img {
-      display: inline-block;
-      width: 64px;
-    }
+    form.login-form {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -webkit-flex-direction: column;
+          -ms-flex-direction: column;
+              flex-direction: column;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+          -ms-flex-align: center;
+              align-items: center;
+      padding: 32px 16px;
+      width: 250px;
+      border: 1px solid rgba(51, 51, 51, 0.25);
+      border-radius: 6px;
+      box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.5);
+      background-color: #ecf0f1;
 
-    button[type="submit"] {
-      margin-top: 24px;
-    }
+      img.logo {
+        height: 75px;
+        width: auto;
+        margin-bottom: 16px;
+      }
 
-    @media(max-width: @screen-sm) {
-      margin-top: 32px;
-      margin-bottom: 32px;
+      label {
+        -webkit-align-self: flex-start;
+            -ms-flex-item-align: start;
+                align-self: flex-start;
+      }
+
+      input {
+        margin-bottom: 16px;
+      }
+
+      button[type="submit"] {
+        margin-top: 16px;
+      }
+
+      @media(max-width: @screen-sm) {
+        width: 90%;
+      }
     }
   }
 </style>
 
 <template>
-  <div class="col-lg-12">
-    <!-- container -->
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-offset-3 col-md-offset-2 col-lg-6 col-md-8">
-          <div class="row">
-            <form class="login-form col-lg-offset-3 col-md-offset-3 col-lg-6 col-md-6" @submit.prevent="login" novalidate>
-              <div class="form-group text-center">
-                <img class="img-responsive" alt="logo" src="./../../static/images/condor.png" />
-              </div>
+  <div class="login-container">
+    <form class="login-form" @submit.prevent="login" novalidate>
+      <img class="logo" alt="logo" src="./../../static/images/condor.png" />
 
-              <div class="form-group">
-                <label class="control-label" for="username">Username *</label>
-                <input type="text" class="form-control input-lg" id="username" name="username" v-model="credentials.username" required />
-              </div>
+      <label class="control-label" for="username">Username *</label>
+      <input
+        type="text"
+        class="form-control input-lg"
+        id="username"
+        name="username"
+        v-model="credentials.username"
+        required />
 
-              <div class="form-group">
-                <label class="control-label" for="password">Password *</label>
-                <input type="password" class="form-control input-lg" id="password" name="password" v-model="credentials.password" required />
-              </div>
+      <label class="control-label" for="password">Password *</label>
+      <input
+        type="password"
+        class="form-control input-lg"
+        id="password"
+        name="password"
+        v-model="credentials.password"
+        required />
 
-              <button type="submit" class="btn btn-default btn-block btn-lg" v-disabled="invalid">login</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- ./ container -->
+      <button
+        type="submit"
+        class="btn btn-success btn-block btn-lg"
+        v-disabled="invalid"><i class="fa fa-sign-in"></i>&nbsp;&nbsp;login</button>
+    </form>
   </div>
 </template>
 

@@ -8,7 +8,7 @@
 import request from 'superagent';
 
 module.exports = {
-  install(Vue, options) {
+  install(Vue) {
     Vue.component('documentInfo', {
       name: 'documentInfo',
       props: {
@@ -66,12 +66,12 @@ module.exports = {
         this.__id = `__${String(Math.random()).slice(2)}__`;
         this.$el.setAttribute('id', this.__id);
         this.__deleteButton = document.querySelector(`#${this.__id} button.btn`);
-        this.__ondblclickListener = function(e) {
+        this.__ondblclickListener = () => {
           this.__deleteButton.setAttribute('disabled', 'disabled');
           this.__deleteButton.innerHTML = 'Deleting...';
 
           request
-            .del(this.src.deleteUrl)
+            .del(this.src.url)
             .set(this.authKey, this.jwt)
             .end((error, response) => {
               if(response && response.ok === true) {
@@ -82,7 +82,7 @@ module.exports = {
                 this.__deleteButton.innerHTML = 'Error';
               }
             });
-        }.bind(this);
+        };
         this.__deleteButton.addEventListener('dblclick', this.__ondblclickListener);
       },
       beforeDestroy() {

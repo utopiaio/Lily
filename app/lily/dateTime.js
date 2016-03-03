@@ -1,9 +1,9 @@
 import $ from 'jquery';
 import moment from 'moment';
-import datetimepicker from 'eonasdan-bootstrap-datetimepicker';
+require('eonasdan-bootstrap-datetimepicker');
 
 module.exports = {
-  install(Vue, options) {
+  install(Vue) {
     Vue.component('dateTime', {
       name: 'date',
       props: {
@@ -17,6 +17,12 @@ module.exports = {
           required: false,
           twoWay: false,
           default: 'DD-MM-YYYY hh:mm A'
+        },
+        required: {
+          type: Boolean,
+          required: false,
+          twoWay: false,
+          default: false
         }
       },
       template: `<input type="text">`,
@@ -28,7 +34,7 @@ module.exports = {
          */
         if(moment(this.model, this.format).isValid() === true) {
           this.$el.value = this.model;
-        } else {
+        } else if (this.required === true) {
           let now = moment().format(this.format);
           this.$el.value = now;
           this.model = now;
@@ -40,7 +46,9 @@ module.exports = {
         });
 
         this.__dateTimeInstance.on('dp.change', (value) => {
-          this.model = value.date.format(this.format);
+          if (moment(value.date, this.format).isValid() === true) {
+            this.model = value.date.format(this.format);
+          }
         });
       },
       beforeDestroy() {
@@ -54,7 +62,7 @@ module.exports = {
          * that's it! --- it won't trigger 'dp.change' or anything so it
          * wont lead us into infinite loop or anything
          */
-        model(newVal, oldVal) {
+        model(newVal) {
           this.$el.value = newVal;
         }
       }

@@ -1,4 +1,6 @@
 var webpack = require('webpack');
+var autoprefixer = require('autoprefixer');
+var precss = require('precss');
 var path = require('path');
 
 module.exports = {
@@ -8,13 +10,16 @@ module.exports = {
     publicPath: 'build/',
     filename: 'bundle.js'
   },
+  postcss: function() {
+    return [autoprefixer, precss];
+  },
   module: {
     loaders: [
       // css
-      { test: /\.css$/, loader: 'style-loader!css' },
+      { test: /\.css$/, loader: 'style-loader!css-loader' },
 
       // less
-      { test: /\.less$/, loader: 'style-loader!css-loader!less-loader' },
+      { test: /\.less$/, loader: 'style-loader!css-loader!postcss-loader!less-loader' },
 
       // image
       { test: /\.(jpg|png|gif)$/, loader: 'file-loader?name=static/[name].[ext]'},
@@ -26,19 +31,17 @@ module.exports = {
       { test: /\.(woff(2)?|ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file-loader?name=static/[name].[ext]' },
 
       // babel
-      { test: /\.js$/, loader: 'babel', exclude: /node_modules/ },
+      { test: /\.js$/, loader: 'babel', include: path.join(__dirname, 'app')},
 
       // vue
       { test: /\.vue$/, loader: 'vue-loader' }
-
     ]
   }
 };
 
-// I'm missing something, NODE_ENV=procution throws error. So I'm working around
-// it; for now, to issue a production webpack bundle
-// $ node_modules/.bin/webpack --production
-if(process.argv.indexOf('--production') > -1) {
+// depending on the arugments passes we'll be adding specific
+// plugins to webpack else we'll have production build even on webpack dev server
+if (process.argv.indexOf('-p') > -1) {
   module.exports.devtool = '#source-map';
   module.exports.plugins = [
     new webpack.ProvidePlugin({

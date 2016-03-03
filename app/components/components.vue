@@ -26,11 +26,11 @@
     <h3>document upload</h3>
     <div class="row">
       <div class="col-lg-6">
-        <document-upload class="btn btn-default btn-block" :model.sync="image" url="http://rock.io/S3" accept="image/*" :auth-key="authKey" :jwt="store.auth.jwt"></document-upload>
+        <document-upload class="btn btn-secondary btn-block" :model.sync="image" url="http://rock.io/S3" accept="image/*" :auth-key="authKey" :jwt="store.auth.jwt"></document-upload>
       </div>
 
       <div class="col-lg-6">
-        <document-upload class="btn btn-default btn-block" :model.sync="images" url="http://rock.io/S3" :multiple="true" :auth-key="authKey" :jwt="store.auth.jwt"></document-upload>
+        <document-upload class="btn btn-secondary btn-block" :model.sync="images" url="http://rock.io/S3" :multiple="true" :auth-key="authKey" :jwt="store.auth.jwt"></document-upload>
       </div>
     </div>
 

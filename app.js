@@ -1,3 +1,4 @@
+require('normalize.css/normalize.css');
 require('font-awesome/css/font-awesome.min.css');
 require('bootstrap/dist/css/bootstrap.min.css');
 require('eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css');
@@ -5,6 +6,7 @@ require('cropperjs/dist/cropper.min.css');
 require('trix/dist/trix.css');
 require('select2/dist/css/select2.min.css');
 require('./app/less/app.less');
+require('./app/less/bs4.less');
 
 var Vue = require('vue');
 var VueRouter = require('vue-router');
@@ -20,6 +22,8 @@ var trix = require('./app/lily/trix');
 var tooltip = require('./app/lily/tooltip');
 var select2 = require('./app/lily/select2');
 var checkbox = require('./app/lily/checkbox');
+var boolCircle = require('./app/lily/boolCircle');
+var divider = require('./app/lily/divider');
 
 var app = require('./app/components/app.vue');
 var one = require('./app/components/one.vue');
@@ -30,7 +34,7 @@ var components = require('./app/components/components.vue');
 
 var auth = require('./app/redux/actions/auth');
 var API = require('./app/redux/actions/api');
-var connection = require('./app/redux/actions/connection');
+require('./app/redux/actions/connection');
 var store = require('./app/redux/store').store;
 
 Vue.config.debug = true;
@@ -44,6 +48,8 @@ Vue.use(trix);
 Vue.use(tooltip);
 Vue.use(select2);
 Vue.use(checkbox);
+Vue.use(boolCircle);
+Vue.use(divider);
 
 var router = new VueRouter({
   // history: true,
@@ -98,12 +104,13 @@ router.map({
  * - no auth required, just pass through
  */
 router.beforeEach(function(transition) {
+  var _state = store.getState();
+
   // which will call the appropriate Auth function and redirect if necessary.
   // either way, the default page is `landing` component
   if(transition.to.matched === null) {
     // unmatched url has been entered, instead of having a "blank" page we'll
     // redirect to appropriate component
-    var _state = store.getState();
 
     if(_state.auth && _state.auth.jwt) {
       // redirect to default auth page
@@ -115,7 +122,6 @@ router.beforeEach(function(transition) {
   } else {
     if(transition.to.auth === true) {
       // authorization is required
-      var _state = store.getState();
 
       if(_state.auth && _state.auth.jwt) {
         // all checks out, proceed to next path
@@ -127,7 +133,6 @@ router.beforeEach(function(transition) {
       }
     } else if(transition.to.auth === false) {
       // authorized view is NOT allowed
-      var _state = store.getState();
 
       if(_state.auth && _state.auth.jwt) {
         // redirect to default auth-ed view
@@ -147,13 +152,10 @@ router.beforeEach(function(transition) {
 Promise.all([API.init(), auth.init()])
   .then(() => {
     auth.update()
-      .catch((error) => {
-        console.warn(error);
-      });
+      .catch(() => {});
 
     router.start(Vue.extend({}), '#app');
   })
-  .catch((error) => {
-    console.info('router started with no Auth');
+  .catch(() => {
     router.start(Vue.extend({}), '#app');
   });

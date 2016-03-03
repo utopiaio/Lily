@@ -27,8 +27,8 @@ const API_TABLES = Object.freeze({
   S3: {name: 's3', human: 'S3', id: 'id', age: '30 minutes'},
   SOCIAL: {name: 'social', human: 'Social', id: 'id', age: '30 minutes'},
   STORY: {name: 'story', human: 'Story', id: 'id', age: '30 minutes'},
-  TAGS: {name: 'tags', human: 'Tags', id: 'id', age: '30 minutes'},
-  USERS: {name: 'users', human: 'Users', id: 'user_id', age: '30 minutes'}
+  TAG: {name: 'tag', human: 'Tag', id: 'id', age: '30 minutes'},
+  USER: {name: 'user', human: 'User', id: 'user_id', age: '30 minutes'}
 });
 
 /**
@@ -39,17 +39,19 @@ const API_TABLES = Object.freeze({
  * PS
  * Babel 6 *fixes* the confusion with `default` export so watch out
  */
-exports.DEFAULT_NON_AUTH_PATH_NAME = DEFAULT_NON_AUTH_PATH_NAME;
-exports.DEFAULT_AUTH_PATH_NAME = DEFAULT_AUTH_PATH_NAME;
-exports.LOGIN_PATH_NAME = LOGIN_PATH_NAME;
-exports.API_AUTH_URL = API_AUTH_URL;
-exports.S3_URL = S3_URL;
-exports.API_BASE_URL = API_BASE_URL;
-exports.API_AUTH_HEADER = API_AUTH_HEADER;
-exports.AUTH_STORE_KEY = AUTH_STORE_KEY;
-exports.API_QUERY_LIMIT = API_QUERY_LIMIT;
-exports.API_TABLES = API_TABLES;
-exports.NOTY_SUCCESS = NOTY_SUCCESS;
-exports.NOTY_INFO = NOTY_INFO;
-exports.NOTY_WARN = NOTY_WARN;
-exports.NOTY_ERROR = NOTY_ERROR;
+export {
+  DEFAULT_NON_AUTH_PATH_NAME,
+  DEFAULT_AUTH_PATH_NAME,
+  LOGIN_PATH_NAME,
+  API_AUTH_URL,
+  S3_URL,
+  API_BASE_URL,
+  API_AUTH_HEADER,
+  AUTH_STORE_KEY,
+  API_QUERY_LIMIT,
+  API_TABLES,
+  NOTY_SUCCESS,
+  NOTY_INFO,
+  NOTY_WARN,
+  NOTY_ERROR
+};

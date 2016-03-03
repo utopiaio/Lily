@@ -1,5 +1,5 @@
 module.exports = {
-  install(Vue, options) {
+  install(Vue) {
     Vue.component('checkbox', {
       name: 'checkbox',
       props: {

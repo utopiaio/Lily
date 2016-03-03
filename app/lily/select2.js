@@ -1,8 +1,8 @@
 import $ from 'jquery';
-import select2 from 'select2';
+require('select2');
 
 module.exports = {
-  install(Vue, options) {
+  install(Vue) {
     Vue.component('select2', {
       name: 'select2',
       props: {
@@ -47,6 +47,10 @@ module.exports = {
               font-size: 18px;
             }
 
+            .select2.select2-container .select2-selection--multiple {
+              padding: 4px 0;
+            }
+
             .select2-container--default .select2-search--dropdown .select2-search__field {
               outline: 0;
               -webkit-box-shadow: none;
@@ -81,30 +85,30 @@ module.exports = {
           this.__select2.val(this.model).trigger('change');
           // we're using `select2:select` and `select2:unselect` instead of `change`
           // so we don't run into infinite loop when triggering `change` inside watch
-          this.__select2.on('select2:select', (e) => {
+          this.__select2.on('select2:select', () => {
             this.__setModel();
           });
 
-          this.__select2.on('select2:unselect', (e) => {
+          this.__select2.on('select2:unselect', () => {
             this.__setModel();
           });
         }, 250);
 
 
         // we'll be setting to an empty array instead of null on multiple mode
-        this.__setModel = function() {
+        this.__setModel = () => {
           if(this.__select2.val() === null && this.$el.hasAttribute('multiple') === true) {
             this.model = [];
           } else {
             this.model = this.__select2.val();
           }
-        }.bind(this);
+        };
       },
       beforeDestroy() {
         $(this.__select2).select2('destroy');
       },
       watch: {
-        model(newVal, oldVal) {
+        model(newVal) {
           if(this.$el.hasAttribute('multiple') === true && newVal === null && this.__select2 !== undefined) {
             this.__select2.val([]).trigger('change');
           } else if(this.__select2 !== undefined) {

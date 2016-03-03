@@ -4,7 +4,7 @@ import auth from './reducers/auth';
 import API from './reducers/api';
 import connection from './reducers/connection';
 
-let store = createStore(combineReducers({auth, API, connection}));
+let store = createStore(combineReducers({auth, API, connection}), {}, window.devToolsExtension ? window.devToolsExtension() : undefined);
 // we're going in deep so that all `state` *mutations* that happen to the
 // state happen under `state` property (i hope that made sense);
 // which will become reactive thanks to a bit of Vue magic
@@ -33,7 +33,8 @@ let Redux = {
 };
 
 // our state object becomes reactive --- in-short, Vue magic
-let _vm = new Vue({
+// let _vm = new Vue({
+new Vue({
   data: {state}
 });
 

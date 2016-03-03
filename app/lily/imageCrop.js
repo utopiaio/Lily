@@ -9,7 +9,7 @@ import Cropper from 'cropperjs';
 import request from 'superagent';
 
 module.exports = {
-  install(Vue, options) {
+  install(Vue) {
     // as the canvas `toBlob` API is only available on Mozila we're using a polyfill (from MDN)
     function _toBlob(canvas, callback, type = 'image/jpeg', quality = 0.6) {
       try {
@@ -135,20 +135,20 @@ module.exports = {
                   if(response && response.ok === true) {
                     button.innerHTML = `<i class="fa fa-crop"></i>&nbsp;&nbsp;Cropped`;
                     this.setMutationFlag();
-                    this.src = response.body.files[0];
+                    this.src = response.body[0];
                     this.cropped = true;
                     this.__cropper.destroy();
                     this.cropperInitiated = false;
 
                     // deleting previous image...
                     request
-                      .del(this.__previousSrc.deleteUrl)
+                      .del(this.__previousSrc.url)
                       .set(this.authKey, this.jwt)
                       .end((error, response) => {
                         if(response && response.ok === true) {
-                          console.info(`Previous file deleted succsufully.`);
+                          // console.info(`Previous file deleted succsufully.`);
                         } else {
-                          console.warn('Unable to delete previous file.')
+                          // console.warn('Unable to delete previous file.')
                         }
                       });
                   } else {
@@ -188,8 +188,8 @@ module.exports = {
         }
       },
       watch: {
-        src(newVal, oldVal) {
-          if(newVal.hasOwnProperty('type') === true && newVal.type.search(/image/) > -1) {
+        src(newVal) {
+          if (newVal.hasOwnProperty('type') === true && newVal.type.search(/image/) > -1) {
             if(this.cropperInitiated === false && this.selfMutated === false) {
               // the timeout is required so that the DOM will be ready
               // otherwise cropper will not be properly initiated
