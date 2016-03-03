@@ -1,7 +1,7 @@
 import { AUTH_LOGIN, AUTH_LOGOUT, AUTH_UPDATE } from './../constants/constants';
 
 function auth(state = {}, action) {
-  switch(action.type) {
+  switch (action.type) {
   case AUTH_LOGIN:
     return action.auth;
 
