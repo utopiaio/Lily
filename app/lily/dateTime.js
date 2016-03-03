@@ -17,6 +17,12 @@ module.exports = {
           required: false,
           twoWay: false,
           default: 'DD-MM-YYYY hh:mm A'
+        },
+        required: {
+          type: Boolean,
+          required: false,
+          twoWay: false,
+          default: false
         }
       },
       template: `<input type="text">`,
@@ -28,7 +34,7 @@ module.exports = {
          */
         if(moment(this.model, this.format).isValid() === true) {
           this.$el.value = this.model;
-        } else {
+        } else if (this.required === true) {
           let now = moment().format(this.format);
           this.$el.value = now;
           this.model = now;
