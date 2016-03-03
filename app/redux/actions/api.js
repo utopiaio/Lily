@@ -281,7 +281,7 @@ function DELETE(table, entry) {
  */
 function init() {
   return new Promise((resolve) => {
-    for(let TABLE in API_TABLES) {
+    for (const TABLE in API_TABLES) {
       lastReqested[API_TABLES[TABLE].name] = moment().subtract(7, 'days');
       store.dispatch({type: API_SET, table: API_TABLES[TABLE], entries: {}});
     }

@@ -12,7 +12,7 @@ let state = {
   state: {}
 };
 
-let Redux = {
+let redux = {
   /**
    * Redux store state
    *
@@ -44,5 +44,4 @@ store.subscribe(() => {
   state.state = store.getState();
 });
 
-exports.store = store;
-exports.redux = Redux;
+export {store, redux};
