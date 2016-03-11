@@ -111,7 +111,7 @@
   require('bootstrap/js/dropdown');
   require('bootstrap/js/transition');
 
-  export default {
+  module.exports = {
     name: 'navbar',
     props: {
       show: {

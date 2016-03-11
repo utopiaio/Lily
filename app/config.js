@@ -23,12 +23,11 @@ const API_AUTH_HEADER = 'X-Access-Token'; // header so send the JWT
 const AUTH_STORE_KEY = 'auth'; // key used to store (localforage) the auth info
 const API_QUERY_LIMIT = 100; // default limit for number of results to return
 const API_TABLES = Object.freeze({
-  ABOUT: {name: 'about', human: 'About', id: 'id', age: '30 minutes'},
-  S3: {name: 's3', human: 'S3', id: 'id', age: '30 minutes'},
-  SOCIAL: {name: 'social', human: 'Social', id: 'id', age: '30 minutes'},
-  STORY: {name: 'story', human: 'Story', id: 'id', age: '30 minutes'},
+  ROCK: {name: 'rock', human: 'Rock', id: 'id', age: '30 minutes'},
   TAG: {name: 'tag', human: 'Tag', id: 'id', age: '30 minutes'},
-  USER: {name: 'user', human: 'User', id: 'user_id', age: '30 minutes'}
+  S3: {name: 's3', human: 'S3', id: 'id', age: '30 minutes'},
+  USER: {name: 'user', human: 'User', id: 'user_id', age: '30 minutes'},
+  USER_GROUP: {name: 'user_group', human: 'User Group', age: '30 minutes'}
 });
 
 /**
