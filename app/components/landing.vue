@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="col-lg-12">
     <h1>this is the landing page, public to anyone who wants to see</h1>
     <a v-link="{name: 'login'}">login</a>
   </div>
 </template>
 
 <script>
-  export default {
+  module.exports = {
     name: 'landing'
   };
 </script>
