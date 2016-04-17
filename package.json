@@ -46,36 +46,6 @@
       "transform-runtime"
     ]
   },
-  "eslintConfig": {
-    "parser": "babel-eslint",
-    "plugins": [
-      "html"
-    ],
-    "rules": {
-      "indent": [
-        2,
-        2
-      ],
-      "quotes": [
-        2,
-        "single"
-      ],
-      "linebreak-style": [
-        2,
-        "unix"
-      ],
-      "semi": [
-        2,
-        "always"
-      ]
-    },
-    "env": {
-      "es6": true,
-      "node": true,
-      "browser": true
-    },
-    "extends": "eslint:recommended"
-  },
   "scripts": {
     "wps": "./node_modules/.bin/webpack-dev-server --progress --inline --hot",
     "wpd": "./node_modules/.bin/webpack --progress --colors",

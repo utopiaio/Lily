@@ -25,9 +25,9 @@ function login(credentials = {}) {
       .end((error, response) => {
         hide();
 
-        if(response && response.ok === true) {
+        if (response && response.ok === true) {
           localforage.setItem(AUTH_STORE_KEY, response.body, (_error, value) => {
-            if(error === null) {
+            if (_error === null) {
               store.dispatch({type: AUTH_LOGIN, auth: response.body});
               resolve(value);
             } else {
