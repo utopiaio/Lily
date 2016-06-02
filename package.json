@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "autoprefixer": "^6.3.1",
+    "autoprefixer": "^6.3.6",
     "babel-core": "^6.3.15",
     "babel-loader": "^6.2.0",
     "babel-plugin-transform-runtime": "^6.3.13",
